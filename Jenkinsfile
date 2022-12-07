@@ -9,7 +9,10 @@ pipeline {
         stage('Test') {
             steps {
                 echo 'Testing..'
-                sfdx force:auth:jwt:grant
+                
+                script {
+                    sfdx force:auth:jwt:grant
+                }
             }
         }
         stage('Deploy') {
