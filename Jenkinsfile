@@ -3,7 +3,7 @@ pipeline {
     agent any
     
     environment {
-        toolbelt = '"C:\\Program Files\\sfdx\\bin\\"'
+        toolbelt = '"C:\\Program Files\\sfdx\\bin"'
     }
         
     stages {
@@ -15,8 +15,8 @@ pipeline {
         stage('Test') {
             steps {
                 echo 'Testing..'
-                echo "${toolbelt}sfdx help"
-                bat "${toolbelt}sfdx help"
+                echo "${toolbelt}/sfdx help"
+                bat "${toolbelt}/sfdx help"
             }
         }
         stage('Deploy') {
