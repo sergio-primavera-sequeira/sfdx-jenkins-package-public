@@ -40,7 +40,7 @@ pipeline {
              steps {
                 echo 'Run Local Tests - SFDC Org 01'
                 script {
-			rec = cmd_sfdx("force:apex:test:run --testlevel RunLocalTests --synchronous --resultformat tap --codecoverage")
+			rec = cmd_sfdx("force:apex:test:run --testlevel RunLocalTests --synchronous --resultformat json --codecoverage")
 			echo "${rec}"
                 }
             }
