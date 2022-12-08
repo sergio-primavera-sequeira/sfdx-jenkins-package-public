@@ -19,8 +19,8 @@ pipeline {
                 echo 'Authentication - SFDC Org 01...'
 		script {
                     withCredentials([file(credentialsId: SFDC_ORG_01_JWT_KEY_CRED_ID, variable: 'jwt_key_file')]) {
-		    	rec = cmd_sfdx("force:auth:jwt:grant --clientid ${SFDC_ORG_01_CONNECTED_APP_CONSUMER_KEY} --username ${SFDC_ORG_01_USER} --setdefaultusername --jwtkeyfile ${jwt_key_file}   --instanceurl ${SFDC_ORG_01}")
-		        echo "${rec}"
+		    	def result = cmd_sfdx("force:auth:jwt:grant --clientid ${SFDC_ORG_01_CONNECTED_APP_CONSUMER_KEY} --username ${SFDC_ORG_01_USER} --setdefaultusername --jwtkeyfile ${jwt_key_file}   --instanceurl ${SFDC_ORG_01}")
+		        echo "${result}"
                     }
                 }
             }
@@ -30,8 +30,8 @@ pipeline {
              steps {
                 echo 'Deployment - SFDC Org 01..'
                 script {
-			rec = cmd_sfdx("force:source:deploy -p ./force-app/main/default/")
-			echo "${rec}"
+			def result = cmd_sfdx("force:source:deploy -p ./force-app/main/default/")
+			echo "${result}"
                 }
             }
         }
@@ -40,8 +40,8 @@ pipeline {
              steps {
                 echo 'Run Local Tests - SFDC Org 01'
                 script {
-			rec = cmd_sfdx("force:apex:test:run --testlevel RunLocalTests --synchronous --resultformat json --codecoverage")
-			echo "${rec}"
+			def result = cmd_sfdx("force:apex:test:run --testlevel RunLocalTests --synchronous --resultformat json --codecoverage")
+			echo "${result}"
                 }
             }
         }
