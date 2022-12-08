@@ -12,9 +12,10 @@ pipeline {
                 echo 'Building..'
             }
         }
-        withCredentials([file(credentialsId: 'sf-jwt-key', variable: 'jwt_key_file')]) {
-            stage('Test') {
-                steps {
+        
+        stage('Test') {
+             withCredentials([file(credentialsId: 'sf-jwt-key', variable: 'jwt_key_file')]) {
+                 steps {
                     echo 'Testing..'
                     //echo "${toolbelt}/sfdx help"
                     //bat "${toolbelt}/sfdx help"
@@ -23,7 +24,7 @@ pipeline {
                         echo "${rec}"
                     }
                 }
-            }
+             }
         }
         
         stage('Deploy') {
