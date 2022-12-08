@@ -12,17 +12,20 @@ pipeline {
                 echo 'Building..'
             }
         }
-        stage('Test') {
-            steps {
-                echo 'Testing..'
-                //echo "${toolbelt}/sfdx help"
-                //bat "${toolbelt}/sfdx help"
-                script {
-                    def rec = cmd_sfdx("help")
-                    echo "${rec}"
+        withCredentials([file(credentialsId: 'sf-jwt-key', variable: 'jwt_key_file')]) {
+            stage('Test') {
+                steps {
+                    echo 'Testing..'
+                    //echo "${toolbelt}/sfdx help"
+                    //bat "${toolbelt}/sfdx help"
+                    script {
+                        def rec = cmd_sfdx("help")
+                        echo "${rec}"
+                    }
                 }
             }
         }
+        
         stage('Deploy') {
             steps {
                 echo 'Deploying....'  
