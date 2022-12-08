@@ -11,8 +11,7 @@ pipeline {
         stage('Test') {
             steps {
                 echo 'Testing..'
-                bat ' cd "C:\Program Files\sfdx\bin\" 
-                     sfdx "force:auth:jwt:grant"'
+                bat '"C:\Program Files\sfdx\bin\sfdx force:auth:jwt:grant"'
             }
         }
         stage('Deploy') {
