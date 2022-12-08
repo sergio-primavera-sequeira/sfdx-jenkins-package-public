@@ -43,8 +43,8 @@ pipeline {
 			def result = cmd_sfdx("force:apex:test:run --testlevel RunLocalTests --synchronous --resultformat json  --codecoverage")
 			def resultJson = convertTestResultsIntoJSON(result)
 			
-			def pr = resultJson.status
-			echo "${pr}"
+			def testStatus = resultJson.status.result.summary.outcome
+			echo "${testStatus}"
                 }
             }
         }
@@ -57,7 +57,7 @@ def cmd_sfdx(command) {
 
 def convertTestResultsIntoJSON(sfdxTestResult) {
     def jsonStr = sfdxTestResult.substring(sfdxTestResult.indexOf('{'), sfdxTestResult.lastIndexOf('}') + 1)
-    echo "${jsonStr}"
+    //echo "${jsonStr}"
     def json = readJSON text: jsonStr
     return json
 }
