@@ -47,6 +47,9 @@ pipeline {
 			
 			def bb = result.substring(result.indexOf('{'), result.lastIndexOf('}'))
 			
+			echo "${bb}"
+			echo '-------------------------'
+			
 			//def jsonResult = readJSON text: '"${result}"'
 			def pr = result[0]
 			echo "${pr}"
