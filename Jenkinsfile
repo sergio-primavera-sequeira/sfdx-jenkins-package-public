@@ -9,8 +9,6 @@ pipeline {
         stage('Test') {
             steps {
                 echo 'Testing..'
-                
-                bat 'echo "Testing 2.."'
             }
         }
         stage('Deploy') {
