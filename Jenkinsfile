@@ -67,5 +67,5 @@ def cmd_sfdx(command) {
 
 def convertTestResultsIntoJSON(sfdxTestResult) {
     def jsonStr = sfdxTestResult.substring(sfdxTestResult.indexOf('{'), sfdxTestResult.lastIndexOf('}'))
-	return readJSON text: "${jsonStr}"
+    return readJSON text: '"${jsonStr}"'
 }
