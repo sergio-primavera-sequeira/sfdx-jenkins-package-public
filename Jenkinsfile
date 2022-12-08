@@ -41,20 +41,10 @@ pipeline {
                 echo 'Run Local Tests - SFDC Org 01'
                 script {
 			def result = cmd_sfdx("force:apex:test:run --testlevel RunLocalTests --synchronous --resultformat json  --codecoverage")
-			echo '-------------------------'
-			echo "${result}"
-			echo '-------------------------'
+			def resultJson = convertTestResultsIntoJSON(result)
 			
-			def bb = convertTestResultsIntoJSON(result)
-			
-			echo "${bb}"
-			echo '-------------------------'
-			
-			//def jsonResult = readJSON text: '"${result}"'
-			def pr = result[0]
+			def pr = resultJson.status
 			echo "${pr}"
-			def pr1 = result[1]
-			echo "${pr1}"
                 }
             }
         }
