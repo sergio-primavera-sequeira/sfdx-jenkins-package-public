@@ -44,8 +44,8 @@ pipeline {
 			echo "${result}"
 			
 			//def jsonResult = readJSON text: '"${result}"'
-			def status = result.status
-			echo "${status}"
+			def pr = result[0]
+			echo "${pr}"
                 }
             }
         }
