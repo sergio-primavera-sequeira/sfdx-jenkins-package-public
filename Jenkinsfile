@@ -6,11 +6,6 @@ pipeline {
         toolbelt = '"C:\\Program Files\\sfdx\\bin"'
     }
     
-    def cmd_sfdx(command) {
-        echo "${toolbelt}/sfdx ${command}"
-        //return bat(returnStdout: true, script: "${toolbelt}/sfdx ${command})"
-    }
-        
     stages {
         stage('Build') {
             steps {
@@ -32,3 +27,8 @@ pipeline {
         }
     }
 }
+
+def cmd_sfdx(command) {
+        echo "${toolbelt}/sfdx ${command}"
+        //return bat(returnStdout: true, script: "${toolbelt}/sfdx ${command})"
+    }
