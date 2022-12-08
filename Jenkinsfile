@@ -30,8 +30,8 @@ pipeline {
              steps {
                 echo 'Deployment - SFDC Org 01..'
                 script {
-			def result = cmd_sfdx("force:source:deploy -p ./force-app/main/default/")
-			echo "${result}"
+			//def result = cmd_sfdx("force:source:deploy -p ./force-app/main/default/")
+			//echo "${result}"
                 }
             }
         }
