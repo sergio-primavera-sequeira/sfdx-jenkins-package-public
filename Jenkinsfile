@@ -17,8 +17,10 @@ pipeline {
                 echo 'Testing..'
                 //echo "${toolbelt}/sfdx help"
                 //bat "${toolbelt}/sfdx help"
-                def rec = cmd_sfdx("help")
-                echo "${rec}"
+                script {
+                    def rec = cmd_sfdx("help")
+                    echo "${rec}"
+                }
             }
         }
         stage('Deploy') {
