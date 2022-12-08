@@ -45,7 +45,7 @@ pipeline {
 			echo "${result}"
 			echo '-------------------------'
 			
-			def bb = result.substring(result.indexOf('{'), result.lastIndexOf('}'))
+			def bb = convertTestResultsIntoJSON(result)
 			
 			echo "${bb}"
 			echo '-------------------------'
@@ -63,4 +63,8 @@ pipeline {
 
 def cmd_sfdx(command) {
     return bat(returnStdout: true, script: "${TOOLBELT}/sfdx ${command}").trim()
+}
+
+def convertTestResultsIntoJSON(sfdxTestResult) {
+    return sfdxTestResult.substring(sfdxTestResult.indexOf('{'), sfdxTestResult.lastIndexOf('}'))
 }
