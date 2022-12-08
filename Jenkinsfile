@@ -3,8 +3,10 @@ pipeline {
     agent any
     
     environment {
-        TOOLBELT = "C:\\Program Files\\sfdx\\bin"
+        //SFDX toolbelt
+	TOOLBELT = '"C:\\Program Files\\sfdx\\bin"'
         
+    	//SFDC ORG01
     	SFDC_ORG_01_JWT_KEY_CRED_ID="sf-jwt-key"
         SFDC_ORG_01_USER="integration.jenkins@sfjenkins.poc.org01.ca"
         SFDC_ORG_01="https://login.salesforce.com" 
