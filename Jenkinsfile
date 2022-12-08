@@ -7,8 +7,8 @@ pipeline {
     }
     
     def cmd_sfdx(command) {
-        echo "${toolbelt}/sfdx (${command}").trim()"
-        return bat(returnStdout: true, script: "${toolbelt}/sfdx (${command}").trim()"
+        echo "${toolbelt}/sfdx (${command}).trim()"
+        return bat(returnStdout: true, script: "${toolbelt}/sfdx (${command}).trim()"
     }
         
     stages {
