@@ -31,5 +31,5 @@ pipeline {
 def cmd_sfdx(command) {
     sfdx_cmd = "${toolbelt}/sfdx ${command}"
     echo "${sfdx_cmd}"
-    //return bat(returnStdout: true, script: "${toolbelt}/sfdx ${command})"
+    return bat(returnStdout: true, script: "${toolbelt}/sfdx ${command}")
 }
