@@ -17,7 +17,7 @@ pipeline {
                 echo 'Testing..'
                 //echo "${toolbelt}/sfdx help"
                 //bat "${toolbelt}/sfdx help"
-                rec = cmd_sfdx("help")
+                def rec = cmd_sfdx("help")
                 echo "${rec}"
             }
         }
