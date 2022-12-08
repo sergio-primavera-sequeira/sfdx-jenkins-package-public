@@ -14,17 +14,17 @@ pipeline {
         }
         
         stage('Test') {
-             withCredentials([file(credentialsId: 'sf-jwt-key', variable: 'jwt_key_file')]) {
-                 steps {
-                    echo 'Testing..'
-                    //echo "${toolbelt}/sfdx help"
-                    //bat "${toolbelt}/sfdx help"
-                    script {
+             steps {
+                echo 'Testing..'
+                //echo "${toolbelt}/sfdx help"
+                //bat "${toolbelt}/sfdx help"
+                script {
+                    withCredentials([file(credentialsId: 'sf-jwt-key', variable: 'jwt_key_file')]) {
                         def rec = cmd_sfdx("help")
                         echo "${rec}"
                     }
                 }
-             }
+            }
         }
         
         stage('Deploy') {
