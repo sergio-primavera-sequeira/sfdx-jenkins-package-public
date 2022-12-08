@@ -3,7 +3,7 @@ pipeline {
     agent any
     
     environment {
-        toolbelt = 'C:\\Program Files\\sfdx\\bin\\'
+        toolbelt = '"C:\\Program Files\\sfdx\\bin\\"'
     }
         
     stages {
