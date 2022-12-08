@@ -16,7 +16,7 @@ pipeline {
             steps {
                 echo 'Testing..'
                 echo "${toolbelt}\\sfdx help"
-                bat '"${toolbelt}\\sfdx help"'
+                bat "${toolbelt}\\sfdx help"
             }
         }
         stage('Deploy') {
