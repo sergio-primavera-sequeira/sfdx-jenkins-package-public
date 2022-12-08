@@ -23,7 +23,7 @@ pipeline {
                 //echo "${toolbelt}/sfdx help"
                 //bat "${toolbelt}/sfdx help"
                 script {
-                    withCredentials([file(credentialsId: ${SFDC_ORG_01_JWT_KEY_CRED_ID}, variable: 'jwt_key_file')]) {
+                    withCredentials([file(credentialsId: SFDC_ORG_01_JWT_KEY_CRED_ID, variable: 'jwt_key_file')]) {
                         echo "${jwt_key_file}"
                         def rec = cmd_sfdx("help")
                         echo "${rec}"
