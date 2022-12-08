@@ -14,9 +14,9 @@ pipeline {
     }
     
     stages {
-        stage('Authentication to SFDC Org 01') {
+        stage('Authentication - SFDC Org 01') {
             steps {
-                echo 'Connection to SFDC Org 01...'
+                echo 'Authentication - SFDC Org 01...'
 		script {
                     withCredentials([file(credentialsId: SFDC_ORG_01_JWT_KEY_CRED_ID, variable: 'jwt_key_file')]) {
 		    	rec = cmd_sfdx("force:auth:jwt:grant --clientid ${SFDC_ORG_01_CONNECTED_APP_CONSUMER_KEY} --username ${SFDC_ORG_01_USER} --setdefaultusername --jwtkeyfile ${jwt_key_file}   --instanceurl ${SFDC_ORG_01}")
@@ -26,11 +26,21 @@ pipeline {
             }
         }
         
-        stage('Deployment to SFDC Org 01') {
+        stage('Deployment - SFDC Org 01') {
              steps {
-                echo 'Deployment to SFDC Org 01..'
+                echo 'Deployment - SFDC Org 01..'
                 script {
 			rec = cmd_sfdx("force:source:deploy -p ./force-app/main/default/")
+			echo "${rec}"
+                }
+            }
+        }
+	    
+	stage('Run Local Tests - SFDC Org 01') {
+             steps {
+                echo 'Run Local Tests - SFDC Org 01'
+                script {
+			rec = cmd_sfdx("force:apex:test:run --testlevel RunLocalTests --synchronous")
 			echo "${rec}"
                 }
             }
@@ -39,5 +49,5 @@ pipeline {
 }
 
 def cmd_sfdx(command) {
-    return bat(returnStdout: true, script: "${toolbelt}/sfdx ${command}").trim()
+    return bat(returnStdout: true, script: "${TOOLBELT}/sfdx ${command}").trim()
 }
