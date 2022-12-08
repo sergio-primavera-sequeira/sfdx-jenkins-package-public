@@ -19,7 +19,7 @@ pipeline {
                 echo 'Authentication - SFDC Org 01...'
 		script {
                     withCredentials([file(credentialsId: SFDC_ORG_01_JWT_KEY_CRED_ID, variable: 'jwt_key_file')]) {
-		    	def result = cmd_sfdx("force:auth:jwt:grant --clientid ${SFDC_ORG_01_CONNECTED_APP_CONSUMER_KEY} --username ${SFDC_ORG_01_USER} --setdefaultusername --jwtkeyfile ${jwt_key_file}   --instanceurl ${SFDC_ORG_01}")
+		    	def result = cdmSfdx("force:auth:jwt:grant --clientid ${SFDC_ORG_01_CONNECTED_APP_CONSUMER_KEY} --username ${SFDC_ORG_01_USER} --setdefaultusername --jwtkeyfile ${jwt_key_file}   --instanceurl ${SFDC_ORG_01}")
 		        echo "${result}"
                     }
                 }
@@ -30,7 +30,7 @@ pipeline {
              steps {
                 echo 'Deployment - SFDC Org 01..'
                 script {
-			def result = cmd_sfdx("force:source:deploy -p ./force-app/main/default/")
+			def result = cdmSfdx("force:source:deploy -p ./force-app/main/default/")
 			echo "${result}"
                 }
             }
@@ -40,7 +40,7 @@ pipeline {
              steps {
                 echo 'Run Local Tests - SFDC Org 01'
                 script {
-			def result = cmd_sfdx("force:apex:test:run --testlevel RunLocalTests --synchronous --resultformat json  --codecoverage")
+			def result = cdmSfdx("force:apex:test:run --testlevel RunLocalTests --synchronous --resultformat json  --codecoverage")
 			def resultJson = convertTestResultsIntoJSON(result)
 			
 			def testStatus = resultJson.result.summary.outcome
@@ -51,7 +51,7 @@ pipeline {
     }
 }
 
-def cmd_sfdx(command) {
+def cdmSfdx(command) {
     return bat(returnStdout: true, script: "${TOOLBELT}/sfdx ${command}").trim()
 }
 
