@@ -38,5 +38,5 @@ pipeline {
 }
 
 def cmd_sfdx(command) {
-    return bat(returnStdout: true, script: "${toolbelt}/sfdx ${command}")
+    return bat(returnStdout: true, script: "${toolbelt}/sfdx ${command}").trim()
 }
