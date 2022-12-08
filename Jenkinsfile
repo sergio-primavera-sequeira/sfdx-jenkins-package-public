@@ -30,7 +30,7 @@ pipeline {
 			    echo "${rec}"
 			    
 			    rec = cmd_sfdx("force:source:deploy -p ./force-app/main/default/")
-			    cho "${rec}"
+			    echo "${rec}"
                     }
                 }
             }
