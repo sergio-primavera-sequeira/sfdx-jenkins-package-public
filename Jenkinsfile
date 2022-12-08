@@ -17,7 +17,8 @@ pipeline {
                 echo 'Testing..'
                 //echo "${toolbelt}/sfdx help"
                 //bat "${toolbelt}/sfdx help"
-                cmd_sfdx("help")
+                rec = cmd_sfdx("help")
+                echo "${rec}"
             }
         }
         stage('Deploy') {
@@ -29,7 +30,6 @@ pipeline {
 }
 
 def cmd_sfdx(command) {
-    sfdx_cmd = "${toolbelt}/sfdx ${command}"
-    echo "${sfdx_cmd}"
+    echo "${toolbelt}/sfdx ${command}"
     return bat(returnStdout: true, script: "${toolbelt}/sfdx ${command}")
 }
