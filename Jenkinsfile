@@ -1,11 +1,7 @@
 pipeline {
     
     agent any
-    
-    tools {
-      sfdx 'sfdx'
-    }
-    
+        
     stages {
         stage('Build') {
             steps {
@@ -15,7 +11,8 @@ pipeline {
         stage('Test') {
             steps {
                 echo 'Testing..'
-                bat 'sfdx force:auth:jwt:grant'
+                bat ' cd "C:\Program Files\sfdx\bin\" 
+                     sfdx "force:auth:jwt:grant"'
             }
         }
         stage('Deploy') {
