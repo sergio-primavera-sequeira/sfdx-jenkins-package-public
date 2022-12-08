@@ -20,6 +20,7 @@ pipeline {
                 //bat "${toolbelt}/sfdx help"
                 script {
                     withCredentials([file(credentialsId: 'sf-jwt-key', variable: 'jwt_key_file')]) {
+                        echo "${jwt_key_file}"
                         def rec = cmd_sfdx("help")
                         echo "${rec}"
                     }
