@@ -4,6 +4,10 @@ pipeline {
     
     environment {
         toolbelt = '"C:\\Program Files\\sfdx\\bin"'
+        SFDC_ORG_01_USER="integration.jenkins@sfjenkins.poc.org01.ca"
+        SFDC_ORG_01="https://test.salesforce.com" 
+        SFDC_ORG_01_JWT_KEY_CRED_ID="sf-jwt-key"
+	    SFDC_ORG_01_CONNECTED_APP_CONSUMER_KEY="3MVG9ux34Ig8G5epoz.M1VfJxB82Qyj0J57NXfZmSeZWN5XytkVPTKSj7C9J.QYiwbdkPpmv9X0Efg0CKRXIX"
     }
     
     stages {
@@ -19,7 +23,7 @@ pipeline {
                 //echo "${toolbelt}/sfdx help"
                 //bat "${toolbelt}/sfdx help"
                 script {
-                    withCredentials([file(credentialsId: 'sf-jwt-key', variable: 'jwt_key_file')]) {
+                    withCredentials([file(credentialsId: ${SFDC_ORG_01_JWT_KEY_CRED_ID}, variable: 'jwt_key_file')]) {
                         echo "${jwt_key_file}"
                         def rec = cmd_sfdx("help")
                         echo "${rec}"
