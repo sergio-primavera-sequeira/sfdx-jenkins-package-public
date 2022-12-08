@@ -14,23 +14,24 @@ pipeline {
     }
     
     stages {
-        stage('Build') {
+        stage('Authentication to SFDC Org 01') {
             steps {
-                echo 'Building..'
+                echo 'Connection to SFDC Org 01...'
+		script {
+                    withCredentials([file(credentialsId: SFDC_ORG_01_JWT_KEY_CRED_ID, variable: 'jwt_key_file')]) {
+		    	rec = cmd_sfdx("force:auth:jwt:grant --clientid ${SFDC_ORG_01_CONNECTED_APP_CONSUMER_KEY} --username ${SFDC_ORG_01_USER} --setdefaultusername --jwtkeyfile ${jwt_key_file}   --instanceurl ${SFDC_ORG_01}")
+		        echo ${rec}
+                    }
+                }
             }
         }
         
-        stage('Deploy') {
+        stage('Deployment to SFDC Org 01') {
              steps {
-                echo 'Testing..'
+                echo 'Deployment to SFDC Org 01..'
                 script {
-                    withCredentials([file(credentialsId: SFDC_ORG_01_JWT_KEY_CRED_ID, variable: 'jwt_key_file')]) {
-                        
-			    rec = cmd_sfdx("force:auth:jwt:grant --clientid ${SFDC_ORG_01_CONNECTED_APP_CONSUMER_KEY} --username ${SFDC_ORG_01_USER} --setdefaultusername --jwtkeyfile ${jwt_key_file}   --instanceurl ${SFDC_ORG_01}")
-
-			    rec = cmd_sfdx("force:source:deploy -p ./force-app/main/default/")
-			    echo "${rec}"
-                    }
+			rec = cmd_sfdx("force:source:deploy -p ./force-app/main/default/")
+			echo "${rec}"
                 }
             }
         }
