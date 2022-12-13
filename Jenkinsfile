@@ -5,6 +5,7 @@ pipeline {
     environment {
         //SFDX toolbelt
 	TOOLBELT = tool name: 'sfdx', type: 'com.cloudbees.jenkins.plugins.customtools.CustomTool' //'"C:\\Program Files\\sfdx\\bin"'
+	TOOLBELT_2 = '"C:\\Program Files\\sfdx\\bin"'
         
     	//SFDC ORG01
     	SFDC_ORG_01_JWT_KEY_CRED_ID="sf-jwt-key"
@@ -55,6 +56,7 @@ pipeline {
 
 def cdmSfdx(command) {
     echo "${toolbelt}"
+    echo "${toolbelt_2}"
 	
     if (isUnix()) {
     	return sh(returnStdout: true, script: "${toolbelt}/sfdx ${command}")
