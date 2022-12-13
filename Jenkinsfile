@@ -3,8 +3,8 @@ pipeline {
     agent any
 	    
     environment {
-        //SFDX HOME
-	SFDX_HOME = tool name: 'sfdx', type: 'com.cloudbees.jenkins.plugins.customtools.CustomTool' //the 'Tool Home' on custom tools needs to be configured...
+        //SFDX HOME: an SFDX custom tool needs to be configured and the 'Tool Home' (when 'Install automatically' is checked) on custom tools needs to be configured
+	SFDX_HOME = tool name: 'sfdx', type: 'com.cloudbees.jenkins.plugins.customtools.CustomTool' 
         
     	//SFDC ORG01
     	SFDC_ORG_01_JWT_KEY_CRED_ID="sf-jwt-key"
@@ -54,12 +54,12 @@ pipeline {
 }
 
 def cdmSfdx(command) {
-    def toolbelt = "\"${SFDX_HOME}\"" //adds '"' to the SFDX_HOME path in case there are spaces
+    def path = "\"${SFDX_HOME}\"" //adds '"' to the SFDX_HOME path in case there are spaces inside the path
 	
     if (isUnix()) {
-    	return sh(returnStdout: true, script: "${toolbelt}/sfdx ${command}")
+    	return sh(returnStdout: true, script: "${path}/sfdx ${command}")
     } else {
-    	return bat(returnStdout: true, script: "${toolbelt}/sfdx ${command}").trim()
+    	return bat(returnStdout: true, script: "${path}/sfdx ${command}").trim()
     }
 }
 
