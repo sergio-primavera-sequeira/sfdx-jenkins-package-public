@@ -41,11 +41,9 @@ pipeline {
                 echo 'Run Local Tests - SFDC Org 01'
                 script {
 			def result = cdmSfdx("force:apex:test:run --testlevel RunLocalTests --synchronous --resultformat json  --codecoverage")
+			result = result.readLines().drop(1).join(" ") //removes the first line of the output
 			
-			def res123 = result.readLines().drop(1).join(" ")
-			echo "${res123}"
-			
-			def resultJson = convertTestResultsIntoJSON(result)
+			def resultJson = convertStringIntoJSON(result)
 			
 			def testStatus = resultJson.result.summary.outcome
 			echo "${testStatus}"
@@ -59,8 +57,8 @@ def cdmSfdx(command) {
     return bat(returnStdout: true, script: "${TOOLBELT}/sfdx ${command}").trim()
 }
 
-def convertTestResultsIntoJSON(sfdxTestResult) {
-    def jsonStr = sfdxTestResult.substring(sfdxTestResult.indexOf('{'), sfdxTestResult.lastIndexOf('}') + 1)
+def convertStringIntoJSON(jsonStr) {
+    //def jsonStr = sfdxTestResult.substring(sfdxTestResult.indexOf('{'), sfdxTestResult.lastIndexOf('}') + 1)
     //echo "${jsonStr}"
     def json = readJSON text: jsonStr
     return json
