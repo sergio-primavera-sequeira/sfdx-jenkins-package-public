@@ -62,6 +62,6 @@ def cdmSfdx(command) {
 }
 
 def convertStringIntoJSON(jsonStr) {
-    def json = readJSON text: jsonStr
+    def json = readJSON text: jsonStr //need the Pipeline Utility Steps plugin
     return json
 }
