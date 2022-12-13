@@ -62,6 +62,6 @@ def cdmSfdx(command) {
 }
 
 def convertStringIntoJSON(jsonStr) {
-    return readJSON text: jsonStr
-    //return json
+    def json = readJSON text: jsonStr
+    return json
 }
