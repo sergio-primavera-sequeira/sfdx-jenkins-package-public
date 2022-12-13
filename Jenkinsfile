@@ -55,7 +55,7 @@ pipeline {
 }
 
 def cdmSfdx(command) {
-    echo ${SFDX_HOME}
+    echo "${SFDX_HOME}"
     if (isUnix()) {
     	//return sh(returnStdout: true, script: "${toolbelt}/sfdx ${command}")
 	  return sh(returnStdout: true, script: "sfdx ${command}")
