@@ -6,7 +6,7 @@ pipeline {
         //SFDX toolbelt
 	TOOLBELT = tool name: 'sfdx', type: 'com.cloudbees.jenkins.plugins.customtools.CustomTool' //'"C:\\Program Files\\sfdx\\bin"'
 	TOOLBELT_2 = '"C:\\Program Files\\sfdx\\bin"'
-	TOOLBELT_3 = '"${TOOLBELT}"'
+	TOOLBELT_3 = "\"${TOOLBELT}\""
         
     	//SFDC ORG01
     	SFDC_ORG_01_JWT_KEY_CRED_ID="sf-jwt-key"
