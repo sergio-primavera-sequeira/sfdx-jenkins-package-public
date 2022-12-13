@@ -54,12 +54,14 @@ pipeline {
 }
 
 def cdmSfdx(command) {
-    return bat(returnStdout: true, script: "${TOOLBELT}/sfdx ${command}").trim()
+    if (isUnix()) {
+    	return sh(returnStdout: true, script: "${TOOLBELT}/sfdx ${command}")
+    } else {
+    	return bat(returnStdout: true, script: "${TOOLBELT}/sfdx ${command}").trim()
+    }
 }
 
 def convertStringIntoJSON(jsonStr) {
-    //def jsonStr = sfdxTestResult.substring(sfdxTestResult.indexOf('{'), sfdxTestResult.lastIndexOf('}') + 1)
-    //echo "${jsonStr}"
-    def json = readJSON text: jsonStr
-    return json
+    return readJSON text: jsonStr
+    //return json
 }
