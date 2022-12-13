@@ -1,14 +1,11 @@
 pipeline {
     
     agent any
-	
-    tools {
-        com.cloudbees.jenkins.plugins.customtools.CustomTool 'sfdx'
-    }
-    
+	    
     environment {
         //SFDX toolbelt
 	//TOOLBELT = '"C:\\Program Files\\sfdx\\bin"'
+	SFDX_HOME = tool name: 'sfdx', type: 'com.cloudbees.jenkins.plugins.customtools.CustomTool'
         
     	//SFDC ORG01
     	SFDC_ORG_01_JWT_KEY_CRED_ID="sf-jwt-key"
@@ -58,6 +55,7 @@ pipeline {
 }
 
 def cdmSfdx(command) {
+    echo ${SFDX_HOME}
     if (isUnix()) {
     	//return sh(returnStdout: true, script: "${toolbelt}/sfdx ${command}")
 	  return sh(returnStdout: true, script: "sfdx ${command}")
