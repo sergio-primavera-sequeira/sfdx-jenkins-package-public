@@ -54,14 +54,12 @@ pipeline {
 }
 
 def cdmSfdx(command) {
-    def toolbelt = "\"${SFDX_HOME}\"" //'"C:\\Program Files\\sfdx\\bin"'
+    def toolbelt = "\"${SFDX_HOME}\"" //adds '"' to the SFDX_HOME path in case there are spaces
 	
     if (isUnix()) {
     	return sh(returnStdout: true, script: "${toolbelt}/sfdx ${command}")
-	  //return sh(returnStdout: true, script: "sfdx ${command}")
     } else {
     	return bat(returnStdout: true, script: "${toolbelt}/sfdx ${command}").trim()
-	  //return bat(returnStdout: true, script: "sfdx ${command}").trim()
     }
 }
 
