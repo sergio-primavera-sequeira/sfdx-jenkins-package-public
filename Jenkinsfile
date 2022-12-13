@@ -60,7 +60,7 @@ def cdmSfdx(command) {
     	return sh(returnStdout: true, script: "${toolbelt}/sfdx ${command}")
 	  //return sh(returnStdout: true, script: "sfdx ${command}")
     } else {
-    	return bat(returnStdout: true, script: '"${toolbelt}/sfdx ${command}"').trim()
+    	return bat(returnStdout: true, script: "'${toolbelt}'/sfdx ${command}").trim()
 	  //return bat(returnStdout: true, script: "sfdx ${command}").trim()
     }
 }
