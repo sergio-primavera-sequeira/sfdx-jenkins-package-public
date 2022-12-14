@@ -45,7 +45,7 @@ pipeline {
                 echo 'Run Local Tests - SFDC Org 01'
                 script {
 			def result = cdmSfdx("force:apex:test:run --testlevel RunLocalTests --synchronous --resultformat json --detailedcoverage  --codecoverage")
-			result = result.readLines().drop(1).join(" ") //removes the first line of the output
+			result = result.readLines().drop(1).join(" ") //removes the first line of the output, for Windows only
 			
 			def testResultJson = convertStringIntoJSON(result)
 			
@@ -65,8 +65,11 @@ pipeline {
              steps {
                 echo 'Create Package Version - SFDC Org 01..'
                 script {
-			def result = cdmSfdx("force:package:version:create --package ${PACKAGE_NAME} --installationkeybypass --wait 0 --json --targetdevhubusername ${SFDC_ORG_01_USER}")
-			echo "${result}"
+			def result = cdmSfdx("force:package:version:create --package ${PACKAGE_NAME} --installationkeybypass --wait 2 --json --targetdevhubusername ${SFDC_ORG_01_USER}")
+			result = result.readLines().drop(1).join(" ") //removes the first line of the output, for Windows only
+			
+			def packageVersionResultJson = convertStringIntoJSON(result)
+			echo "${packageVersionResultJson}"
                 }
             }
         }
