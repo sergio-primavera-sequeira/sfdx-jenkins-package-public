@@ -15,6 +15,7 @@ pipeline {
 	//PACKAGE
 	PACKAGE_NAME='0HoDn000000sXzVKAU' //prerequisite -> sfdx force:package:create --path force-app/main/default/ --name "Jenkins" --description "Jenkins Package Example" --packagetype Unlocked
     	PACKAGE_VERSION = ''
+	PACKAGE_VERSION_INSTALL_ID = ''
     }
     
     stages {
@@ -189,6 +190,9 @@ pipeline {
 			echo 'ApexCompileType :: ' + packageVersionInstallResultJson.result.ApexCompileType
 			echo 'Status :: ' + packageVersionInstallResultJson.result.Status
 			echo 'Errors :: ' + packageVersionInstallResultJson.result.Errors
+			
+			PACKAGE_VERSION_INSTALL_ID = packageVersionInstallResultJson.result.Id
+			echo 'PACKAGE_VERSION_INSTALL_ID :: ' + "${PACKAGE_VERSION_INSTALL_ID}"
                 }
             }
 	 }
