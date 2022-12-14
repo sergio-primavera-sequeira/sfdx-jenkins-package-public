@@ -43,16 +43,16 @@ pipeline {
 			def result = cdmSfdx("force:apex:test:run --testlevel RunLocalTests --synchronous --resultformat json --detailedcoverage  --codecoverage")
 			result = result.readLines().drop(1).join(" ") //removes the first line of the output
 			
-			def resultJson = convertStringIntoJSON(result)
+			def testResultJson = convertStringIntoJSON(result)
 			
-			echo 'Outcome :: ' + testOutputJson.result.summary.outcome
-			echo 'Tests Ran :: ' + testOutputJson.result.summary.testsRan
-			echo 'Passing :: ' + testOutputJson.result.summary.passing
-			echo 'Failing :: ' + testOutputJson.result.summary.failing
-			echo 'Pass Rate :: ' + testOutputJson.result.summary.passRate
-			echo 'Fail Rate :: ' + testOutputJson.result.summary.failRate
-			echo 'Test Run Coverage :: ' + testOutputJson.result.summary.testRunCoverage
-			echo 'Org Wide Coverage :: ' + testOutputJson.result.summary.orgWideCoverage
+			echo 'Outcome :: ' + testResultJson.result.summary.outcome
+			echo 'Tests Ran :: ' + testResultJson.result.summary.testsRan
+			echo 'Passing :: ' + testResultJson.result.summary.passing
+			echo 'Failing :: ' + testResultJson.result.summary.failing
+			echo 'Pass Rate :: ' + testResultJson.result.summary.passRate
+			echo 'Fail Rate :: ' + testResultJson.result.summary.failRate
+			echo 'Test Run Coverage :: ' + testResultJson.result.summary.testRunCoverage
+			echo 'Org Wide Coverage :: ' + testResultJson.result.summary.orgWideCoverage
                 }
             }
         }
