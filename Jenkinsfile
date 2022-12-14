@@ -45,8 +45,14 @@ pipeline {
 			
 			def resultJson = convertStringIntoJSON(result)
 			
-			def testStatus = resultJson.result.summary.outcome
-			echo "${testStatus}"
+			echo 'Outcome :: ' + testOutputJson.result.summary.outcome
+			echo 'Tests Ran :: ' + testOutputJson.result.summary.testsRan
+			echo 'Passing :: ' + testOutputJson.result.summary.passing
+			echo 'Failing :: ' + testOutputJson.result.summary.failing
+			echo 'Pass Rate :: ' + testOutputJson.result.summary.passRate
+			echo 'Fail Rate :: ' + testOutputJson.result.summary.failRate
+			echo 'Test Run Coverage :: ' + testOutputJson.result.summary.testRunCoverage
+			echo 'Org Wide Coverage :: ' + testOutputJson.result.summary.orgWideCoverage
                 }
             }
         }
