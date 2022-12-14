@@ -23,6 +23,14 @@ pipeline {
             steps {
                 echo 'Authentication - SFDC Org 01...'
 		script {
+			try {
+			    bat 'exit 1'
+			}
+			catch (exc) {
+			    echo 'Something failed, I should sound the klaxons!'
+			    throw
+			}
+			
                     withCredentials([file(credentialsId: SFDC_ORG_01_JWT_KEY_CRED_ID, variable: 'jwt_key_file')]) {
 		    	def result = cdmSfdx("force:auth:jwt:grant --clientid ${SFDC_ORG_01_CONNECTED_APP_CONSUMER_KEY} --username ${SFDC_ORG_01_USER} --setdefaultusername --jwtkeyfile ${jwt_key_file}   --instanceurl ${SFDC_ORG_01}")
 		        echo "${result}"
