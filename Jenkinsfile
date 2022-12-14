@@ -225,9 +225,6 @@ pipeline {
 			echo 'ApexCompileType :: ' + packageVersionInstallResultJson.result.ApexCompileType
 			echo 'Status :: ' + packageVersionInstallResultJson.result.Status
 			echo 'Errors :: ' + packageVersionInstallResultJson.result.Errors
-			
-			PACKAGE_VERSION_INSTALL_ID = packageVersionInstallResultJson.result.Id
-			echo 'PACKAGE_VERSION_INSTALL_ID :: ' + "${PACKAGE_VERSION_INSTALL_ID}"
                 }
             }
 	 }
