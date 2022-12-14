@@ -65,11 +65,19 @@ pipeline {
              steps {
                 echo 'Create Package Version - SFDC Org 01..'
                 script {
-			def result = cdmSfdx("force:package:version:create --package ${PACKAGE_NAME} --installationkeybypass --wait 1 --json --targetdevhubusername ${SFDC_ORG_01_USER}")
+			def result = cdmSfdx("force:package:version:create --package ${PACKAGE_NAME} --installationkeybypass --wait 0 --json --targetdevhubusername ${SFDC_ORG_01_USER}")
 			result = result.readLines().drop(1).join(" ") //removes the first line of the output, for Windows only
 			
 			def packageVersionResultJson = convertStringIntoJSON(result)
 			echo "${packageVersionResultJson}"
+			
+			result = cdmSfdx("force:package:version:create:list -c 1 --json")
+			result = result.readLines().drop(1).join(" ") //removes the first line of the output, for Windows only
+			
+			def packageVersionListResultJson = convertStringIntoJSON(result)
+			def latestPackageVersion = packageVersionListResultJson.result.last()
+			
+			echo "${latestPackageVersion}"
                 }
             }
         }
