@@ -77,7 +77,7 @@ pipeline {
                 echo 'Create Package Version - SFDC Org 01..'
                 script {
 			
-			def result
+			def result = ''
 			
 			try{
 				result = cdmSfdx("force:package:version:create --package ${PACKAGE_NAME} --installationkeybypass --wait 1 --json --codecoverage --targetdevhubusername ${SFDC_ORG_01_USER}")
@@ -250,21 +250,18 @@ pipeline {
 }
 
 def cdmSfdx(String command) {
-    def path = "\"${SFDX_HOME}\"" //adds '"' to the SFDX_HOME path in case there are spaces inside the path
+    	def path = "\"${SFDX_HOME}\"" //adds '"' to the SFDX_HOME path in case there are spaces inside the path
 	
 	try {
-	    bat 'exit 1'
-	}
-	catch (exc) {
+	    if (isUnix()) {
+		return sh(returnStdout: true, script: "${path}/sfdx ${command}")
+	    } else {
+		return bat(returnStdout: true, script: "${path}/sfdx ${command}").trim()
+	    }
+	} catch (exc) {
 	    echo 'Something failed, I should sound the klaxons!'
 	    throw
-	}
-	
-    if (isUnix()) {
-    	return sh(returnStdout: true, script: "${path}/sfdx ${command}")
-    } else {
-    	return bat(returnStdout: true, script: "${path}/sfdx ${command}").trim()
-    }
+	}	
 }
 
 def convertStringIntoJSON(String jsonStr) {
