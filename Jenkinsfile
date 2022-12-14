@@ -244,8 +244,11 @@ def cdmSfdx(String command) {
 	} catch (Exception ex) {
 		
 		output = output.readLines().drop(1).join(" ") //removes the first line of the output, for Windows only
-		def errorJson = convertStringIntoJSON(output)
+		//def errorJson = convertStringIntoJSON(output)
 		
+		echo "${output}"
+		
+		/*
 		echo '==== SFDX ERROR ===='
 		echo 'status :: ' + errorJson.status
 		echo 'name :: ' + errorJson.name
@@ -256,6 +259,7 @@ def cdmSfdx(String command) {
 		echo 'warnings :: ' + errorJson.warnings
 		echo 'commandName :: ' + errorJson.commandName
 		echo '===================='
+		*/
     		
 	} finally {
 		return output
