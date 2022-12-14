@@ -78,7 +78,7 @@ pipeline {
 		
 	 stage('List Lastest Package Version - SFDC Org 01') {
              steps {
-                echo 'List Lastest Package Versio - SFDC Org 01..'
+                echo 'List Lastest Package Version - SFDC Org 01..'
                 script {
 			def result = cdmSfdx("force:package:version:create:list -c 1 --json --targetdevhubusername ${SFDC_ORG_01_USER}")
 			result = result.readLines().drop(1).join(" ") //removes the first line of the output, for Windows only
