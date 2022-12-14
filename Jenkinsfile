@@ -154,7 +154,7 @@ pipeline {
              steps {
                 echo 'Install Package Version - SFDC Org 01..'
                 script {			
-			def result = cdmSfdx("force:package:install --package ${PACKAGE_VERSION} --wait 1 --apexcompile package --securitytype AdminsOnly --upgradetype Mixed --json --noprompt --targetdevhubusername ${SFDC_ORG_01_USER}")
+			def result = cdmSfdx("force:package:install --package ${PACKAGE_VERSION} --wait 1 --apexcompile package --securitytype AdminsOnly --upgradetype Mixed --json --noprompt --targetusername ${SFDC_ORG_01_USER}")
 			result = result.readLines().drop(1).join(" ") //removes the first line of the output, for Windows only
 			
 			def packageVersionInstallResultJson = convertStringIntoJSON(result)
