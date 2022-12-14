@@ -71,7 +71,7 @@ pipeline {
 			//def packageVersionResultJson = convertStringIntoJSON(result)
 			//echo "${packageVersionResultJson}"
 			
-			def result = cdmSfdx("force:package:version:create:list -c 1 --json")
+			def result = cdmSfdx("force:package:version:create:list -c 1 --json --targetdevhubusername ${SFDC_ORG_01_USER}")
 			result = result.readLines().drop(1).join(" ") //removes the first line of the output, for Windows only
 			
 			def packageVersionListResultJson = convertStringIntoJSON(result)
