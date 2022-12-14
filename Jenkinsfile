@@ -245,11 +245,10 @@ def cdmSfdx(String command) {
 		
 		output = output.readLines().drop(1).join(" ") //removes the first line of the output, for Windows only
 		//def errorJson = convertStringIntoJSON(output)
-		
-		echo "${output}"
-		
-		/*
+				
 		echo '==== SFDX ERROR ===='
+		echo "${output}"
+		/*
 		echo 'status :: ' + errorJson.status
 		echo 'name :: ' + errorJson.name
 		echo 'message :: ' + errorJson.message
