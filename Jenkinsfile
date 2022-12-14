@@ -13,7 +13,7 @@ pipeline {
 	SFDC_ORG_01_CONNECTED_APP_CONSUMER_KEY="3MVG9ux34Ig8G5epoz.M1VfJxB82Qyj0J57NXfZmSeZWN5XytkVPTKSj7C9J.QYiwbdkPpmv9X0Efg0CKRXIX"
 	    
 	//PACKAGE
-	PACKAGE_NAME='0Ho1U000000CaUzSAK'
+	PACKAGE_NAME='0HoDn000000sXzVKAU'
     	PACKAGE_VERSION = ''
     }
     
@@ -57,6 +57,16 @@ pipeline {
 			echo 'Fail Rate :: ' + testResultJson.result.summary.failRate
 			echo 'Test Run Coverage :: ' + testResultJson.result.summary.testRunCoverage
 			echo 'Org Wide Coverage :: ' + testResultJson.result.summary.orgWideCoverage
+                }
+            }
+        }
+	    
+	stage('Create Package Version - SFDC Org 01') {
+             steps {
+                echo 'Create Package Version - SFDC Org 01..'
+                script {
+			def result = cdmSfdx("force:package:version:create --package ${PACKAGE_NAME} --installationkeybypass --wait 0 --json --targetdevhubusername ${SFDC_ORG_01_USER}")
+			echo "${result}"
                 }
             }
         }
