@@ -149,6 +149,39 @@ pipeline {
                 }
             }
         }
+	    
+	stage('Install Package Version - SFDC Org 01') {
+             steps {
+                echo 'Install Package Version - SFDC Org 01..'
+                script {			
+			def result = cdmSfdx("force:package:install --package ${PACKAGE_VERSION} --wait 1 --apexcompile package --securitytype AdminsOnly --upgradetype Mixed --json --noprompt --targetdevhubusername ${SFDC_ORG_01_USER}")
+			result = result.readLines().drop(1).join(" ") //removes the first line of the output, for Windows only
+			
+			def packageVersionInstallResultJson = convertStringIntoJSON(result)
+			
+			echo 'status :: ' + packageVersionInstallResultJson.status
+			echo 'type :: ' + packageVersionInstallResultJson.result.type
+			echo 'url :: ' + packageVersionInstallResultJson.result.url
+			echo 'Id :: ' + packageVersionInstallResultJson.result.Id
+			echo 'IsDeleted :: ' + packageVersionInstallResultJson.result.IsDeleted
+			echo 'CreatedDate :: ' + packageVersionInstallResultJson.result.CreatedDate
+			echo 'CreatedById :: ' + packageVersionInstallResultJson.result.CreatedById
+			echo 'LastModifiedDate :: ' + packageVersionInstallResultJson.result.LastModifiedDate
+			echo 'LastModifiedById :: ' + packageVersionInstallResultJson.result.LastModifiedById
+			echo 'SystemModstamp :: ' + packageVersionInstallResultJson.result.SystemModstamp
+			echo 'SubscriberPackageVersionKey :: ' + packageVersionInstallResultJson.result.SubscriberPackageVersionKey
+			echo 'NameConflictResolution :: ' + packageVersionInstallResultJson.result.NameConflictResolution
+			echo 'PackageInstallSource :: ' + packageVersionInstallResultJson.result.PackageInstallSource
+			echo 'ProfileMappings :: ' + latestPackageVersion.result.ProfileMappings
+			echo 'Password :: ' + latestPackageVersion.result.Password
+			echo 'EnableRss :: ' + latestPackageVersion.result.EnableRss
+			echo 'UpgradeType :: ' + latestPackageVersion.UpgradeType
+			echo 'ApexCompileType :: ' + latestPackageVersion.ApexCompileType
+			echo 'Status :: ' + latestPackageVersion.Status
+			echo 'Errors :: ' + latestPackageVersion.Errors
+                }
+            }
+	 }
     }
 }
 
