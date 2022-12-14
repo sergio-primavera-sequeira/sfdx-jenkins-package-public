@@ -87,7 +87,7 @@ pipeline {
 				echo "${packageVersionResultJson}"
 				
 			} catch (Exception e) {
-				echo e
+				echo e.toString()
 				
 				result = result.readLines().drop(1).join(" ") //removes the first line of the output, for Windows only
 				def errorJson = convertStringIntoJSON(result)
@@ -254,9 +254,9 @@ def cdmSfdx(String command) {
     def path = "\"${SFDX_HOME}\"" //adds '"' to the SFDX_HOME path in case there are spaces inside the path
 	
     if (isUnix()) {
-    	return sh(returnStatus: false, returnStdout: true, script: "${path}/sfdx ${command}")
+    	return sh(returnStdout: true, script: "${path}/sfdx ${command}")
     } else {
-    	return bat(returnStatus: false, returnStdout: true, script: "${path}/sfdx ${command}").trim()
+    	return bat(returnStdout: true, script: "${path}/sfdx ${command}").trim()
     }
 }
 
