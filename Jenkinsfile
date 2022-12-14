@@ -102,6 +102,7 @@ pipeline {
 			echo 'PACKAGE_VERSION :: ' + "${PACKAGE_VERSION}"
                 }
             }
+	 }
 		 
          stage('Lastest Package Version - SFDC Org 01') {
              steps {
