@@ -29,12 +29,22 @@ pipeline {
                 }
             }
         }
+	    
+	stage('Validation - SFDC Org 01') {
+             steps {
+                echo 'Validation - SFDC Org 01..'
+                script {
+			def result = cdmSfdx("force:source:deploy -p ./force-app/main/default/ --checkonly")
+			echo "${result}"
+                }
+            }
+        }
         
         stage('Deployment - SFDC Org 01') {
              steps {
                 echo 'Deployment - SFDC Org 01..'
                 script {
-			def result = cdmSfdx("force:source:deploy -p ./force-app/main/default/")
+			def result = cdmSfdx("force:source:deploy --sourcepath ./force-app/main/default/")
 			echo "${result}"
                 }
             }
