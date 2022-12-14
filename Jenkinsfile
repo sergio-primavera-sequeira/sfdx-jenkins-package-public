@@ -65,19 +65,38 @@ pipeline {
              steps {
                 echo 'Create Package Version - SFDC Org 01..'
                 script {
-			//def result = cdmSfdx("force:package:version:create --package ${PACKAGE_NAME} --installationkeybypass --wait 0 --json --targetdevhubusername ${SFDC_ORG_01_USER}")
-			//result = result.readLines().drop(1).join(" ") //removes the first line of the output, for Windows only
+			//commentted because it exceeded the org limit of creating packages
 			
-			//def packageVersionResultJson = convertStringIntoJSON(result)
+			echo "--------------------------------------------------------------------------"
+			//CREATE PACKAGE VERSION
+			//def result01 = cdmSfdx("force:package:version:create --package ${PACKAGE_NAME} --installationkeybypass --wait 1 --json --codecoverage --targetdevhubusername ${SFDC_ORG_01_USER}")
+			//result01 = result01.readLines().drop(1).join(" ") //removes the first line of the output, for Windows only
+			
+			//def packageVersionResultJson = convertStringIntoJSON(result01)
 			//echo "${packageVersionResultJson}"
 			
-			def result = cdmSfdx("force:package:version:create:list -c 1 --json --targetdevhubusername ${SFDC_ORG_01_USER}")
-			result = result.readLines().drop(1).join(" ") //removes the first line of the output, for Windows only
+			echo "--------------------------------------------------------------------------"
 			
-			def packageVersionListResultJson = convertStringIntoJSON(result)
+			//LIST ALL PACKAGE CREATED TODAY
+			def result02 = cdmSfdx("force:package:version:create:list -c 1 --json --targetdevhubusername ${SFDC_ORG_01_USER}")
+			result02 = result02.readLines().drop(1).join(" ") //removes the first line of the output, for Windows only
+			
+			def packageVersionListResultJson = convertStringIntoJSON(result02)
 			def latestPackageVersion = packageVersionListResultJson.result.last()
+						
+			echo 'Id :: ' + latestPackageVersion.Id
+			echo 'Status :: ' + latestPackageVersion.Status
+			echo 'Package2Id :: ' + latestPackageVersion.Package2Id
+			echo 'Package2VersionId :: ' + latestPackageVersion.Package2VersionId
+			echo 'SubscriberPackageVersionId :: ' + latestPackageVersion.SubscriberPackageVersionId
+			echo 'Tag :: ' + latestPackageVersion.Tag
+			echo 'Branch :: ' + latestPackageVersion.Branch
+			echo 'Error :: ' + latestPackageVersion.Error
+			echo 'CreatedDate :: ' + latestPackageVersion.CreatedDate
+			echo 'HasMetadataRemoved :: ' + latestPackageVersion.HasMetadataRemoved
+			echo 'CreatedBy :: ' + latestPackageVersion.CreatedBy
 			
-			echo "${latestPackageVersion}"
+			echo "--------------------------------------------------------------------------"
                 }
             }
         }
