@@ -245,6 +245,8 @@ def cdmSfdx(String command, Boolean bypassError = false) {
 		echo '==== SFDX ERROR ===='
 		echo ex.toString()
 		
+		throw ex
+		
 		if(!bypassError){
 			throw ex
 		}
