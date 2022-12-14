@@ -53,7 +53,7 @@ pipeline {
     }
 }
 
-def cdmSfdx(command) {
+def cdmSfdx(String command) {
     def path = "\"${SFDX_HOME}\"" //adds '"' to the SFDX_HOME path in case there are spaces inside the path
 	
     if (isUnix()) {
@@ -63,7 +63,7 @@ def cdmSfdx(command) {
     }
 }
 
-def convertStringIntoJSON(jsonStr) {
+def convertStringIntoJSON(String jsonStr) {
     def json = readJSON text: jsonStr //need the Pipeline Utility Steps plugin
     return json
 }
