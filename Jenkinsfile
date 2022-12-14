@@ -233,13 +233,12 @@ pipeline {
 
 def cdmSfdx(String command, Boolean bypassError = false) {
     	def path = "\"${SFDX_HOME}\"" //adds '"' to the SFDX_HOME path in case there are spaces inside the path
-	def output = ''
 	
 	try {
 	    if (isUnix()) {
-		output =  sh(returnStdout: true, script: "${path}/sfdx ${command}")
+		return sh(returnStdout: true, script: "${path}/sfdx ${command}")
 	    } else {
-		output =  bat(returnStdout: true, script: "${path}/sfdx ${command}").trim()
+		return bat(returnStdout: true, script: "${path}/sfdx ${command}").trim()
 	    }
 	} catch (Exception ex) {				
 		echo '==== SFDX ERROR ===='
@@ -250,9 +249,6 @@ def cdmSfdx(String command, Boolean bypassError = false) {
 		if(!bypassError){
 			throw ex
 		}
-    		
-	} finally {
-		return output
 	}	
 }
 
