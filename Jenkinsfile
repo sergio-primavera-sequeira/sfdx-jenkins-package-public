@@ -97,6 +97,10 @@ pipeline {
 			echo 'CreatedDate :: ' + latestPackageVersion.CreatedDate
 			echo 'HasMetadataRemoved :: ' + latestPackageVersion.HasMetadataRemoved
 			echo 'CreatedBy :: ' + latestPackageVersion.CreatedBy
+			
+			PACKAGE_VERSION = latestPackageVersion.SubscriberPackageVersionId
+			echo 'PACKAGE_VERSION :: ' + "${PACKAGE_VERSION}"
+			
                 }
             }
         }
