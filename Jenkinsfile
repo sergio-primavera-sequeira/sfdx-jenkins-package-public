@@ -258,9 +258,9 @@ def cdmSfdx(String command) {
 	    } else {
 		return bat(returnStdout: true, script: "${path}/sfdx ${command}").trim()
 	    }
-	} catch (exc) {
+	} catch (Exception ex) {
 	    echo 'Something failed, I should sound the klaxons!'
-	    throw
+	    throw ex
 	}	
 }
 
