@@ -78,10 +78,16 @@ pipeline {
                 script {
 			
 			def result = cdmSfdx("force:package:version:create --package ${PACKAGE_NAME} --installationkeybypass --wait 1 --json --codecoverage --targetdevhubusername ${SFDC_ORG_01_USER}", true)
-			result = result.readLines().drop(1).join(" ") //removes the first line of the output, for Windows only
 			
-			def packageVersionResultJson = convertStringIntoJSON(result)
-			echo "${packageVersionResultJson}"
+			if(result != null){
+				result = result.readLines().drop(1).join(" ") //removes the first line of the output, for Windows only
+			
+				def packageVersionResultJson = convertStringIntoJSON(result)
+				echo "${packageVersionResultJson}"
+				
+			} else {
+				echo 'Skipped the Create Package Version Stage due to an SFDX error...'
+			}
                 }
             }
 	 }
@@ -243,6 +249,7 @@ def cdmSfdx(String command, Boolean bypassError = false) {
 	} catch (Exception ex) {				
 		echo '==== SFDX ERROR ===='
 		echo ex.toString()
+		echo '===================='
 				
 		if(!bypassError){
 			throw ex
