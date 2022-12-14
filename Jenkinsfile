@@ -242,7 +242,9 @@ def cdmSfdx(String command) {
 		output =  bat(returnStdout: true, script: "${path}/sfdx ${command}").trim()
 	    }
 	} catch (Exception ex) {
+		
 		output = output.readLines().drop(1).join(" ") //removes the first line of the output, for Windows only
+		def errorJson = convertStringIntoJSON(output)
 		
 		echo '==== SFDX ERROR ===='
 		echo 'status :: ' + errorJson.status
