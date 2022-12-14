@@ -77,7 +77,7 @@ pipeline {
                 echo 'Create Package Version - SFDC Org 01..'
                 script {
 			
-			def result = cdmSfdx("force:package:version:create --package ${PACKAGE_NAME} --installationkeybypass --wait 1 --json --codecoverage --targetdevhubusername ${SFDC_ORG_01_USER}")
+			def result = cdmSfdx("force:package:version:create --package ${PACKAGE_NAME} --installationkeybypass --wait 1 --json --codecoverage --targetdevhubusername ${SFDC_ORG_01_USER}", true)
 			result = result.readLines().drop(1).join(" ") //removes the first line of the output, for Windows only
 			
 			def packageVersionResultJson = convertStringIntoJSON(result)
