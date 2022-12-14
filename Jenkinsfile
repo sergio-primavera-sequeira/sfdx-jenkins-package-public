@@ -255,7 +255,7 @@ def cdmSfdx(String command) {
     if (isUnix()) {
     	return sh(returnStdout: true, script: "${path}/sfdx ${command}")
     } else {
-    	return bat(returnStatus: true, returnStdout: true, script: "${path}/sfdx ${command}").trim()
+    	return bat(returnStdout: true, script: "${path}/sfdx ${command}").trim()
     }
 }
 
