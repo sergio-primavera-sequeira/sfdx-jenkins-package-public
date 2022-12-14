@@ -172,13 +172,13 @@ pipeline {
 			echo 'SubscriberPackageVersionKey :: ' + packageVersionInstallResultJson.result.SubscriberPackageVersionKey
 			echo 'NameConflictResolution :: ' + packageVersionInstallResultJson.result.NameConflictResolution
 			echo 'PackageInstallSource :: ' + packageVersionInstallResultJson.result.PackageInstallSource
-			echo 'ProfileMappings :: ' + latestPackageVersion.result.ProfileMappings
-			echo 'Password :: ' + latestPackageVersion.result.Password
-			echo 'EnableRss :: ' + latestPackageVersion.result.EnableRss
-			echo 'UpgradeType :: ' + latestPackageVersion.UpgradeType
-			echo 'ApexCompileType :: ' + latestPackageVersion.ApexCompileType
-			echo 'Status :: ' + latestPackageVersion.Status
-			echo 'Errors :: ' + latestPackageVersion.Errors
+			echo 'ProfileMappings :: ' + packageVersionInstallResultJson.result.ProfileMappings
+			echo 'Password :: ' + packageVersionInstallResultJson.result.Password
+			echo 'EnableRss :: ' + packageVersionInstallResultJson.result.EnableRss
+			echo 'UpgradeType :: ' + packageVersionInstallResultJson.UpgradeType
+			echo 'ApexCompileType :: ' + packageVersionInstallResultJson.ApexCompileType
+			echo 'Status :: ' + packageVersionInstallResultJson.Status
+			echo 'Errors :: ' + packageVersionInstallResultJson.Errors
                 }
             }
 	 }
