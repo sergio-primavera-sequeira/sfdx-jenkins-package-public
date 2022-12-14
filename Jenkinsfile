@@ -11,6 +11,10 @@ pipeline {
         SFDC_ORG_01_USER="integration.jenkins@sfjenkins.poc.org01.ca"
         SFDC_ORG_01="https://login.salesforce.com" 
 	SFDC_ORG_01_CONNECTED_APP_CONSUMER_KEY="3MVG9ux34Ig8G5epoz.M1VfJxB82Qyj0J57NXfZmSeZWN5XytkVPTKSj7C9J.QYiwbdkPpmv9X0Efg0CKRXIX"
+	    
+	//PACKAGE
+	PACKAGE_NAME='0Ho1U000000CaUzSAK'
+    	PACKAGE_VERSION = ''
     }
     
     stages {
