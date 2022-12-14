@@ -175,10 +175,10 @@ pipeline {
 			echo 'ProfileMappings :: ' + packageVersionInstallResultJson.result.ProfileMappings
 			echo 'Password :: ' + packageVersionInstallResultJson.result.Password
 			echo 'EnableRss :: ' + packageVersionInstallResultJson.result.EnableRss
-			echo 'UpgradeType :: ' + packageVersionInstallResultJson.UpgradeType
-			echo 'ApexCompileType :: ' + packageVersionInstallResultJson.ApexCompileType
-			echo 'Status :: ' + packageVersionInstallResultJson.Status
-			echo 'Errors :: ' + packageVersionInstallResultJson.Errors
+			echo 'UpgradeType :: ' + packageVersionInstallResultJson.result.UpgradeType
+			echo 'ApexCompileType :: ' + packageVersionInstallResultJson.result.ApexCompileType
+			echo 'Status :: ' + packageVersionInstallResultJson.result.Status
+			echo 'Errors :: ' + packageVersionInstallResultJson.result.Errors
                 }
             }
 	 }
