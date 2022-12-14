@@ -195,6 +195,42 @@ pipeline {
                 }
             }
 	 }
+	    
+	stage('Package Install Report - SFDC Org 01') {
+             steps {
+                echo 'Package Install Reportn - SFDC Org 01..'
+                script {			
+			def result = cdmSfdx("force:package:install:report -i ${PACKAGE_VERSION_INSTALL_ID} --json --targetusername ${SFDC_ORG_01_USER}")
+			result = result.readLines().drop(1).join(" ") //removes the first line of the output, for Windows only
+			
+			def packageVersionInstallResultJson = convertStringIntoJSON(result)
+			
+			echo 'status :: ' + packageVersionInstallResultJson.status
+			echo 'type :: ' + packageVersionInstallResultJson.result.type
+			echo 'url :: ' + packageVersionInstallResultJson.result.url
+			echo 'Id :: ' + packageVersionInstallResultJson.result.Id
+			echo 'IsDeleted :: ' + packageVersionInstallResultJson.result.IsDeleted
+			echo 'CreatedDate :: ' + packageVersionInstallResultJson.result.CreatedDate
+			echo 'CreatedById :: ' + packageVersionInstallResultJson.result.CreatedById
+			echo 'LastModifiedDate :: ' + packageVersionInstallResultJson.result.LastModifiedDate
+			echo 'LastModifiedById :: ' + packageVersionInstallResultJson.result.LastModifiedById
+			echo 'SystemModstamp :: ' + packageVersionInstallResultJson.result.SystemModstamp
+			echo 'SubscriberPackageVersionKey :: ' + packageVersionInstallResultJson.result.SubscriberPackageVersionKey
+			echo 'NameConflictResolution :: ' + packageVersionInstallResultJson.result.NameConflictResolution
+			echo 'PackageInstallSource :: ' + packageVersionInstallResultJson.result.PackageInstallSource
+			echo 'ProfileMappings :: ' + packageVersionInstallResultJson.result.ProfileMappings
+			echo 'Password :: ' + packageVersionInstallResultJson.result.Password
+			echo 'EnableRss :: ' + packageVersionInstallResultJson.result.EnableRss
+			echo 'UpgradeType :: ' + packageVersionInstallResultJson.result.UpgradeType
+			echo 'ApexCompileType :: ' + packageVersionInstallResultJson.result.ApexCompileType
+			echo 'Status :: ' + packageVersionInstallResultJson.result.Status
+			echo 'Errors :: ' + packageVersionInstallResultJson.result.Errors
+			
+			PACKAGE_VERSION_INSTALL_ID = packageVersionInstallResultJson.result.Id
+			echo 'PACKAGE_VERSION_INSTALL_ID :: ' + "${PACKAGE_VERSION_INSTALL_ID}"
+                }
+            }
+	 }
     }
 }
 
