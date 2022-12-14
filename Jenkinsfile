@@ -82,28 +82,6 @@ pipeline {
 			
 			def packageVersionResultJson = convertStringIntoJSON(result)
 			echo "${packageVersionResultJson}"
-			
-			try{
-				result = cdmSfdx("force:package:version:create --package ${PACKAGE_NAME} --installationkeybypass --wait 1 --json --codecoverage --targetdevhubusername ${SFDC_ORG_01_USER}")
-				result = result.readLines().drop(1).join(" ") //removes the first line of the output, for Windows only
-				
-				def packageVersionResultJson = convertStringIntoJSON(result)
-				echo "${packageVersionResultJson}"
-				
-			} catch (err) {
-				
-				result = result.readLines().drop(1).join(" ") //removes the first line of the output, for Windows only
-				def errorJson = convertStringIntoJSON(result)
-				
-				echo 'status :: ' + errorJson.status
-				echo 'name :: ' + errorJson.name
-				echo 'message :: ' + errorJson.message
-				echo 'exitCode :: ' + errorJson.exitCode
-				echo 'context :: ' + errorJson.context
-				echo 'stack :: ' + errorJson.stack
-				echo 'warnings :: ' + errorJson.warnings
-				echo 'commandName :: ' + errorJson.commandName
-			}
                 }
             }
 	 }
