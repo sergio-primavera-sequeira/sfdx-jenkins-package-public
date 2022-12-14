@@ -108,7 +108,7 @@ pipeline {
              steps {
                 echo 'Lastest Package Version - SFDC Org 01..'
                 script {
-			def result = cdmSfdx("force:package:version:list --verbose --json ${SFDC_ORG_01_USER}")
+			def result = cdmSfdx("force:package:version:list --verbose --json --targetdevhubusername ${SFDC_ORG_01_USER}")
 			result = result.readLines().drop(1).join(" ") //removes the first line of the output, for Windows only
 			
 			def packageVersionListResultJson = convertStringIntoJSON(result)
