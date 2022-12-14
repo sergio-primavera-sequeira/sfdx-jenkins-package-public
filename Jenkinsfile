@@ -248,7 +248,7 @@ def cdmSfdx(String command) {
 				
 		echo '==== SFDX ERROR ===='
 		//echo 'SPS 01' + "${output}"
-		echo 'SPS 02' + ex.toString()
+		echo 'SPS 02' + ex.toString() 
     		
 	} finally {
 		return output
