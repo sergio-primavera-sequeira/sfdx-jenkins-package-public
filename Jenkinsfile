@@ -86,7 +86,7 @@ pipeline {
 				def packageVersionResultJson = convertStringIntoJSON(result)
 				echo "${packageVersionResultJson}"
 				
-			} catch catch(Exception e) {
+			} catch (Exception e) {
 				echo e
 				
 				result = result.readLines().drop(1).join(" ") //removes the first line of the output, for Windows only
