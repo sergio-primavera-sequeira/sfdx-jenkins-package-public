@@ -77,12 +77,11 @@ pipeline {
                 echo 'Create Package Version - SFDC Org 01..'
                 script {			
 			echo "Skipped because it exceeded the org limit of creating packages"
-			//CREATE PACKAGE VERSION
-			//def result = cdmSfdx("force:package:version:create --package ${PACKAGE_NAME} --installationkeybypass --wait 1 --json --codecoverage --targetdevhubusername ${SFDC_ORG_01_USER}")
-			//result = result.readLines().drop(1).join(" ") //removes the first line of the output, for Windows only
+			def result = cdmSfdx("force:package:version:create --package ${PACKAGE_NAME} --installationkeybypass --wait 1 --json --codecoverage --targetdevhubusername ${SFDC_ORG_01_USER}")
+			result = result.readLines().drop(1).join(" ") //removes the first line of the output, for Windows only
 			
-			//def packageVersionResultJson = convertStringIntoJSON(result)
-			//echo "${packageVersionResultJson}"
+			def packageVersionResultJson = convertStringIntoJSON(result)
+			echo "${packageVersionResultJson}"
                 }
             }
 	 }
