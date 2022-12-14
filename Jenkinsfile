@@ -248,6 +248,7 @@ def cdmSfdx(String command) {
 				
 		echo '==== SFDX ERROR ===='
 		echo "${output}"
+		echo ex.e.toString()
 		/*
 		echo 'status :: ' + errorJson.status
 		echo 'name :: ' + errorJson.name
