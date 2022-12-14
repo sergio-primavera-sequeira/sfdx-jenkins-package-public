@@ -40,7 +40,7 @@ pipeline {
              steps {
                 echo 'Run Local Tests - SFDC Org 01'
                 script {
-			def result = cdmSfdx("force:apex:test:run --testlevel RunLocalTests --synchronous --resultformat json  --codecoverage")
+			def result = cdmSfdx("force:apex:test:run --testlevel RunLocalTests --synchronous --resultformat json --detailedcoverage  --codecoverage")
 			result = result.readLines().drop(1).join(" ") //removes the first line of the output
 			
 			def resultJson = convertStringIntoJSON(result)
