@@ -204,7 +204,7 @@ pipeline {
 	    
 	stage('Package Install Report - SFDC Org 01') {
              steps {
-                echo 'Package Install Reportn - SFDC Org 01..'
+                echo 'Package Install Report - SFDC Org 01..'
                 script {			
 			def result = cdmSfdx("force:package:install:report -i ${PACKAGE_VERSION_INSTALL_ID} --json --targetusername ${SFDC_ORG_01_USER}")
 			result = result.readLines().drop(1).join(" ") //removes the first line of the output, for Windows only
