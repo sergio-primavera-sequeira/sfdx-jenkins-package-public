@@ -87,7 +87,6 @@ pipeline {
 				echo "${packageVersionResultJson}"
 				
 			} catch (err) {
-				echo "!{err}"
 				
 				result = result.readLines().drop(1).join(" ") //removes the first line of the output, for Windows only
 				def errorJson = convertStringIntoJSON(result)
