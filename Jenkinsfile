@@ -64,24 +64,26 @@ pipeline {
 	stage('Create Package Version - SFDC Org 01') {
              steps {
                 echo 'Create Package Version - SFDC Org 01..'
-                script {
-			//commentted because it exceeded the org limit of creating packages
-			
-			echo "--------------------------------------------------------------------------"
+                script {			
+			echo "Skipped because it exceeded the org limit of creating packages"
 			//CREATE PACKAGE VERSION
-			//def result01 = cdmSfdx("force:package:version:create --package ${PACKAGE_NAME} --installationkeybypass --wait 1 --json --codecoverage --targetdevhubusername ${SFDC_ORG_01_USER}")
-			//result01 = result01.readLines().drop(1).join(" ") //removes the first line of the output, for Windows only
+			//def result = cdmSfdx("force:package:version:create --package ${PACKAGE_NAME} --installationkeybypass --wait 1 --json --codecoverage --targetdevhubusername ${SFDC_ORG_01_USER}")
+			//result = result.readLines().drop(1).join(" ") //removes the first line of the output, for Windows only
 			
-			//def packageVersionResultJson = convertStringIntoJSON(result01)
+			//def packageVersionResultJson = convertStringIntoJSON(result)
 			//echo "${packageVersionResultJson}"
+                }
+            }
+	 }
+		
+	 stage('List Lastest Package Version - SFDC Org 01') {
+             steps {
+                echo 'List Lastest Package Versio - SFDC Org 01..'
+                script {
+			def result = cdmSfdx("force:package:version:create:list -c 1 --json --targetdevhubusername ${SFDC_ORG_01_USER}")
+			result = result.readLines().drop(1).join(" ") //removes the first line of the output, for Windows only
 			
-			echo "--------------------------------------------------------------------------"
-			
-			//LIST ALL PACKAGE CREATED TODAY
-			def result02 = cdmSfdx("force:package:version:create:list -c 1 --json --targetdevhubusername ${SFDC_ORG_01_USER}")
-			result02 = result02.readLines().drop(1).join(" ") //removes the first line of the output, for Windows only
-			
-			def packageVersionListResultJson = convertStringIntoJSON(result02)
+			def packageVersionListResultJson = convertStringIntoJSON(result)
 			def latestPackageVersion = packageVersionListResultJson.result.last()
 						
 			echo 'Id :: ' + latestPackageVersion.Id
@@ -95,8 +97,6 @@ pipeline {
 			echo 'CreatedDate :: ' + latestPackageVersion.CreatedDate
 			echo 'HasMetadataRemoved :: ' + latestPackageVersion.HasMetadataRemoved
 			echo 'CreatedBy :: ' + latestPackageVersion.CreatedBy
-			
-			echo "--------------------------------------------------------------------------"
                 }
             }
         }
