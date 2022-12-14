@@ -76,31 +76,75 @@ pipeline {
             }
 	 }
 		
-	 stage('List Lastest Package Version - SFDC Org 01') {
+	 stage('Lastest Package Creation - SFDC Org 01') {
              steps {
-                echo 'List Lastest Package Version - SFDC Org 01..'
+                echo 'Lastest Package Creation - SFDC Org 01..'
                 script {
 			def result = cdmSfdx("force:package:version:create:list -c 1 --json --targetdevhubusername ${SFDC_ORG_01_USER}")
+			result = result.readLines().drop(1).join(" ") //removes the first line of the output, for Windows only
+			
+			def packageCreationListResultJson = convertStringIntoJSON(result)
+			def latestPackageCreation= packageCreationListResultJson.result.last()
+						
+			echo 'Id :: ' + latestPackageCreation.Id
+			echo 'Status :: ' + latestPackageCreation.Status
+			echo 'Package2Id :: ' + latestPackageCreation.Package2Id
+			echo 'Package2VersionId :: ' + latestPackageCreation.Package2VersionId
+			echo 'SubscriberPackageVersionId :: ' + latestPackageCreation.SubscriberPackageVersionId
+			echo 'Tag :: ' + latestPackageCreation.Tag
+			echo 'Branch :: ' + latestPackageCreation.Branch
+			echo 'Error :: ' + latestPackageCreation.Error
+			echo 'CreatedDate :: ' + latestPackageCreation.CreatedDate
+			echo 'HasMetadataRemoved :: ' + latestPackageCreation.HasMetadataRemoved
+			echo 'CreatedBy :: ' + latestPackageCreation.CreatedBy
+			
+			PACKAGE_VERSION = latestPackageCreation.SubscriberPackageVersionId
+			echo 'PACKAGE_VERSION :: ' + "${PACKAGE_VERSION}"
+                }
+            }
+		 
+         stage('Lastest Package Version - SFDC Org 01') {
+             steps {
+                echo 'Lastest Package Version - SFDC Org 01..'
+                script {
+			def result = cdmSfdx("force:package:version:list --verbose --json ${SFDC_ORG_01_USER}")
 			result = result.readLines().drop(1).join(" ") //removes the first line of the output, for Windows only
 			
 			def packageVersionListResultJson = convertStringIntoJSON(result)
 			def latestPackageVersion = packageVersionListResultJson.result.last()
 						
-			echo 'Id :: ' + latestPackageVersion.Id
-			echo 'Status :: ' + latestPackageVersion.Status
 			echo 'Package2Id :: ' + latestPackageVersion.Package2Id
-			echo 'Package2VersionId :: ' + latestPackageVersion.Package2VersionId
-			echo 'SubscriberPackageVersionId :: ' + latestPackageVersion.SubscriberPackageVersionId
-			echo 'Tag :: ' + latestPackageVersion.Tag
 			echo 'Branch :: ' + latestPackageVersion.Branch
-			echo 'Error :: ' + latestPackageVersion.Error
+			echo 'Tag :: ' + latestPackageVersion.Tag
+			echo 'MajorVersion :: ' + latestPackageVersion.MajorVersion
+			echo 'MinorVersion :: ' + latestPackageVersion.MinorVersion
+			echo 'PatchVersion :: ' + latestPackageVersion.PatchVersion
+			echo 'BuildNumber :: ' + latestPackageVersion.BuildNumber
+			echo 'Id :: ' + latestPackageVersion.Id
+			echo 'SubscriberPackageVersionId :: ' + latestPackageVersion.SubscriberPackageVersionId
+			echo 'ConvertedFromVersionId :: ' + latestPackageVersion.ConvertedFromVersionId
+			echo 'Name :: ' + latestPackageVersion.Name
+			echo 'NamespacePrefix :: ' + latestPackageVersion.NamespacePrefix
+			echo 'Package2Name :: ' + latestPackageVersion.Package2Name
+			echo 'Description :: ' + latestPackageVersion.Description
+			echo 'Version :: ' + latestPackageVersion.Version
+			echo 'IsPasswordProtected :: ' + latestPackageVersion.IsPasswordProtected
+			echo 'IsReleased :: ' + latestPackageVersion.IsReleased
 			echo 'CreatedDate :: ' + latestPackageVersion.CreatedDate
+			echo 'LastModifiedDate :: ' + latestPackageVersion.LastModifiedDate
+			echo 'InstallUrl :: ' + latestPackageVersion.InstallUrl
+			echo 'CodeCoverage :: ' + latestPackageVersion.CodeCoverage
+			echo 'HasPassedCodeCoverageCheck :: ' + latestPackageVersion.HasPassedCodeCoverageCheck
+			echo 'ValidationSkipped :: ' + latestPackageVersion.ValidationSkipped
+			echo 'AncestorId :: ' + latestPackageVersion.AncestorId
+			echo 'AncestorVersion :: ' + latestPackageVersion.AncestorVersion
+			echo 'Alias :: ' + latestPackageVersion.Alias
+			echo 'IsOrgDependent :: ' + latestPackageVersion.IsOrgDependent
+			echo 'ReleaseVersion :: ' + latestPackageVersion.ReleaseVersion
+			echo 'BuildDurationInSeconds :: ' + latestPackageVersion.BuildDurationInSeconds
+			echo 'ValidationSkipped :: ' + latestPackageVersion.ValidationSkipped
 			echo 'HasMetadataRemoved :: ' + latestPackageVersion.HasMetadataRemoved
 			echo 'CreatedBy :: ' + latestPackageVersion.CreatedBy
-			
-			PACKAGE_VERSION = latestPackageVersion.SubscriberPackageVersionId
-			echo 'PACKAGE_VERSION :: ' + "${PACKAGE_VERSION}"
-			
                 }
             }
         }
