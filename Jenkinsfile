@@ -231,7 +231,7 @@ pipeline {
     }
 }
 
-def cdmSfdx(String command) {
+def cdmSfdx(String command, Boolean bypassError = false) {
     	def path = "\"${SFDX_HOME}\"" //adds '"' to the SFDX_HOME path in case there are spaces inside the path
 	def output = ''
 	
@@ -241,14 +241,13 @@ def cdmSfdx(String command) {
 	    } else {
 		output =  bat(returnStdout: true, script: "${path}/sfdx ${command}").trim()
 	    }
-	} catch (Exception ex) {
-		
-		output = output.readLines().drop(1).join(" ") //removes the first line of the output, for Windows only
-		//def errorJson = convertStringIntoJSON(output)
-				
+	} catch (Exception ex) {				
 		echo '==== SFDX ERROR ===='
-		echo 'SPS 01 ::' + ex.toString() 
-		echo 'SPS 02 ::' + "${output}"
+		echo ex.toString()
+		
+		if(!bypassError){
+			throw ex
+		}
     		
 	} finally {
 		return output
