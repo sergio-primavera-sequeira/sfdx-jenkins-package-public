@@ -254,9 +254,9 @@ def cdmSfdx(String command) {
     def path = "\"${SFDX_HOME}\"" //adds '"' to the SFDX_HOME path in case there are spaces inside the path
 	
     if (isUnix()) {
-    	return sh(returnStdout: true, script: "${path}/sfdx ${command}")
+    	return sh(returnStatus: false, returnStdout: true, script: "${path}/sfdx ${command}")
     } else {
-    	return bat(returnStdout: true, script: "${path}/sfdx ${command}").trim()
+    	return bat(returnStatus: false, returnStdout: true, script: "${path}/sfdx ${command}").trim()
     }
 }
 
