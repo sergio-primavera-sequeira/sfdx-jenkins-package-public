@@ -19,6 +19,24 @@ pipeline {
     }
     
     stages {
+        stage('Master Branch Stuff') {
+	    when {
+		branch 'master'
+	    }
+	    steps {
+		echo 'run this stage - ony if the branch = master branch'
+	    }
+	}
+	
+	stage('Staging Branch Stuff') {
+	    when {
+		branch 'staging*'
+	    }
+	    steps {
+		echo 'run this stage - ony if the branch = staging branch'
+	    }
+	}
+	    
         stage('Authentication - SFDC Org 01') {
             steps {
                 echo 'Authentication - SFDC Org 01...'
