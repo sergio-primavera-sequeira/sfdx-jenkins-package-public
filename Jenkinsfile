@@ -77,7 +77,7 @@ pipeline {
                 echo 'Create Package Version - SFDC Org 01..'
                 script {		
 			//--versionnumber parameter to override the sfdx-project.json value
-			def result = cdmSfdx("force:package:version:create --package ${PACKAGE_NAME} --installationkeybypass --wait 1 --json --codecoverage --targetdevhubusername ${SFDC_ORG_01_USER}", true)
+			def result = cdmSfdx("force:package:version:create --package ${PACKAGE_NAME} --installationkeybypass --wait 0 --json --codecoverage --targetdevhubusername ${SFDC_ORG_01_USER}", true)
 			
 			if(result != null){
 				result = result.readLines().drop(1).join(" ") //removes the first line of the output, for Windows only
@@ -140,6 +140,8 @@ pipeline {
 				if(currrentStatus.equalsIgnoreCase('Success') || currrentStatus.equalsIgnoreCase('Error')) {
 					break
 				}
+				
+				sleep 5 SECONDS
 			}
 			
 			PACKAGE_VERSION = latestPackageCreation.SubscriberPackageVersionId
@@ -267,6 +269,7 @@ pipeline {
             steps {
                 echo 'Package Promotion - SFDC Org 01...'
 		script {
+		    //promotes a package from beta to a release ready
                     //only one <major.minor.patch> version of a package can be promoted
 		    def result = cdmSfdx("force:package:version:promote --package ${PACKAGE_VERSION} --json --noprompt --targetdevhubusername ${SFDC_ORG_01_USER}")
 		    echo "${result}"
