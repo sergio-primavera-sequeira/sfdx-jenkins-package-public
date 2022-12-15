@@ -125,7 +125,7 @@ pipeline {
 			echo 'HasMetadataRemoved :: ' + latestPackageCreation.HasMetadataRemoved
 			echo 'CreatedBy :: ' + latestPackageCreation.CreatedBy
 			
-			while(currrentStatus.equalsIngnoreCase('Success') || currrentStatus.equalsIngnoreCase('Error')){
+			while(currrentStatus.equalsIgnoreCase('Success') || currrentStatus.equalsIgnoreCase('Error')){
 				
 				result = cdmSfdx("force:package:version:create:list -c 1 --json --targetdevhubusername ${SFDC_ORG_01_USER}")
 				result = result.readLines().drop(1).join(" ") //removes the first line of the output, for Windows only
