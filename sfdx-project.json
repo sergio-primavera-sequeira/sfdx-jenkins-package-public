@@ -5,18 +5,20 @@
             "default": true
         },
         {
-            "path": "force-app/main/default",
+            "path": "force-app/main/default/",
             "package": "Jenkins",
-            "versionName": "Jenkins - Winter '19",
-            "versionNumber": "1.0.0.NEXT",
+            "versionName": "ver 1.5 - Patch 01",
+            "versionNumber": "1.5.1.NEXT",
             "default": false
         }
     ],
     "namespace": "",
     "sfdcLoginUrl": "https://login.salesforce.com",
-    "sourceApiVersion": "44.0",
+    "sourceApiVersion": "54.0",
     "packageAliases": {
-        "Jenkins": "0Ho0N000000CaT3SAK",
-        "Jenkins@1.0.0-1": "04t0N000001E1ksQAC"
+        "Jenkins": "0HoDn000000sXzVKAU",
+        "Jenkins@1.0.0-1": "04tDn000000EcFXIA0",
+        "Jenkins@1.0.0-2": "04tDn000000EcNsIAK",
+        "Jenkins@1.1.0-1": "04tDn000000EcNxIAK"
     }
 }
