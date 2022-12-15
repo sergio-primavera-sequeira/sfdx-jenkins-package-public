@@ -75,21 +75,30 @@ pipeline {
 	stage('Create Package Version - SFDC Org 01') {
              steps {
                 echo 'Create Package Version - SFDC Org 01..'
-                script {
-			echo 'Skipped the Create Package Version Stage due to an SFDX error...'
-			/*
+                script {			
 			def result = cdmSfdx("force:package:version:create --package ${PACKAGE_NAME} --installationkeybypass --wait 1 --json --codecoverage --targetdevhubusername ${SFDC_ORG_01_USER}", true)
 			
 			if(result != null){
 				result = result.readLines().drop(1).join(" ") //removes the first line of the output, for Windows only
 			
 				def packageVersionResultJson = convertStringIntoJSON(result)
-				echo "${packageVersionResultJson}"
+				
+				echo 'Id :: ' + packageVersionResultJson.result.Id
+				echo 'Status :: ' + packageVersionResultJson.result.Status
+				echo 'Package2Id :: ' + packageVersionResultJson.result.Package2Id
+				echo 'Package2VersionId :: ' + packageVersionResultJson.result.Package2VersionId
+				echo 'SubscriberPackageVersionId :: ' + packageVersionResultJson.result.SubscriberPackageVersionId
+				echo 'Tag :: ' + packageVersionResultJson.result.Tag
+				echo 'Branch :: ' + packageVersionResultJson.result.Branch
+				echo 'Error :: ' + packageVersionResultJson.result.Error
+				echo 'CreatedDate :: ' + packageVersionResultJson.result.CreatedDate
+				echo 'HasMetadataRemoved :: ' + packageVersionResultJson.result.HasMetadataRemoved
+				echo 'CreatedBy :: ' + packageVersionResultJson.result.CreatedBy
 				
 			} else {
 				echo 'Skipped the Create Package Version Stage due to an SFDX error...'
 			}
-			*/
+			
                 }
             }
 	 }
