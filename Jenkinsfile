@@ -140,6 +140,8 @@ pipeline {
 				if(currrentStatus.equalsIgnoreCase('Success') || currrentStatus.equalsIgnoreCase('Error')) {
 					break
 				}
+				
+				sleep 10 SECONDS
 			}
 			
 			PACKAGE_VERSION = latestPackageCreation.SubscriberPackageVersionId
