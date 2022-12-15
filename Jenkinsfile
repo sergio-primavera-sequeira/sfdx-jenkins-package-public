@@ -262,6 +262,17 @@ pipeline {
                 }
             }
 	 }
+	    
+	 stage('Package Promotion - SFDC Org 01') {
+            steps {
+                echo 'Package Promotion - SFDC Org 01...'
+		script {
+                    //only one <major.minor.patch> version of a package can be promoted
+		    def result = cdmSfdx("force:package:version:promote --package ${PACKAGE_VERSION} --json --noprompt --targetdevhubusername ${SFDC_ORG_01_USER}")
+		    echo "${result}"
+                }
+            }
+        }
     }
 }
 
