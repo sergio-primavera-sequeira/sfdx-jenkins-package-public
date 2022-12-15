@@ -141,7 +141,7 @@ pipeline {
 					break
 				}
 				
-				sleep 5 SECONDS
+				sleep(time:5,unit:"SECONDS")
 			}
 			
 			PACKAGE_VERSION = latestPackageCreation.SubscriberPackageVersionId
