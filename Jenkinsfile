@@ -267,7 +267,8 @@ pipeline {
             steps {
                 echo 'Package Promotion - SFDC Org 01...'
 		script {
-                    def result = cdmSfdx("force:package:version:promote --package ${PACKAGE_VERSION} --noprompt --targetdevhubusername ${SFDC_ORG_01_USER}")
+                    //only one <major.minor.patch> version of a package can be promoted
+		    def result = cdmSfdx("force:package:version:promote --package ${PACKAGE_VERSION} --noprompt --targetdevhubusername ${SFDC_ORG_01_USER}")
 		    echo "${result}"
                 }
             }
