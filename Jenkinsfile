@@ -262,6 +262,16 @@ pipeline {
                 }
             }
 	 }
+	    
+	 stage('Package Promotion - SFDC Org 01') {
+            steps {
+                echo 'Package Promotion - SFDC Org 01...'
+		script {
+                    def result = cdmSfdx("force:package:version:promote --package ${PACKAGE_VERSION} --noprompt --targetdevhubusername ${SFDC_ORG_01_USER}")
+		    echo "${result}"
+                }
+            }
+        }
     }
 }
 
