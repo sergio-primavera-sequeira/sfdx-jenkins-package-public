@@ -75,7 +75,8 @@ pipeline {
 	stage('Create Package Version - SFDC Org 01') {
              steps {
                 echo 'Create Package Version - SFDC Org 01..'
-                script {			
+                script {		
+			//--versionnumber parameter to override the sfdx-project.json value
 			def result = cdmSfdx("force:package:version:create --package ${PACKAGE_NAME} --installationkeybypass --wait 1 --json --codecoverage --targetdevhubusername ${SFDC_ORG_01_USER}", true)
 			
 			if(result != null){
