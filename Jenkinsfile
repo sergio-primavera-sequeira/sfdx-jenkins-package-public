@@ -113,7 +113,7 @@ pipeline {
 
 				currrentStatus = latestPackageCreation.Status
 				
-				echo '======== Current Package Version Status ========'
+				echo '======== Lastest Package Creation Status ========'
 				
 				echo 'Id :: ' + latestPackageCreation.Id
 				echo 'Status :: ' + latestPackageCreation.Status
