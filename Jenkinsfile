@@ -22,7 +22,13 @@ pipeline {
         stage('Authentication - SFDC Org 01') {
             steps {
                 echo 'Authentication - SFDC Org 01...'
-		script {			
+		script {
+			def count = 5
+			def fact = 1
+			do {
+			    fact *= count--
+			} while(count > 1)
+			assert fact == 120
                     withCredentials([file(credentialsId: SFDC_ORG_01_JWT_KEY_CRED_ID, variable: 'jwt_key_file')]) {
 		    	def result = cdmSfdx("force:auth:jwt:grant --clientid ${SFDC_ORG_01_CONNECTED_APP_CONSUMER_KEY} --username ${SFDC_ORG_01_USER} --setdefaultusername --jwtkeyfile ${jwt_key_file}   --instanceurl ${SFDC_ORG_01}")
 		        echo "${result}"
@@ -76,7 +82,8 @@ pipeline {
              steps {
                 echo 'Create Package Version - SFDC Org 01..'
                 script {
-			
+			echo 'Skipped the Create Package Version Stage due to an SFDX error...'
+			/*
 			def result = cdmSfdx("force:package:version:create --package ${PACKAGE_NAME} --installationkeybypass --wait 1 --json --codecoverage --targetdevhubusername ${SFDC_ORG_01_USER}", true)
 			
 			if(result != null){
@@ -88,6 +95,7 @@ pipeline {
 			} else {
 				echo 'Skipped the Create Package Version Stage due to an SFDX error...'
 			}
+			*/
                 }
             }
 	 }
@@ -96,12 +104,21 @@ pipeline {
              steps {
                 echo 'Lastest Package Creation - SFDC Org 01..'
                 script {
-			def result = cdmSfdx("force:package:version:create:list -c 1 --json --targetdevhubusername ${SFDC_ORG_01_USER}")
+			def result
+			def packageCreationListResultJson
+			def latestPackageCreation
+			def currrentStatus
+			
+			result = cdmSfdx("force:package:version:create:list -c 1 --json --targetdevhubusername ${SFDC_ORG_01_USER}")
 			result = result.readLines().drop(1).join(" ") //removes the first line of the output, for Windows only
 			
-			def packageCreationListResultJson = convertStringIntoJSON(result)
-			def latestPackageCreation= packageCreationListResultJson.result.last()
-						
+			packageCreationListResultJson = convertStringIntoJSON(result)
+			latestPackageCreation = packageCreationListResultJson.result.last()
+			
+			currrentStatus = latestPackageCreation.Status
+			
+			echo '======== Current Package Version Status ========'
+			
 			echo 'Id :: ' + latestPackageCreation.Id
 			echo 'Status :: ' + latestPackageCreation.Status
 			echo 'Package2Id :: ' + latestPackageCreation.Package2Id
@@ -113,6 +130,31 @@ pipeline {
 			echo 'CreatedDate :: ' + latestPackageCreation.CreatedDate
 			echo 'HasMetadataRemoved :: ' + latestPackageCreation.HasMetadataRemoved
 			echo 'CreatedBy :: ' + latestPackageCreation.CreatedBy
+			
+			while(currrentStatus.equalsIngnoreCase('Success') || currrentStatus.equalsIngnoreCase('Error')){
+				
+				result = cdmSfdx("force:package:version:create:list -c 1 --json --targetdevhubusername ${SFDC_ORG_01_USER}")
+				result = result.readLines().drop(1).join(" ") //removes the first line of the output, for Windows only
+
+				packageCreationListResultJson = convertStringIntoJSON(result)
+				latestPackageCreation = packageCreationListResultJson.result.last()
+
+				currrentStatus = latestPackageCreation.Status
+				
+				echo '======== Current Package Version Status ========'
+				
+				echo 'Id :: ' + latestPackageCreation.Id
+				echo 'Status :: ' + latestPackageCreation.Status
+				echo 'Package2Id :: ' + latestPackageCreation.Package2Id
+				echo 'Package2VersionId :: ' + latestPackageCreation.Package2VersionId
+				echo 'SubscriberPackageVersionId :: ' + latestPackageCreation.SubscriberPackageVersionId
+				echo 'Tag :: ' + latestPackageCreation.Tag
+				echo 'Branch :: ' + latestPackageCreation.Branch
+				echo 'Error :: ' + latestPackageCreation.Error
+				echo 'CreatedDate :: ' + latestPackageCreation.CreatedDate
+				echo 'HasMetadataRemoved :: ' + latestPackageCreation.HasMetadataRemoved
+				echo 'CreatedBy :: ' + latestPackageCreation.CreatedBy
+			}
 			
 			PACKAGE_VERSION = latestPackageCreation.SubscriberPackageVersionId
 			echo 'PACKAGE_VERSION :: ' + "${PACKAGE_VERSION}"
