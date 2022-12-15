@@ -102,30 +102,8 @@ pipeline {
 			def packageCreationListResultJson
 			def latestPackageCreation
 			def currrentStatus
-			
-			result = cdmSfdx("force:package:version:create:list -c 1 --json --targetdevhubusername ${SFDC_ORG_01_USER}")
-			result = result.readLines().drop(1).join(" ") //removes the first line of the output, for Windows only
-			
-			packageCreationListResultJson = convertStringIntoJSON(result)
-			latestPackageCreation = packageCreationListResultJson.result.last()
-			
-			currrentStatus = latestPackageCreation.Status
-			
-			echo '======== Current Package Version Status ========'
-			
-			echo 'Id :: ' + latestPackageCreation.Id
-			echo 'Status :: ' + latestPackageCreation.Status
-			echo 'Package2Id :: ' + latestPackageCreation.Package2Id
-			echo 'Package2VersionId :: ' + latestPackageCreation.Package2VersionId
-			echo 'SubscriberPackageVersionId :: ' + latestPackageCreation.SubscriberPackageVersionId
-			echo 'Tag :: ' + latestPackageCreation.Tag
-			echo 'Branch :: ' + latestPackageCreation.Branch
-			echo 'Error :: ' + latestPackageCreation.Error
-			echo 'CreatedDate :: ' + latestPackageCreation.CreatedDate
-			echo 'HasMetadataRemoved :: ' + latestPackageCreation.HasMetadataRemoved
-			echo 'CreatedBy :: ' + latestPackageCreation.CreatedBy
-			
-			while(currrentStatus.equalsIgnoreCase('Success') || currrentStatus.equalsIgnoreCase('Error')){
+						
+			while(true){
 				
 				result = cdmSfdx("force:package:version:create:list -c 1 --json --targetdevhubusername ${SFDC_ORG_01_USER}")
 				result = result.readLines().drop(1).join(" ") //removes the first line of the output, for Windows only
@@ -148,6 +126,10 @@ pipeline {
 				echo 'CreatedDate :: ' + latestPackageCreation.CreatedDate
 				echo 'HasMetadataRemoved :: ' + latestPackageCreation.HasMetadataRemoved
 				echo 'CreatedBy :: ' + latestPackageCreation.CreatedBy
+				
+				if(currrentStatus.equalsIgnoreCase('Success') || currrentStatus.equalsIgnoreCase('Error')) {
+					break
+				}
 			}
 			
 			PACKAGE_VERSION = latestPackageCreation.SubscriberPackageVersionId
