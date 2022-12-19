@@ -1,3 +1,7 @@
+ libraries {
+     lib('pipeline-library')
+ }
+
 pipeline {
     
     agent any
