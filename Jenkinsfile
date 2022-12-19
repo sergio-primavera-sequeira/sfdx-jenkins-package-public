@@ -1,6 +1,4 @@
- libraries {
-     lib('pipeline-library')
- }
+@Library(["pipeline-library"]) _
 
 pipeline {
     
