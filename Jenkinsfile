@@ -29,6 +29,7 @@ pipeline {
 	    }
 	    steps {
 		echo 'run this stage - ony if the branch = master branch'
+	        sayHello('Master Branch')
 	    }
 	}
 	
@@ -38,6 +39,7 @@ pipeline {
 	    }
 	    steps {
 		echo 'run this stage - ony if the branch = staging branch'
+	        sayHello('Staging Branch')
 	    }
 	}
 	    
