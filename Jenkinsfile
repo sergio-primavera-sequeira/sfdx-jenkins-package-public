@@ -8,7 +8,7 @@ pipeline {
 	    
     environment {
         //SFDX HOME: an SFDX custom tool needs to be configured and the 'Tool Home' (when 'Install automatically' is checked) on custom tools needs to be configured
-	SFDX_HOME = tool name: 'sfdx', type: 'com.cloudbees.jenkins.plugins.customtools.CustomTool' 
+	//SFDX_HOME = tool name: 'sfdx', type: 'com.cloudbees.jenkins.plugins.customtools.CustomTool' 
         
     	//SFDC ORG01
     	SFDC_ORG_01_JWT_KEY_CRED_ID="sf-jwt-key"
@@ -31,7 +31,11 @@ pipeline {
 		    script {
 		    	echo 'run this stage - ony if the branch = master branch'
 
-			def result = buildSalesforcePackage('appy', PACKAGE_NAME)
+			def result = buildSalesforcePackage(PACKAGE_NAME, 
+							    SFDC_ORG_01_JWT_KEY_CRED_ID,
+							    SFDC_ORG_01_USER, 
+							    SFDC_ORG_01,
+							    SFDC_ORG_01_CONNECTED_APP_CONSUMER_KEY)
 			echo "${result}"
 		    }
 	    }
