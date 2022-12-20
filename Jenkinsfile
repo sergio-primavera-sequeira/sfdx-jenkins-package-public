@@ -35,7 +35,7 @@ pipeline {
 	    }
 	    steps {
 		    script {
-			PACKAGE_VERSION_ID = buildSalesforcePackage(PACKAGE_ID, 
+			PACKAGE_VERSION_ID = salesforceBuildPackage(PACKAGE_ID, 
 								    SFDC_ORG_01_JWT_KEY_CRED_ID,
 								    SFDC_ORG_01_USER, 
 								    SFDC_ORG_01,
