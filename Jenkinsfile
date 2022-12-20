@@ -24,8 +24,8 @@ pipeline {
 	    
 	//PACKAGE
 	PACKAGE_ID='0HoDn000000sXzVKAU' //prerequisite -> sfdx force:package:create --path force-app/main/default/ --name "Jenkins" --description "Jenkins Package Example" --packagetype Unlocked
-    	PACKAGE_VERSION_ID = ''
-	PACKAGE_VERSION_INSTALL_ID = ''
+    	//PACKAGE_VERSION_ID = ''
+	//PACKAGE_VERSION_INSTALL_ID = ''
     }
     
     stages {
@@ -33,9 +33,7 @@ pipeline {
 	    when {
 		branch 'master*'
 	    }
-	    steps {
-		    echo "=== SFDX BUILD PACKAGE ==="
-		    
+	    steps {		    
 		    script {
 			PACKAGE_VERSION_ID = salesforceBuildPackage(PACKAGE_ID, 
 								    SFDC_ORG_01_JWT_KEY_CRED_ID,
@@ -50,9 +48,7 @@ pipeline {
 	    when {
 		branch 'master*'
 	    }
-	    steps {
-		    echo "=== SFDX INSTALL PACKAGE ==="
-		    
+	    steps {		    
 		    script {
 			def packageInstallStatus = salesforceInstallPackage(PACKAGE_VERSION_ID, 
 									    SFDC_ORG_01_JWT_KEY_CRED_ID,
