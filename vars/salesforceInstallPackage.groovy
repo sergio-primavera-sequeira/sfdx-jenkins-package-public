@@ -28,7 +28,7 @@ def authenticateToDevHub(String username, String instanceUrl, String connectedAp
 }
 
 def installPackage(String packageVersionId, String username){
-	def result = cdmSfdx("force:package:install --package ${packageVersionId} --wait 0 --apexcompile package --securitytype AdminsOnly --upgradetype Mixed --json --noprompt --targetusername ${username}")
+	def result = sfdx.cmd("sfdx force:package:install --package ${packageVersionId} --wait 0 --apexcompile package --securitytype AdminsOnly --upgradetype Mixed --json --noprompt --targetusername ${username}")
 	result = result.readLines().drop(1).join(" ") //removes the first line of the output, for Windows only
 
 	def packageVersionInstallResultJson = json.convertStringIntoJSON(result)
