@@ -2,7 +2,7 @@
 import java.util.Date
 import java.text.SimpleDateFormat
 
-def call(String packageVersionId, String jwtCredentialId, String devHubUsername, String devHubInstanceUrl, String devHubConsumerKey) {
+def call(String packageVersionId, String jwtCredentialId, String username, String instanceUrl, String consumerKey) {
 		
 	sfdx.init()
 
@@ -10,10 +10,10 @@ def call(String packageVersionId, String jwtCredentialId, String devHubUsername,
 		withCredentials([file(credentialsId: jwtCredentialId, variable: 'jwt_key_file')]) {
 
 			echo "=== SFDX AUTHENTICATION ==="
-			authenticateToDevHub(devHubUsername, devHubInstanceUrl, devHubConsumerKey, jwt_key_file)
+			authenticateToDevHub(username, instanceUrl, consumerKey, jwt_key_file)
 			
 			echo "=== SFDX INSTALL PACKAGE ==="
-			installPackage(packageVersionId, devHubUsername)
+			installPackage(packageVersionId, username)
 		}
 
 	} catch(Exception e) {
