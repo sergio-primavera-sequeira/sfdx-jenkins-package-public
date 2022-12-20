@@ -1,8 +1,12 @@
-@Library(["pipeline-library"]) _
+//@Library(["pipeline-library"]) _
 
 pipeline {
     
     agent any
+	
+    libraries {
+	  lib('pipeline-library')
+    }
 	    
     environment {
         //SFDX HOME: an SFDX custom tool needs to be configured and the 'Tool Home' (when 'Install automatically' is checked) on custom tools needs to be configured
