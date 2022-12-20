@@ -3,6 +3,7 @@ import java.util.Date
 import java.text.SimpleDateFormat
 
 def call(String DEV_HUB = 'none') {
+	configJob()
 }
 
 def configJob(){
