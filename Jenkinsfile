@@ -46,6 +46,7 @@ pipeline {
 	    }
 	}
 	    
+	/*
         stage('Authentication - SFDC Org 01') {
             steps {
                 echo 'Authentication - SFDC Org 01...'
@@ -57,7 +58,8 @@ pipeline {
                 }
             }
         }
-	    
+	   
+	
 	stage('Validation - SFDC Org 01') {
              steps {
                 echo 'Validation - SFDC Org 01..'
@@ -311,6 +313,7 @@ pipeline {
                 }
             }
         }
+	*/
     }
 }
 
