@@ -25,6 +25,8 @@ def call(String packageId, String jwtCredentialId, String devHubUsername, String
 			
 			//displays the install URL directly in the description
 			currentBuild.description = currentBuild.description != null ?  (currentBuild.description + "\nINSTALL URL : " + installUrl) : ("INSTALL URL : " + installUrl)
+			
+			return subscriberPackageVersionId  
 		}
 		
 	} catch(Exception e) {
