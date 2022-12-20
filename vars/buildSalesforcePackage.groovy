@@ -13,7 +13,7 @@ def call(String packageId, String jwtCredentialId, String devHubUsername, String
 			authenticateToDevHub(devHubUsername, devHubInstanceUrl, devHubConsumerKey, jwt_key_file)
 			
 			echo "=== SFDX CREATE PACKAGE VERSION ==="
-			//createPackageVersion(packageNameOrId, devHubUsername)
+			createPackageVersion(packageNameOrId, devHubUsername)
 			
 			echo "=== SFDX LATEST PACKAGE VERSION ==="
 			def subscriberPackageVersionId  = getLastestPackageVersionCreated(packageId, devHubUsername)
