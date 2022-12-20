@@ -3,7 +3,7 @@
 import java.util.Date
 import java.text.SimpleDateFormat
 
-def call(String packageId, String jwtCredentialId, String devHubUsername, String devHubInstanceUrl, String devHubConsumerKey) {
+def call(String packageVersionId, String jwtCredentialId, String devHubUsername, String devHubInstanceUrl, String devHubConsumerKey) {
 		
 	sfdx.init()
 
