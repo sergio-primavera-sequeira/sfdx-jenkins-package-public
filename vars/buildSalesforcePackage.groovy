@@ -2,20 +2,15 @@
 import java.util.Date
 import java.text.SimpleDateFormat
 
-def call(String devHub = 'none', String packageName) {
-	
-	def DEV_HUB_ORG_JWT_KEY_CRED_ID="sf-jwt-key"
-	def DEV_HUB_ORG_USER="integration.jenkins@sfjenkins.poc.org01.ca"
-	def DEV_HUB_ORG ="https://login.salesforce.com" 
-	def DEV_HUB_ORG_CONNECTED_APP_CONSUMER_KEY="3MVG9ux34Ig8G5epoz.M1VfJxB82Qyj0J57NXfZmSeZWN5XytkVPTKSj7C9J.QYiwbdkPpmv9X0Efg0CKRXIX"
-	
+def call(String packageNameOrId, String jwtCredentialId, Stirng devHubUsername, String devHubInstanceUrl, String devHubConsumerKey) {
+		
 	sfdx.init()
 	
 	try{
-		withCredentials([file(credentialsId: DEV_HUB_ORG_JWT_KEY_CRED_ID, variable: 'jwt_key_file')]) {
+		withCredentials([file(credentialsId: jwtCredentialId, variable: 'jwt_key_file')]) {
 			
 			echo "=== SFDX AUTHENTICATION ==="
-			authenticateToDevHub(DEV_HUB_ORG_CONNECTED_APP_CONSUMER_KEY, DEV_HUB_ORG_USER, DEV_HUB_ORG, jwt_key_file)
+			authenticateToDevHub(devHubUsername, devHubInstanceUrl, devHubConsumerKey, jwt_key_file)
 			
 			echo "=== SFDX CREATE PACKAGE VERSION ==="
 			createPackageVersion(packageName, DEV_HUB_ORG_USER)
@@ -27,7 +22,7 @@ def call(String devHub = 'none', String packageName) {
 	}
 }
 
-def authenticateToDevHub(String connectedAppConsumerkey, String username, String instanceUrl, Object jwtKeyfile){
+def authenticateToDevHub(String username, String instanceUrl, String connectedAppConsumerkey, Object jwtKeyfile){
 	def result = sfdx.cmd("sfdx force:auth:jwt:grant --clientid ${connectedAppConsumerkey} --username ${username} --setdefaultusername --jwtkeyfile ${jwtKeyfile} --instanceurl ${instanceUrl}")
 	echo "${result}"
 }
