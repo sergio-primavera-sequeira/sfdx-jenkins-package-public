@@ -14,7 +14,7 @@ def call(String dev_hub = 'none') {
 	try{
 		withCredentials([file(credentialsId: DEV_HUB_ORG_JWT_KEY_CRED_ID, variable: 'jwt_key_file')]) {
 			
-			authenticateToDevHub(DEV_HUB_ORG_CONNECTED_APP_CONSUMER_KEY, DEV_HUB_ORG_USER, DEV_HUB_ORG, null)
+			authenticateToDevHub(DEV_HUB_ORG_CONNECTED_APP_CONSUMER_KEY, DEV_HUB_ORG_USER, DEV_HUB_ORG, jwt_key_file)
 			
 		}
 	} catch(Exception e) {
@@ -23,7 +23,7 @@ def call(String dev_hub = 'none') {
 	}
 }
 
-def authenticateToDevHub(String connectedAppConsumerkey, String username, String instanceUrl, Object file){
-	def result = sfdx.cmd("sfdx force:auth:jwt:grant --clientid ${connectedAppConsumerkey} --username ${username} --setdefaultusername --jwtkeyfile ${jwt_key_file} --instanceurl ${instanceUrl}")
+def authenticateToDevHub(String connectedAppConsumerkey, String username, String instanceUrl, Object jwtKeyfile){
+	def result = sfdx.cmd("sfdx force:auth:jwt:grant --clientid ${connectedAppConsumerkey} --username ${username} --setdefaultusername --jwtkeyfile ${jwtKeyfile} --instanceurl ${instanceUrl}")
 	echo "${result}"
 }
