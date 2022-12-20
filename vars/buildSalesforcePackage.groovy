@@ -17,9 +17,14 @@ def call(String packageNameOrId, String jwtCredentialId, String devHubUsername, 
 			
 			echo "=== SFDX LATEST PACKAGE VERSION ==="
 			
-			def PACKAGE_VERSION = getLastestPackageVersionCreated(packageNameOrId, devHubUsername)
-			echo 'PACKAGE_VERSION :: ' + "${PACKAGE_VERSION}"
+			def subscriberPackageVersionId  = getLastestPackageVersionCreated(packageNameOrId, devHubUsername)
+			echo 'Subscriber Package Version ID :: ' + "${subscriberPackageVersionId}"
 			
+			echo "=== SFDX LATEST PACKAGE VERSION INSTALL URL ==="
+			def installUrl = getInstallUrl(subscriberPackageVersionId, devHubUsername)
+			echo 'install URL :: ' + "${installUrl}"
+			
+			currentBuild.description += "\nINSTALL URL : " + installUrl
 		}
 		
 	} catch(Exception e) {
@@ -96,4 +101,47 @@ def getLastestPackageVersionCreated(String packageNameOrId, String devHubUsernam
 	}
 
 	return latestPackageCreation.SubscriberPackageVersionId
+}
+
+def getInstallUrl(String subscriberPackageVersionId, , String devHubUsername){
+	def result = sfdx.cmd("sfdx force:package:version:list --verbose --json --targetdevhubusername ${devHubUsername}")
+	result = result.readLines().drop(1).join(" ") //removes the first line of the output, for Windows only
+
+	def packageVersionListResultJson = convertStringIntoJSON(result)
+	def latestPackageVersion = packageVersionListResultJson.result.findAll{ r -> r.SubscriberPackageVersionId.equalsIgnoreCase(subscriberPackageVersionId) }.last()
+
+	echo 'Package2Id :: ' + latestPackageVersion.Package2Id
+	echo 'Branch :: ' + latestPackageVersion.Branch
+	echo 'Tag :: ' + latestPackageVersion.Tag
+	echo 'MajorVersion :: ' + latestPackageVersion.MajorVersion
+	echo 'MinorVersion :: ' + latestPackageVersion.MinorVersion
+	echo 'PatchVersion :: ' + latestPackageVersion.PatchVersion
+	echo 'BuildNumber :: ' + latestPackageVersion.BuildNumber
+	echo 'Id :: ' + latestPackageVersion.Id
+	echo 'SubscriberPackageVersionId :: ' + latestPackageVersion.SubscriberPackageVersionId
+	echo 'ConvertedFromVersionId :: ' + latestPackageVersion.ConvertedFromVersionId
+	echo 'Name :: ' + latestPackageVersion.Name
+	echo 'NamespacePrefix :: ' + latestPackageVersion.NamespacePrefix
+	echo 'Package2Name :: ' + latestPackageVersion.Package2Name
+	echo 'Description :: ' + latestPackageVersion.Description
+	echo 'Version :: ' + latestPackageVersion.Version
+	echo 'IsPasswordProtected :: ' + latestPackageVersion.IsPasswordProtected
+	echo 'IsReleased :: ' + latestPackageVersion.IsReleased
+	echo 'CreatedDate :: ' + latestPackageVersion.CreatedDate
+	echo 'LastModifiedDate :: ' + latestPackageVersion.LastModifiedDate
+	echo 'InstallUrl :: ' + latestPackageVersion.InstallUrl
+	echo 'CodeCoverage :: ' + latestPackageVersion.CodeCoverage
+	echo 'HasPassedCodeCoverageCheck :: ' + latestPackageVersion.HasPassedCodeCoverageCheck
+	echo 'ValidationSkipped :: ' + latestPackageVersion.ValidationSkipped
+	echo 'AncestorId :: ' + latestPackageVersion.AncestorId
+	echo 'AncestorVersion :: ' + latestPackageVersion.AncestorVersion
+	echo 'Alias :: ' + latestPackageVersion.Alias
+	echo 'IsOrgDependent :: ' + latestPackageVersion.IsOrgDependent
+	echo 'ReleaseVersion :: ' + latestPackageVersion.ReleaseVersion
+	echo 'BuildDurationInSeconds :: ' + latestPackageVersion.BuildDurationInSeconds
+	echo 'ValidationSkipped :: ' + latestPackageVersion.ValidationSkipped
+	echo 'HasMetadataRemoved :: ' + latestPackageVersion.HasMetadataRemoved
+	echo 'CreatedBy :: ' + latestPackageVersion.CreatedBy
+
+	return latestPackageVersion.InstallUrl
 }
