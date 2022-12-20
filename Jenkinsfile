@@ -1,5 +1,3 @@
-//@Library(["pipeline-library"]) _
-
 pipeline {
     
     agent any
