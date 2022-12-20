@@ -34,6 +34,8 @@ pipeline {
 		branch 'master*'
 	    }
 	    steps {
+		    echo "=== SFDX BUILD PACKAGE ==="
+		    
 		    script {
 			PACKAGE_VERSION_ID = salesforceBuildPackage(PACKAGE_ID, 
 								    SFDC_ORG_01_JWT_KEY_CRED_ID,
@@ -45,12 +47,21 @@ pipeline {
 	    }
 	}
 	
-	stage('Staging Branch Stuff') {
+	stage('Install Salesforce Package') {
 	    when {
-		branch 'staging*'
+		branch 'master*'
 	    }
 	    steps {
-		echo 'run this stage - ony if the branch = staging branch'
+		    echo "=== SFDX INSTALL PACKAGE ==="
+		    
+		    script {
+			PACKAGE_VERSION_ID = salesforceInstallPackage(PACKAGE_VERSION_ID, 
+								      SFDC_ORG_01_JWT_KEY_CRED_ID,
+								      SFDC_ORG_01_USER, 
+								      SFDC_ORG_01,
+							              SFDC_ORG_01_CONNECTED_APP_CONSUMER_KEY)
+			echo "${PACKAGE_VERSION_ID}"
+		    }
 	    }
 	}
 	    
