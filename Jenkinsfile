@@ -33,7 +33,7 @@ pipeline {
 			sayHello('Master Branch')
 
 			salesforcePackage.init('')
-			def result = salesforcePackage.buildPackage('') 
+			def result = salesforcePackage.buildPackage() 
 			echo "${result}"
 		    }
 	    }
