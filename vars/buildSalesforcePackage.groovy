@@ -107,7 +107,7 @@ def getInstallUrl(String subscriberPackageVersionId, String devHubUsername){
 	def result = sfdx.cmd("sfdx force:package:version:list --verbose --json --targetdevhubusername ${devHubUsername}")
 	result = result.readLines().drop(1).join(" ") //removes the first line of the output, for Windows only
 
-	def packageVersionListResultJson = convertStringIntoJSON(result)
+	def packageVersionListResultJson = json.convertStringIntoJSON(result)
 	def latestPackageVersion = packageVersionListResultJson.result.findAll{ r -> r.SubscriberPackageVersionId.equalsIgnoreCase(subscriberPackageVersionId) }.last()
 
 	echo 'Package2Id :: ' + latestPackageVersion.Package2Id
