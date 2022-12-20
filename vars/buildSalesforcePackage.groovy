@@ -24,6 +24,7 @@ def configSFDX(){
 }
 
 def cdmSfdx(String command, Boolean bypassError = false) {
+	
     	def path = "\"${env.SFDX_HOME}\"" //adds '"' to the SFDX_HOME path in case there are spaces inside the path
 	
 	try {
