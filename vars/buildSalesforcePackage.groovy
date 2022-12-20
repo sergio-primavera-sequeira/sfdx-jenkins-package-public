@@ -23,7 +23,7 @@ def call(String dev_hub = 'none') {
 	}
 }
 
-def connectToDevHub(String CONNECTED_APP_CONSUMER_KEY, String DEV_HUB_USER, String INSTANCE_URL){
-	def result = sfdx.cdm("sfdx force:auth:jwt:grant --clientid ${CONNECTED_APP_CONSUMER_KEY} --username ${DEV_HUB_USER} --setdefaultusername --jwtkeyfile ${jwt_key_file} --instanceurl ${INSTANCE_URL}")
+def connectToDevHub(String connectedAppConsumerkey, String username, String instanceUrl){
+	def result = sfdx.cdm("sfdx force:auth:jwt:grant --clientid ${connectedAppConsumerkey} --username ${username} --setdefaultusername --jwtkeyfile ${jwt_key_file} --instanceurl ${instanceUrl}")
 	echo "${result}"
 }
