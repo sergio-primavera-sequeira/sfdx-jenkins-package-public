@@ -14,7 +14,7 @@ def call(String dev_hub = 'none') {
 	try{
 		withCredentials([file(credentialsId: DEV_HUB_ORG_JWT_KEY_CRED_ID, variable: 'jwt_key_file')]) {
 			
-			connectToDevHub(DEV_HUB_ORG_CONNECTED_APP_CONSUMER_KEY, DEV_HUB_ORG DEV_HUB_ORG_USER)
+			connectToDevHub(DEV_HUB_ORG_CONNECTED_APP_CONSUMER_KEY, DEV_HUB_ORG, DEV_HUB_ORG_USER)
 			
 		}
 	} catch(Exception e) {
