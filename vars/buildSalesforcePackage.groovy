@@ -20,8 +20,3 @@ def call(String dev_hub = 'none') {
 		throw e
 	}
 }
-
-def convertStringIntoJSON(String jsonStr) {
-    def json = readJSON text: jsonStr //need the Pipeline Utility Steps plugin
-    return json
-}
