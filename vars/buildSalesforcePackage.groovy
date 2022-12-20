@@ -14,7 +14,7 @@ def call(String dev_hub = 'none') {
 	try{
 		withCredentials([file(credentialsId: DEV_HUB_ORG_JWT_KEY_CRED_ID, variable: 'jwt_key_file')]) {
 			
-			connectToDevHub(DEV_HUB_ORG_CONNECTED_APP_CONSUMER_KEY, DEV_HUB_ORG_USER, DEV_HUB_ORG)
+			authenticateToDevHub(DEV_HUB_ORG_CONNECTED_APP_CONSUMER_KEY, DEV_HUB_ORG_USER, DEV_HUB_ORG, null)
 			
 		}
 	} catch(Exception e) {
@@ -23,7 +23,7 @@ def call(String dev_hub = 'none') {
 	}
 }
 
-def connectToDevHub(String connectedAppConsumerkey, String username, String instanceUrl){
+def authenticateToDevHub(String connectedAppConsumerkey, String username, String instanceUrl, Blob file){
 	def result = sfdx.cmd("sfdx force:auth:jwt:grant --clientid ${connectedAppConsumerkey} --username ${username} --setdefaultusername --jwtkeyfile ${jwt_key_file} --instanceurl ${instanceUrl}")
 	echo "${result}"
 }
