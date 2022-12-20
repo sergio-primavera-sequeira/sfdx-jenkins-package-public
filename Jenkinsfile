@@ -30,7 +30,6 @@ pipeline {
 	    steps {
 		echo 'run this stage - ony if the branch = master branch'
 	        sayHello('Master Branch')
-		currentBuild.description = "TEST SPS!"
 	    }
 	}
 	
@@ -51,6 +50,7 @@ pipeline {
                     withCredentials([file(credentialsId: SFDC_ORG_01_JWT_KEY_CRED_ID, variable: 'jwt_key_file')]) {
 		    	def result = cdmSfdx("force:auth:jwt:grant --clientid ${SFDC_ORG_01_CONNECTED_APP_CONSUMER_KEY} --username ${SFDC_ORG_01_USER} --setdefaultusername --jwtkeyfile ${jwt_key_file}   --instanceurl ${SFDC_ORG_01}")
 		        echo "${result}"
+			currentBuild.description = "TEST SPS!"
                     }
                 }
             }
