@@ -103,7 +103,7 @@ def getLastestPackageVersionCreated(String packageNameOrId, String devHubUsernam
 	return latestPackageCreation.SubscriberPackageVersionId
 }
 
-def getInstallUrl(String subscriberPackageVersionId, , String devHubUsername){
+def getInstallUrl(String subscriberPackageVersionId, String devHubUsername){
 	def result = sfdx.cmd("sfdx force:package:version:list --verbose --json --targetdevhubusername ${devHubUsername}")
 	result = result.readLines().drop(1).join(" ") //removes the first line of the output, for Windows only
 
