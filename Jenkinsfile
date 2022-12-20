@@ -30,10 +30,10 @@ pipeline {
 	    steps {
 		    script {
 		    	echo 'run this stage - ony if the branch = master branch'
-			sayHello('Master Branch')
+			//sayHello('Master Branch')
 
 			salesforcePackage.init('')
-			def result = salesforcePackage.buildPackage() 
+			def result = salesforcePackage('TEST') //salesforcePackage.buildPackage() 
 			echo "${result}"
 		    }
 	    }
@@ -45,7 +45,7 @@ pipeline {
 	    }
 	    steps {
 		echo 'run this stage - ony if the branch = staging branch'
-	        sayHello('Staging Branch')
+	        //sayHello('Staging Branch')
 	    }
 	}
 	    
