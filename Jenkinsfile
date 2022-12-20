@@ -1,6 +1,12 @@
 pipeline {
     
-    agent any
+    agent {
+       	label 'salesforce'
+    }
+   	
+    options {
+        disableConcurrentBuilds()
+    }
 	
     libraries {
 	  lib('pipeline-library')
