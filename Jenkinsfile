@@ -42,7 +42,6 @@ pipeline {
 								    SFDC_ORG_01_USER, 
 								    SFDC_ORG_01,
 								    SFDC_ORG_01_CONNECTED_APP_CONSUMER_KEY)
-			echo "${PACKAGE_VERSION_ID}"
 		    }
 	    }
 	}
@@ -55,12 +54,11 @@ pipeline {
 		    echo "=== SFDX INSTALL PACKAGE ==="
 		    
 		    script {
-			PACKAGE_VERSION_ID = salesforceInstallPackage(PACKAGE_VERSION_ID, 
-								      SFDC_ORG_01_JWT_KEY_CRED_ID,
-								      SFDC_ORG_01_USER, 
-								      SFDC_ORG_01,
-							              SFDC_ORG_01_CONNECTED_APP_CONSUMER_KEY)
-			echo "${PACKAGE_VERSION_ID}"
+			def packageInstallStatus = salesforceInstallPackage(PACKAGE_VERSION_ID, 
+									    SFDC_ORG_01_JWT_KEY_CRED_ID,
+									    SFDC_ORG_01_USER, 
+									    SFDC_ORG_01,
+									    SFDC_ORG_01_CONNECTED_APP_CONSUMER_KEY)
 		    }
 	    }
 	}
