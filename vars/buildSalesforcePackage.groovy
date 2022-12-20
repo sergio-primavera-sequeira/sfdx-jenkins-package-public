@@ -16,6 +16,7 @@ def call(String packageNameOrId, String jwtCredentialId, Stirng devHubUsername, 
 			createPackageVersion(packageName, devHubUsername)
 			
 		}
+		
 	} catch(Exception e) {
 		currentBuild.result = 'FAILED'
 		throw e
