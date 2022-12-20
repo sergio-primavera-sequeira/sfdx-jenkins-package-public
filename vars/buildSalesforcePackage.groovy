@@ -30,7 +30,7 @@ def authenticateToDevHub(String username, String instanceUrl, String connectedAp
 
 def createPackageVersion(String packageName, String devHubUsername){
 	//--versionnumber parameter to override the sfdx-project.json value
-	def result = sfdx.cmd("sfdx force:package:version:create --package ${packageName} --installationkeybypass --wait 0 --json --codecoverage --targetdevhubusername ${devHubUsername}", true)
+	def result = sfdx.cmd("sfdx force:package:version:create --package ${packageName} --installationkeybypass --wait 1 --json --codecoverage --targetdevhubusername ${devHubUsername}", true)
 
 	if(result != null){
 		result = result.readLines().drop(1).join(" ") //removes the first line of the output, for Windows only
