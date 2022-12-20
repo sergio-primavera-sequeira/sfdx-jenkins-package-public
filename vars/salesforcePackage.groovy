@@ -7,6 +7,10 @@ def SFDC_ORG_01_USER
 def SFDC_ORG_01
 def SFDC_ORG_01_CONNECTED_APP_CONSUMER_KEY
 
+def call(String name = 'human') {
+	return "STSTST"
+}
+
 def init(String dev_hub = 'none') {
 	
 	SFDC_ORG_01_JWT_KEY_CRED_ID="sf-jwt-key"
