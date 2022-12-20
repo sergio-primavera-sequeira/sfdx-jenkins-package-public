@@ -13,6 +13,8 @@ def call(String dev_hub = 'none') {
 	
 	try{
 		withCredentials([file(credentialsId: SFDC_ORG_01_JWT_KEY_CRED_ID, variable: 'jwt_key_file')]) {
+			def result = sfdx.command("sfdx --version")
+			echo "${result}"
 			return '!!!TEST SPS!!!'
 		}
 	} catch(Exception e) {
