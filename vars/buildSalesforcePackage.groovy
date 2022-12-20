@@ -24,7 +24,7 @@ def call(String packageNameOrId, String jwtCredentialId, String devHubUsername, 
 			def installUrl = getInstallUrl(subscriberPackageVersionId, devHubUsername)
 			echo 'install URL :: ' + "${installUrl}"
 			
-			currentBuild.description += "ABC\nINSTALL URL : " + installUrl
+			currentBuild.description = currentBuild.description != null ?  currentBuild.description + "\nINSTALL URL : " + installUrl : "INSTALL URL : " + installUrl
 		}
 		
 	} catch(Exception e) {
