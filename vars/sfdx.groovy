@@ -7,8 +7,8 @@ def init(){
 	//SFDX HOME: an SFDX custom tool needs to be configured and the 'Tool Home' (when 'Install automatically' is checked) on custom tools needs to be configured
 	env.SFDX_HOME = tool name: 'sfdx', type: 'com.cloudbees.jenkins.plugins.customtools.CustomTool' 
 	
-	def result = sfdx.command("sfdx --version")
-	echo "${result}"
+	//def result = sfdx.command("sfdx --version")
+	//echo "${result}"
 }
 
 def command(String command, Boolean bypassError = false) {
