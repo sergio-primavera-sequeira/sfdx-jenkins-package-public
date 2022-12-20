@@ -2,7 +2,7 @@
 import java.util.Date
 import java.text.SimpleDateFormat
 
-def call(String packageNameOrId, String jwtCredentialId, Stirng devHubUsername, String devHubInstanceUrl, String devHubConsumerKey) {
+def call(String packageNameOrId, String jwtCredentialId, String devHubUsername, String devHubInstanceUrl, String devHubConsumerKey) {
 		
 	sfdx.init()
 	
