@@ -13,7 +13,7 @@ def call(String packageNameOrId, String jwtCredentialId, String devHubUsername, 
 			authenticateToDevHub(devHubUsername, devHubInstanceUrl, devHubConsumerKey, jwt_key_file)
 			
 			echo "=== SFDX CREATE PACKAGE VERSION ==="
-			createPackageVersion(packageNameOrId, devHubUsername)
+			//createPackageVersion(packageNameOrId, devHubUsername)
 			
 			echo "=== SFDX LATEST PACKAGE VERSION ==="
 			
@@ -71,7 +71,7 @@ def getLastestPackageVersionCreated(String packageNameOrId, String devHubUsernam
 		result = result.readLines().drop(1).join(" ") //removes the first line of the output, for Windows only
 		
 		packageCreationListResultJson = json.convertStringIntoJSON(result)
-		latestPackageCreation = packageCreationListResultJson.result.last()
+		latestPackageCreation = packageCreationListResultJson.result.findAll{ r -> r.Package2Id.equalsIgnoreCase(packageNameOrId) }.last()
 		currrentStatus = latestPackageCreation.Status
 
 		echo '======== Lastest Package Creation Status ========'
