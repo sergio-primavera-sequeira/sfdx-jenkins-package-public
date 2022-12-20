@@ -2,7 +2,7 @@
 import java.util.Date
 import java.text.SimpleDateFormat
 
-def call(String packageNameOrId, String jwtCredentialId, String devHubUsername, String devHubInstanceUrl, String devHubConsumerKey) {
+def call(String packageId, String jwtCredentialId, String devHubUsername, String devHubInstanceUrl, String devHubConsumerKey) {
 		
 	sfdx.init()
 	
@@ -16,15 +16,15 @@ def call(String packageNameOrId, String jwtCredentialId, String devHubUsername, 
 			//createPackageVersion(packageNameOrId, devHubUsername)
 			
 			echo "=== SFDX LATEST PACKAGE VERSION ==="
-			
-			def subscriberPackageVersionId  = getLastestPackageVersionCreated(packageNameOrId, devHubUsername)
+			def subscriberPackageVersionId  = getLastestPackageVersionCreated(packageId, devHubUsername)
 			echo 'Subscriber Package Version ID :: ' + "${subscriberPackageVersionId}"
 			
 			echo "=== SFDX LATEST PACKAGE VERSION INSTALL URL ==="
 			def installUrl = getInstallUrl(subscriberPackageVersionId, devHubUsername)
 			echo 'install URL :: ' + "${installUrl}"
 			
-			currentBuild.description = currentBuild.description != null ?  currentBuild.description + "\nINSTALL URL : " + installUrl : "INSTALL URL : " + installUrl
+			//displays the install URL directly in the description
+			currentBuild.description = currentBuild.description != null ?  (currentBuild.description + "\nINSTALL URL : " + installUrl) : ("INSTALL URL : " + installUrl)
 		}
 		
 	} catch(Exception e) {
@@ -38,9 +38,9 @@ def authenticateToDevHub(String username, String instanceUrl, String connectedAp
 	echo "${result}"
 }
 
-def createPackageVersion(String packageNameOrId, String devHubUsername){
+def createPackageVersion(String packageId, String devHubUsername){
 	//--versionnumber parameter to override the sfdx-project.json value
-	def result = sfdx.cmd("sfdx force:package:version:create --package ${packageNameOrId} --installationkeybypass --wait 0 --json --codecoverage --targetdevhubusername ${devHubUsername}", true)
+	def result = sfdx.cmd("sfdx force:package:version:create --package ${packageId} --installationkeybypass --wait 0 --json --codecoverage --targetdevhubusername ${devHubUsername}", true)
 
 	if(result != null){
 		result = result.readLines().drop(1).join(" ") //removes the first line of the output, for Windows only
@@ -64,7 +64,7 @@ def createPackageVersion(String packageNameOrId, String devHubUsername){
 	}
 }
 
-def getLastestPackageVersionCreated(String packageNameOrId, String devHubUsername){
+def getLastestPackageVersionCreated(String packageId, String devHubUsername){
 	def result
 	def packageCreationListResultJson
 	def latestPackageCreation
@@ -76,7 +76,7 @@ def getLastestPackageVersionCreated(String packageNameOrId, String devHubUsernam
 		result = result.readLines().drop(1).join(" ") //removes the first line of the output, for Windows only
 		
 		packageCreationListResultJson = json.convertStringIntoJSON(result)
-		latestPackageCreation = packageCreationListResultJson.result.findAll{ r -> r.Package2Id.equalsIgnoreCase(packageNameOrId) }.last()
+		latestPackageCreation = packageCreationListResultJson.result.findAll{ r -> r.Package2Id.equalsIgnoreCase(packageId) }.last()
 		currrentStatus = latestPackageCreation.Status
 
 		echo '======== Lastest Package Creation Status ========'
