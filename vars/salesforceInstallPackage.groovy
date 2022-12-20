@@ -17,7 +17,7 @@ def call(String packageVersionId, String jwtCredentialId, String username, Strin
 			echo 'Package Install ID :: ' + "${packageInstallId}"
 			
 			echo "=== SFDX INSTALL PACKAGE STATUS==="
-			def packageInstallStatus = getPackageInstallStatus(packageInstallId, username)
+			def packageInstallStatus = getPackageInstallationStatus(packageInstallId, username)
 			echo 'Package Install Status :: ' + "${packageInstallStatus}"
 			
 			return packageInstallStatus
@@ -64,7 +64,7 @@ def initiatePackageInstallation(String packageVersionId, String username){
 	return packageVersionInstallResultJson.result.Id
 }
 
-def getPackageInstallStatus(String packageInstallId, String username){
+def getPackageInstallationStatus(String packageInstallId, String username){
 	def result
 	def packageVersionInstallResultJson
 	def currrentStatus
