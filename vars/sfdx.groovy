@@ -1,5 +1,3 @@
-def call(){}
-
 def init(){
 	
 	echo 'Starting sfdx'
