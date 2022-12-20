@@ -24,6 +24,6 @@ def call(String dev_hub = 'none') {
 }
 
 def connectToDevHub(String connectedAppConsumerkey, String username, String instanceUrl){
-	def result = sfdx.cdm("sfdx force:auth:jwt:grant --clientid ${connectedAppConsumerkey} --username ${username} --setdefaultusername --jwtkeyfile ${jwt_key_file} --instanceurl ${instanceUrl}")
+	def result = sfdx.cmd("sfdx force:auth:jwt:grant --clientid ${connectedAppConsumerkey} --username ${username} --setdefaultusername --jwtkeyfile ${jwt_key_file} --instanceurl ${instanceUrl}")
 	echo "${result}"
 }
