@@ -5,23 +5,23 @@ import java.text.SimpleDateFormat
 
 def call(String packageId, String jwtCredentialId, String devHubUsername, String devHubInstanceUrl, String devHubConsumerKey) {
 		
-    sfdx.init()
+	sfdx.init()
 
-    try{
-        withCredentials([file(credentialsId: jwtCredentialId, variable: 'jwt_key_file')]) {
-          
-          echo "=== SFDX AUTHENTICATION ==="
-			    authenticateToDevHub(devHubUsername, devHubInstanceUrl, devHubConsumerKey, jwt_key_file)
+	try{
+		withCredentials([file(credentialsId: jwtCredentialId, variable: 'jwt_key_file')]) {
 
-      }
+			echo "=== SFDX AUTHENTICATION ==="
+			authenticateToDevHub(devHubUsername, devHubInstanceUrl, devHubConsumerKey, jwt_key_file)
 
-    } catch(Exception e) {
-        currentBuild.result = 'FAILED'
-        throw e
+		}
+
+	} catch(Exception e) {
+		currentBuild.result = 'FAILED'
+		throw e
     }
 }
 
 def authenticateToDevHub(String username, String instanceUrl, String connectedAppConsumerkey, Object jwtKeyfile){
-    def result = sfdx.cmd("sfdx force:auth:jwt:grant --clientid ${connectedAppConsumerkey} --username ${username} --setdefaultusername --jwtkeyfile ${jwtKeyfile} --instanceurl ${instanceUrl}")
-    echo "${result}"
+	def result = sfdx.cmd("sfdx force:auth:jwt:grant --clientid ${connectedAppConsumerkey} --username ${username} --setdefaultusername --jwtkeyfile ${jwtKeyfile} --instanceurl ${instanceUrl}")
+	echo "${result}"
 }
