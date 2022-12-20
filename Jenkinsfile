@@ -30,7 +30,8 @@ pipeline {
 	    steps {
 		echo 'run this stage - ony if the branch = master branch'
 	        sayHello('Master Branch')
-		buildSalesforcePackage('')
+		def result = buildSalesforcePackage('')
+	        echo "${result}"
 	    }
 	}
 	
