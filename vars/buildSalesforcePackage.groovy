@@ -15,8 +15,7 @@ def call(String dev_hub = 'none') {
 		withCredentials([file(credentialsId: SFDC_ORG_01_JWT_KEY_CRED_ID, variable: 'jwt_key_file')]) {
 			return '!!!TEST SPS!!!'
 		}
-	}
-	}catch(Exception e) {
+	} catch(Exception e) {
 		currentBuild.result = 'FAILED'
 		throw e
 	}
