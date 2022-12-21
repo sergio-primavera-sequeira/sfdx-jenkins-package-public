@@ -10,7 +10,7 @@ def call(String jwtCredentialId, String username, String instanceUrl, String con
 		withCredentials([file(credentialsId: jwtCredentialId, variable: 'jwt_key_file')]) {
 
 			echo "=== SFDX AUTHENTICATION ==="
-			authenticateToDevHub(username, instanceUrl, consumerKey, jwt_key_file)
+			authenticateSalesforceOrg(username, instanceUrl, consumerKey, jwt_key_file)
 			
 			echo "=== SFDX RUN LOCAL TESTS ==="
 			def testResultsJson = runLocalTests()
@@ -24,7 +24,7 @@ def call(String jwtCredentialId, String username, String instanceUrl, String con
     }
 }
 
-def authenticateToDevHub(String username, String instanceUrl, String connectedAppConsumerkey, Object jwtKeyfile){
+def authenticateSalesforceOrg(String username, String instanceUrl, String connectedAppConsumerkey, Object jwtKeyfile){
 	def result = sfdx.cmd("sfdx force:auth:jwt:grant --clientid ${connectedAppConsumerkey} --username ${username} --setdefaultusername --jwtkeyfile ${jwtKeyfile} --instanceurl ${instanceUrl}")
 	echo "${result}"
 }
