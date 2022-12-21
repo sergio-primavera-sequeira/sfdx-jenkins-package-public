@@ -49,11 +49,31 @@ pipeline {
 	    }
 	    steps {		    
 		    script {
-			PACKAGE_VERSION_ID = salesforceBuildPackage(PACKAGE_ID, 
-								    SFDC_ORG_01_JWT_KEY_CRED_ID,
-								    SFDC_ORG_01_USER, 
-								    SFDC_ORG_01,
-								    SFDC_ORG_01_CONNECTED_APP_CONSUMER_KEY)
+			def latestPackageInformation = salesforceBuildPackage(PACKAGE_ID, 
+									      SFDC_ORG_01_JWT_KEY_CRED_ID,
+									      SFDC_ORG_01_USER, 
+									      SFDC_ORG_01,
+									      SFDC_ORG_01_CONNECTED_APP_CONSUMER_KEY,
+									       true)
+			
+			
+		        def subscriberPackageVersionId = latestPackageInformation.SubscriberPackageVersionId
+		    	echo 'Subscriber Package Version Id :: ' + "${installUrl}"
+		        PACKAGE_VERSION_ID = subscriberPackageVersionId
+			    
+			def packageName = latestPackageInformation.Package2Name
+		    	echo 'Package Name :: ' + "${packageName}"
+			    
+			def packageVersion = latestPackageInformation.Version
+		    	echo 'Package Version :: ' + "${packageVersion}"
+			    
+		        def installUrl = latestPackageInformation.InstallUrl
+		    	echo 'Install URL :: ' + "${installUrl}"
+			    
+			 def buildDescription = packageName + ' v.' + packageVersion +  '\nINSTALL URL : ' + installUrl
+			    
+		       //displays the package information in the build description
+			currentBuild.description = currentBuild.description != null ? (currentBuild.description + "\n" + buildDescription) : (buildDescription)
 		    }
 	    }
 	}
