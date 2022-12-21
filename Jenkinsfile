@@ -13,10 +13,7 @@ pipeline {
     }
 	    
     environment {
-        //SFDX HOME: an SFDX custom tool needs to be configured and the 'Tool Home' (when 'Install automatically' is checked) on custom tools needs to be configured
-	//SFDX_HOME = tool name: 'sfdx', type: 'com.cloudbees.jenkins.plugins.customtools.CustomTool' 
-        
-    	//SFDC ORG01
+    	//SFDC ORG
     	SFDC_ORG_01_JWT_KEY_CRED_ID="sf-jwt-key"
         SFDC_ORG_01_USER="integration.jenkins@sfjenkins.poc.org01.ca"
         SFDC_ORG_01="https://login.salesforce.com" 
@@ -24,8 +21,7 @@ pipeline {
 	    
 	//PACKAGE
 	PACKAGE_ID='0HoDn000000sXzVKAU' //prerequisite -> sfdx force:package:create --path force-app/main/default/ --name "Jenkins" --description "Jenkins Package Example" --packagetype Unlocked
-    	//PACKAGE_VERSION_ID = ''
-	//PACKAGE_VERSION_INSTALL_ID = ''
+    	PACKAGE_VERSION_ID = ''
     }
     
     stages {
@@ -59,20 +55,22 @@ pipeline {
 	    }
 	}
 	    
-	/*
-        stage('Authentication - SFDC Org 01') {
-            steps {
-                echo 'Authentication - SFDC Org 01...'
-		script {
-                    withCredentials([file(credentialsId: SFDC_ORG_01_JWT_KEY_CRED_ID, variable: 'jwt_key_file')]) {
-		    	def result = cdmSfdx("force:auth:jwt:grant --clientid ${SFDC_ORG_01_CONNECTED_APP_CONSUMER_KEY} --username ${SFDC_ORG_01_USER} --setdefaultusername --jwtkeyfile ${jwt_key_file}   --instanceurl ${SFDC_ORG_01}")
-		        echo "${result}"
-                    }
-                }
-            }
-        }
-	   
-	
+    	stage('Promote Salesforce Package') {
+	    when {
+		branch 'master*'
+	    }
+	    steps {		    
+		    script {
+			salesforcePromotePackage(PACKAGE_VERSION_ID, 
+					         SFDC_ORG_01_JWT_KEY_CRED_ID,
+					         SFDC_ORG_01_USER, 
+					         SFDC_ORG_01,
+					         SFDC_ORG_01_CONNECTED_APP_CONSUMER_KEY)
+		    }
+	    }
+	}
+	    
+	/*	
 	stage('Validation - SFDC Org 01') {
              steps {
                 echo 'Validation - SFDC Org 01..'
