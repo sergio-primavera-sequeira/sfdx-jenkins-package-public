@@ -33,7 +33,11 @@ def runLocalTests(Boolean bypassError){
 	def result = sfdx.cmd("sfdx force:apex:test:run --testlevel RunLocalTests --synchronous --resultformat json --detailedcoverage  --codecoverage", bypassError)
 	
 	if(result != null) {
-		result = result.readLines().drop(1).join(" ") //removes the first line of the output, for Windows only
+		
+		if (!isUnix()) {
+			result = result.readLines().drop(1).join(" ") //removes the first line of the output, for Windows only
+		}
+		
 		def testResultJson = json.convertStringIntoJSON(result)
 
 		echo 'Outcome :: ' + testResultJson.result.summary.outcome
