@@ -2,7 +2,7 @@
 import java.util.Date
 import java.text.SimpleDateFormat
 
-def call(String packageVersionId, String jwtCredentialId, String username, String instanceUrl, String consumerKey) {
+def call(String subscriberPackageVersionId, String jwtCredentialId, String username, String instanceUrl, String consumerKey) {
 		
 	sfdx.init()
 
@@ -13,7 +13,7 @@ def call(String packageVersionId, String jwtCredentialId, String username, Strin
 			authenticateToDevHub(username, instanceUrl, consumerKey, jwt_key_file)
 			
 			echo "=== SFDX INSTALL PACKAGE ==="
-			def packageInstallId = initiatePackageInstallation(packageVersionId, username)
+			def packageInstallId = initiatePackageInstallation(subscriberPackageVersionId, username)
 			echo 'Package Install ID :: ' + "${packageInstallId}"
 			
 			echo "=== SFDX INSTALL PACKAGE STATUS==="
@@ -34,8 +34,8 @@ def authenticateToDevHub(String username, String instanceUrl, String connectedAp
 	echo "${result}"
 }
 
-def initiatePackageInstallation(String packageVersionId, String username){
-	def result = sfdx.cmd("sfdx force:package:install --package ${packageVersionId} --wait 0 --apexcompile package --securitytype AdminsOnly --upgradetype Mixed --json --noprompt --targetusername ${username}")
+def initiatePackageInstallation(String subscriberPackageVersionId, String username){
+	def result = sfdx.cmd("sfdx force:package:install --package ${subscriberPackageVersionId} --wait 0 --apexcompile package --securitytype AdminsOnly --upgradetype Mixed --json --noprompt --targetusername ${username}")
 	result = result.readLines().drop(1).join(" ") //removes the first line of the output, for Windows only
 
 	def packageVersionInstallResultJson = json.convertStringIntoJSON(result)
