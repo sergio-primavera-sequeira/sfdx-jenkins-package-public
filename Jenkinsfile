@@ -19,12 +19,29 @@ pipeline {
         SFDC_ORG_01="https://login.salesforce.com" 
 	SFDC_ORG_01_CONNECTED_APP_CONSUMER_KEY="3MVG9ux34Ig8G5epoz.M1VfJxB82Qyj0J57NXfZmSeZWN5XytkVPTKSj7C9J.QYiwbdkPpmv9X0Efg0CKRXIX"
 	    
-	//PACKAGE
-	PACKAGE_ID='0HoDn000000sXzVKAU' //prerequisite -> sfdx force:package:create --path force-app/main/default/ --name "Jenkins" --description "Jenkins Package Example" --packagetype Unlocked
+	//PACKAGE: prerequisite -> sfdx force:package:create --path force-app/main/default/ --name "Jenkins" --description "Jenkins Package Example" --packagetype Unlocked
+	PACKAGE_ID='0HoDn000000sXzVKAU'
     	PACKAGE_VERSION_ID = ''
     }
     
     stages {
+	 stage('Run Salesforce Local Tests') {
+	    when {
+		branch 'master*'
+	    }
+	    steps {		    
+		    script {
+			def testsResults = salesforceRunLocalTests(SFDC_ORG_01_JWT_KEY_CRED_ID,
+							           SFDC_ORG_01_USER, 
+							           SFDC_ORG_01,
+							           SFDC_ORG_01_CONNECTED_APP_CONSUMER_KEY)
+			    
+		       def testOutcome = testsResults.result.summary.outcome
+		       echo 'TESTS OUTCOME: ' + "${testOutcome}"
+		    }
+	    }
+	}
+	    
         stage('Build Salesforce Package') {
 	    when {
 		branch 'master*'
@@ -111,23 +128,7 @@ pipeline {
                 }
             }
         }
-	    				 	    
-	 stage('Package Promotion - SFDC Org 01') {
-            steps {
-                echo 'Package Promotion - SFDC Org 01...'
-		script {
-		    //promotes a package from beta to a release ready
-                    //only one <major.minor.patch> version of a package can be promoted
-		    def result = cdmSfdx("force:package:version:promote --package ${PACKAGE_VERSION} --json --noprompt --targetdevhubusername ${SFDC_ORG_01_USER}", true)
-		
-		    if(result != null) {
-		    	echo "${result}"
-		    } else {
-		    	echo 'Skipped the Package Promotion Stage due to an SFDX error...'
-		    }
-                }
-            }
-        }
+	    				 	   
 	*/
     }
 }
