@@ -58,7 +58,7 @@ pipeline {
 			
 			
 		        def subscriberPackageVersionId = latestPackageInformation.SubscriberPackageVersionId
-		    	echo 'Subscriber Package Version Id :: ' + "${installUrl}"
+		    	echo 'Subscriber Package Version Id :: ' + "${subscriberPackageVersionId}"
 		        PACKAGE_VERSION_ID = subscriberPackageVersionId
 			    
 			def packageName = latestPackageInformation.Package2Name
