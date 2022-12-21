@@ -72,7 +72,6 @@ def getLastestPackageVersionCreationStatus(String packageId, String devHubUserna
 	def currrentStatus
 
 	while(true){
-
 		result = sfdx.cmd("sfdx force:package:version:create:list -c 1 --json --targetdevhubusername ${devHubUsername}", bypassError)
 		
 		if(result != null){
