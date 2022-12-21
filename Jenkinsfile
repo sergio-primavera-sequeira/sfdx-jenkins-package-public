@@ -106,29 +106,7 @@ pipeline {
 			echo "${result}"
                 }
             }
-        }
-	    
-	stage('Run Local Tests - SFDC Org 01') {
-             steps {
-                echo 'Run Local Tests - SFDC Org 01'
-                script {
-			def result = cdmSfdx("force:apex:test:run --testlevel RunLocalTests --synchronous --resultformat json --detailedcoverage  --codecoverage")
-			result = result.readLines().drop(1).join(" ") //removes the first line of the output, for Windows only
-			
-			def testResultJson = convertStringIntoJSON(result)
-			
-			echo 'Outcome :: ' + testResultJson.result.summary.outcome
-			echo 'Tests Ran :: ' + testResultJson.result.summary.testsRan
-			echo 'Passing :: ' + testResultJson.result.summary.passing
-			echo 'Failing :: ' + testResultJson.result.summary.failing
-			echo 'Pass Rate :: ' + testResultJson.result.summary.passRate
-			echo 'Fail Rate :: ' + testResultJson.result.summary.failRate
-			echo 'Test Run Coverage :: ' + testResultJson.result.summary.testRunCoverage
-			echo 'Org Wide Coverage :: ' + testResultJson.result.summary.orgWideCoverage
-                }
-            }
-        }
-	    				 	   
+        }	    				 	   
 	*/
     }
 }
