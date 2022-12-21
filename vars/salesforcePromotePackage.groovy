@@ -34,7 +34,7 @@ def authenticateToDevHub(String username, String instanceUrl, String connectedAp
 }
 
 def promotePackageVersion(String subscriberPackageVersionId, String devHubUsername){
-	def result = sfdx.cmd("force:package:version:promote --package ${subscriberPackageVersionId} --json --noprompt --targetdevhubusername ${devHubUsername}", true)
+	def result = sfdx.cmd("sfdx force:package:version:promote --package ${subscriberPackageVersionId} --json --noprompt --targetdevhubusername ${devHubUsername}", true)
 
 	if(result != null) {
 		echo "${result}"
