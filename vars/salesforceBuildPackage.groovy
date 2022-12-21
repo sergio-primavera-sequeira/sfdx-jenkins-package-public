@@ -42,8 +42,10 @@ def createPackageVersion(String packageId, String devHubUsername, Boolean bypass
 	def result = sfdx.cmd("sfdx force:package:version:create --package ${packageId} --installationkeybypass --wait 0 --json --codecoverage --targetdevhubusername ${devHubUsername}", true)
 
 	if(result != null){
-		result = result.readLines().drop(1).join(" ") //removes the first line of the output, for Windows only
-
+		if (!isUnix()) {
+			result = result.readLines().drop(1).join(" ") //removes the first line of the output, for Windows only
+		}
+		
 		def packageVersionResultJson = json.convertStringIntoJSON(result)
 
 		echo 'Id :: ' + packageVersionResultJson.result.Id
@@ -75,7 +77,11 @@ def getLastestPackageVersionCreationStatus(String packageId, String devHubUserna
 		result = sfdx.cmd("sfdx force:package:version:create:list -c 1 --json --targetdevhubusername ${devHubUsername}", bypassError)
 		
 		if(result != null){
-			result = result.readLines().drop(1).join(" ") //removes the first line of the output, for Windows only
+			
+			if (!isUnix()) {
+				result = result.readLines().drop(1).join(" ") //removes the first line of the output, for Windows only
+			}
+			
 			packageCreationListResultJson = json.convertStringIntoJSON(result)
 			latestPackageCreation = packageCreationListResultJson.result.findAll{ r -> r.Package2Id.equalsIgnoreCase(packageId) }.last()
 			currrentStatus = latestPackageCreation.Status
@@ -112,7 +118,11 @@ def getLastestPackageVersionInformation(String subscriberPackageVersionId, Strin
 	def result = sfdx.cmd("sfdx force:package:version:list --verbose --json --targetdevhubusername ${devHubUsername}")
 	
 	if(result != null) {
-		result = result.readLines().drop(1).join(" ") //removes the first line of the output, for Windows only
+		
+		if (!isUnix()) {
+			result = result.readLines().drop(1).join(" ") //removes the first line of the output, for Windows only
+		}
+		
 		def packageVersionListResultJson = json.convertStringIntoJSON(result)
 		def latestPackageVersion = packageVersionListResultJson.result.findAll{ r -> r.SubscriberPackageVersionId.equalsIgnoreCase(subscriberPackageVersionId) }.last()
 
