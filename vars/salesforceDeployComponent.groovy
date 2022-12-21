@@ -36,7 +36,10 @@ def deployToSalesforce(String sourcePath, Boolean doValidationOnly, Boolean doRu
 	def result = sfdx.cmd("sfdx force:source:deploy --sourcepath ${sourcePath} ${checkOnly} ${testlevel} --verbose --json", bypassError)
 	
 	if(result != null) {
-		result = result.readLines().drop(1).join(" ") //removes the first line of the output, for Windows only
+		
+		if (!isUnix()) {
+			result = result.readLines().drop(1).join(" ") //removes the first line of the output, for Windows only
+		}
 		
 		def deployResultJson = json.convertStringIntoJSON(result)
 
