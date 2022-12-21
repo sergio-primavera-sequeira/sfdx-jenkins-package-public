@@ -2,7 +2,7 @@
 import java.util.Date
 import java.text.SimpleDateFormat
 
-def call(String subscriberPackageVersionId, String jwtCredentialId, String username, String instanceUrl, String consumerKey) {
+def call(String subscriberPackageVersionId, String jwtCredentialId, String username, String instanceUrl, String consumerKey, Boolean bypassError) {
 		
 	sfdx.init()
 
@@ -10,14 +10,14 @@ def call(String subscriberPackageVersionId, String jwtCredentialId, String usern
 		withCredentials([file(credentialsId: jwtCredentialId, variable: 'jwt_key_file')]) {
 
 			echo "=== SFDX AUTHENTICATION ==="
-			authenticateToDevHub(username, instanceUrl, consumerKey, jwt_key_file)
+			authenticateSalesforceOrg(username, instanceUrl, consumerKey, jwt_key_file)
 			
 			echo "=== SFDX INSTALL PACKAGE ==="
-			def packageInstallId = initiatePackageInstallation(subscriberPackageVersionId, username)
+			def packageInstallId = initiatePackageInstallation(subscriberPackageVersionId, username, bypassError)
 			echo 'Package Install ID :: ' + "${packageInstallId}"
 			
 			echo "=== SFDX INSTALL PACKAGE STATUS ==="
-			def packageInstallStatus = getPackageInstallationStatus(packageInstallId, username)
+			def packageInstallStatus = getPackageInstallationStatus(packageInstallId, username, bypassError)
 			echo 'Package Install Status :: ' + "${packageInstallStatus}"
 			
 			return packageInstallStatus
@@ -29,13 +29,13 @@ def call(String subscriberPackageVersionId, String jwtCredentialId, String usern
     }
 }
 
-def authenticateToDevHub(String username, String instanceUrl, String connectedAppConsumerkey, Object jwtKeyfile){
+def authenticateSalesforceOrg(String username, String instanceUrl, String connectedAppConsumerkey, Object jwtKeyfile){
 	def result = sfdx.cmd("sfdx force:auth:jwt:grant --clientid ${connectedAppConsumerkey} --username ${username} --setdefaultusername --jwtkeyfile ${jwtKeyfile} --instanceurl ${instanceUrl}")
 	echo "${result}"
 }
 
-def initiatePackageInstallation(String subscriberPackageVersionId, String username){
-	def result = sfdx.cmd("sfdx force:package:install --package ${subscriberPackageVersionId} --wait 0 --apexcompile package --securitytype AdminsOnly --upgradetype Mixed --json --noprompt --targetusername ${username}")
+def initiatePackageInstallation(String subscriberPackageVersionId, String username, Boolean bypassError){
+	def result = sfdx.cmd("sfdx force:package:install --package ${subscriberPackageVersionId} --wait 0 --apexcompile package --securitytype AdminsOnly --upgradetype Mixed --json --noprompt --targetusername ${username}", bypassError)
 	result = result.readLines().drop(1).join(" ") //removes the first line of the output, for Windows only
 
 	def packageVersionInstallResultJson = json.convertStringIntoJSON(result)
@@ -64,14 +64,14 @@ def initiatePackageInstallation(String subscriberPackageVersionId, String userna
 	return packageVersionInstallResultJson.result.Id
 }
 
-def getPackageInstallationStatus(String packageInstallId, String username){
+def getPackageInstallationStatus(String packageInstallId, String username, Boolean bypassError){
 	def result
 	def packageVersionInstallResultJson
 	def currrentStatus
 	
 	while(true){
 
-		result = sfdx.cmd("sfdx force:package:install:report -i ${packageInstallId} --json --targetusername ${username}")
+		result = sfdx.cmd("sfdx force:package:install:report -i ${packageInstallId} --json --targetusername ${username}", bypassError)
 		result = result.readLines().drop(1).join(" ") //removes the first line of the output, for Windows only
 		
 		packageVersionInstallResultJson = json.convertStringIntoJSON(result)
