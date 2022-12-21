@@ -30,7 +30,7 @@ def authenticateSalesforceOrg(String username, String instanceUrl, String connec
 }
 
 def deployToSalesforce(String sourcePath, Boolean doValidationOnly, Boolean bypassError){
-	def checkOnly = doValidationOnly ? (--checkonly) : ('')
+	def checkOnly = doValidationOnly ? '--checkonly' : ''
 	def result = sfdx.cmd("sfdx force:source:deploy --sourcepath ${sourcePath} ${checkOnly} --verbose --json", bypassError)
 	
 	if(result != null) {
