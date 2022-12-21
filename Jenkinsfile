@@ -34,14 +34,18 @@ pipeline {
 		    script {
 			def resultsJson = salesforceDeployComponent('./force-app/main/default/',
 								    true,
+								    true,
 				                                    SFDC_ORG_01_JWT_KEY_CRED_ID,
 								    SFDC_ORG_01_USER, 
 								    SFDC_ORG_01,
 								    SFDC_ORG_01_CONNECTED_APP_CONSUMER_KEY,
 								    false)
+			      
+		       def checkOnly = resultsJson.result.checkOnly
+		       echo 'CHECK ONLY :: ' + "${checkOnly}"
 			    
-		       //def testOutcome = resultsJson.result.summary.outcome
-		       //echo 'TESTS OUTCOME :: ' + "${testOutcome}"
+		       def validationStatus = resultsJson.result.status
+		       echo 'VALIDATION STATUS :: ' + "${validationStatus}"
 		    }
 	    }
 	}
