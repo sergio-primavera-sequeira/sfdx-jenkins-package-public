@@ -2,7 +2,7 @@
 import java.util.Date
 import java.text.SimpleDateFormat
 
-def call(String sourcePath, Boolean doValidationOnly, String jwtCredentialId, String username, String instanceUrl, String consumerKey, Boolean bypassError) {
+def call(String sourcePath, Boolean doValidationOnly, Boolean doRunLocalTests, String jwtCredentialId, String username, String instanceUrl, String consumerKey, Boolean bypassError) {
 		
 	sfdx.init()
 
@@ -13,7 +13,7 @@ def call(String sourcePath, Boolean doValidationOnly, String jwtCredentialId, St
 			authenticateSalesforceOrg(username, instanceUrl, consumerKey, jwt_key_file)
 			
 			echo "=== SFDX DEPLOY TO SALESFORCE ==="
-			def deployResultsJson = deployToSalesforce(sourcePath, doValidationOnly, bypassError)
+			def deployResultsJson = deployToSalesforce(sourcePath, doValidationOnly, doRunLocalTests, bypassError)
 
 			return deployResultsJson
 		}
@@ -29,28 +29,30 @@ def authenticateSalesforceOrg(String username, String instanceUrl, String connec
 	echo "${result}"
 }
 
-def deployToSalesforce(String sourcePath, Boolean doValidationOnly, Boolean bypassError){
+def deployToSalesforce(String sourcePath, Boolean doValidationOnly, Boolean doRunLocalTests, Boolean bypassError){
+	def testlevel  = doRunLocalTests ? '--testlevel RunLocalTests' : ''
 	def checkOnly = doValidationOnly ? '--checkonly' : ''
-	def result = sfdx.cmd("sfdx force:source:deploy --sourcepath ${sourcePath} ${checkOnly} --verbose --json", bypassError)
+	
+	def result = sfdx.cmd("sfdx force:source:deploy --sourcepath ${sourcePath} ${checkOnly} ${testlevel} --verbose --json", bypassError)
 	
 	if(result != null) {
 		result = result.readLines().drop(1).join(" ") //removes the first line of the output, for Windows only
 		
-		/*
-		def testResultJson = json.convertStringIntoJSON(result)
+		def deployResultJson = json.convertStringIntoJSON(result)
 
-		echo 'Outcome :: ' + testResultJson.result.summary.outcome
-		echo 'Tests Ran :: ' + testResultJson.result.summary.testsRan
-		echo 'Passing :: ' + testResultJson.result.summary.passing
-		echo 'Failing :: ' + testResultJson.result.summary.failing
-		echo 'Pass Rate :: ' + testResultJson.result.summary.passRate
-		echo 'Fail Rate :: ' + testResultJson.result.summary.failRate
-		echo 'Test Run Coverage :: ' + testResultJson.result.summary.testRunCoverage
-		echo 'Org Wide Coverage :: ' + testResultJson.result.summary.orgWideCoverage
-		*/
-		echo "${result}"
-
-		return result		
+		echo 'Id :: ' + deployResultJson.result.id
+		echo 'Status :: ' + deployResultJson.result.status
+		echo 'Check Only :: ' + deployResultJson.result.checkOnly
+		echo 'Number Components Deployed :: ' + deployResultJson.result.numberComponentsDeployed
+		echo 'Number Components Total :: ' + deployResultJson.result.numberComponentsTotal
+		echo 'Number Test Errors :: ' + deployResultJson.result.numberTestErrors
+		echo 'Number Tests Completed :: ' + deployResultJson.result.numberTestsCompleted
+		echo 'Number Tests Total :: ' + deployResultJson.result.numberTestsTotal
+		echo 'Start Date :: ' + deployResultJson.result.startDate
+		echo 'Completed Date :: ' + deployResultJson.result.completedDate
+		echo 'Rollback On Error :: ' + deployResultJson.result.rollbackOnError "rollbackOnError": true,	
+	
+		return deployResultJson		
 	} else {
 		echo 'Skipped the Package Promotion Stage due to an SFDX error...'
 		return null
