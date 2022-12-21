@@ -40,7 +40,10 @@ def initiatePackageInstallation(String subscriberPackageVersionId, String userna
 	def result = sfdx.cmd("sfdx force:package:install --package ${subscriberPackageVersionId} --wait 0 --apexcompile package --securitytype AdminsOnly --upgradetype Mixed --json --noprompt --targetusername ${username}", bypassError)
 	
 	if(result != null) {
-		result = result.readLines().drop(1).join(" ") //removes the first line of the output, for Windows only
+		
+		if (!isUnix()) {
+			result = result.readLines().drop(1).join(" ") //removes the first line of the output, for Windows only
+		}
 		
 		def packageVersionInstallResultJson = json.convertStringIntoJSON(result)
 
@@ -82,7 +85,10 @@ def getPackageInstallationStatus(String packageInstallId, String username, Boole
 		result = sfdx.cmd("sfdx force:package:install:report -i ${packageInstallId} --json --targetusername ${username}", bypassError)
 		
 		if(result != null) {
-			result = result.readLines().drop(1).join(" ") //removes the first line of the output, for Windows only
+			
+			if (!isUnix()) {
+				result = result.readLines().drop(1).join(" ") //removes the first line of the output, for Windows only
+			}
 		
 			packageVersionInstallResultJson = json.convertStringIntoJSON(result)
 			currrentStatus = packageVersionInstallResultJson.result.Status
