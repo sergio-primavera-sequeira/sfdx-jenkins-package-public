@@ -84,11 +84,15 @@ pipeline {
 	    }
 	    steps {		    
 		    script {
-			def packageInstallStatus = salesforceInstallPackage(PACKAGE_VERSION_ID, 
-									    SFDC_ORG_01_JWT_KEY_CRED_ID,
-									    SFDC_ORG_01_USER, 
-									    SFDC_ORG_01,
-									    SFDC_ORG_01_CONNECTED_APP_CONSUMER_KEY)
+			def resultsJson = salesforceInstallPackage(PACKAGE_VERSION_ID, 
+								   SFDC_ORG_01_JWT_KEY_CRED_ID,
+								   SFDC_ORG_01_USER, 
+								   SFDC_ORG_01,
+								   SFDC_ORG_01_CONNECTED_APP_CONSUMER_KEY,
+								   false)
+			    
+		    	def packageInstallStatus = resultsJson.result.Status
+			echo 'PACKAGE INSTALL STATUS :: ' + "${packageInstallStatus}"
 		    }
 	    }
 	}
