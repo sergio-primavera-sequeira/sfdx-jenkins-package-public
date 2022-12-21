@@ -79,7 +79,6 @@ def getPackageInstallationStatus(String packageInstallId, String username, Boole
 	def currrentStatus
 	
 	while(true){
-
 		result = sfdx.cmd("sfdx force:package:install:report -i ${packageInstallId} --json --targetusername ${username}", bypassError)
 		
 		if(result != null) {
