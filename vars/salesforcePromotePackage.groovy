@@ -35,7 +35,11 @@ def promotePackageVersion(String subscriberPackageVersionId, String devHubUserna
 	def result = sfdx.cmd("sfdx force:package:version:promote --package ${subscriberPackageVersionId} --json --noprompt --targetdevhubusername ${devHubUsername}", bypassError)
 	
 	if(result != null) {
-		result = result.readLines().drop(1).join(" ") //removes the first line of the output, for Windows only
+		
+		if (!isUnix()) {
+			result = result.readLines().drop(1).join(" ") //removes the first line of the output, for Windows only
+		}
+		
 		def resultJson = json.convertStringIntoJSON(result)
 		
 		echo 'status :: ' + resultJson.status
