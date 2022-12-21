@@ -13,8 +13,8 @@ def call(String subscriberPackageVersionId, String jwtCredentialId, String usern
 			authenticateSalesforceOrg(username, instanceUrl, consumerKey, jwt_key_file)
 			
 			echo "=== SFDX INSTALL PACKAGE ==="
-			def packageVersionInstallResultJson = initiatePackageInstallation(subscriberPackageVersionId, username, bypassError)
-			def packageInstallId = packageVersionInstallResultJson.result.Id
+			def packageVersionInstallInitResultJson = initiatePackageInstallation(subscriberPackageVersionId, username, bypassError)
+			def packageInstallId = packageVersionInstallInitResultJson.result.Id
 			echo 'Package Install ID :: ' + "${packageInstallId}"
 			
 			echo "=== SFDX INSTALL PACKAGE STATUS ==="
