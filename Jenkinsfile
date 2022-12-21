@@ -38,7 +38,7 @@ pipeline {
 								  false)
 			    
 		       def testOutcome = resultsJson.result.summary.outcome
-		       echo 'TESTS OUTCOME: ' + "${testOutcome}"
+		       echo 'TESTS OUTCOME :: ' + "${testOutcome}"
 		    }
 	    }
 	}
@@ -58,17 +58,17 @@ pipeline {
 			
 			
 		        def subscriberPackageVersionId = resultsJson.SubscriberPackageVersionId
-		    	echo 'Subscriber Package Version Id :: ' + "${subscriberPackageVersionId}"
+		    	echo 'SUBSCRIBER PACKAGE VERSION ID :: ' + "${subscriberPackageVersionId}"
 		        PACKAGE_VERSION_ID = subscriberPackageVersionId
 			    
 			def packageName = resultsJson.Package2Name
-		    	echo 'Package Name :: ' + "${packageName}"
+		    	echo 'PACKAGE NAME :: ' + "${packageName}"
 			    
 			def packageVersion = resultsJson.Version
-		    	echo 'Package Version :: ' + "${packageVersion}"
+		    	echo 'PACKAGE VERSION :: ' + "${packageVersion}"
 			    
 		        def installUrl = resultsJson.InstallUrl
-		    	echo 'Install URL :: ' + "${installUrl}"
+		    	echo 'INSTALL URL :: ' + "${installUrl}"
 			    
 			 def buildDescription = packageName + ' v.' + packageVersion +  '\nINSTALL URL : ' + installUrl
 			    
@@ -106,8 +106,8 @@ pipeline {
 								   SFDC_ORG_01_CONNECTED_APP_CONSUMER_KEY,
 								   true)
 			    
-		       def promotionOutcome = resultsJson != null ? resultsJson.result.success : 'false'
-		       echo 'PACKAGE PROMOTION SUCCES: ' + "${promotionOutcome}"
+		       def promotionSuccessOutcome = resultsJson != null ? resultsJson.result.success : 'false'
+		       echo 'PACKAGE PROMOTION SUCCES :: ' + "${promotionSuccessOutcome}"
 		    }
 	    }
 	}
