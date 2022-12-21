@@ -50,6 +50,30 @@ pipeline {
 	    }
 	}
 	    
+	stage('Deploy Salesforce Components') {
+	    when {
+		branch 'master*'
+	    }
+	    steps {		    
+		    script {
+			def resultsJson = salesforceDeployComponent('./force-app/main/default/',
+								    false,
+								    true,
+				                                    SFDC_ORG_01_JWT_KEY_CRED_ID,
+								    SFDC_ORG_01_USER, 
+								    SFDC_ORG_01,
+								    SFDC_ORG_01_CONNECTED_APP_CONSUMER_KEY,
+								    false)
+			      
+		       def checkOnly = resultsJson.result.checkOnly
+		       echo 'CHECK ONLY :: ' + "${checkOnly}"
+			    
+		       def validationStatus = resultsJson.result.status
+		       echo 'DEPLOYMENTS STATUS :: ' + "${validationStatus}"
+		    }
+	    }
+	}
+	    
 	 stage('Run Salesforce Local Tests') {
 	    when {
 		branch 'master*'
