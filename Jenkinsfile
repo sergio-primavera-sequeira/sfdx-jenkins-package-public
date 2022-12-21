@@ -87,7 +87,7 @@ pipeline {
 								   true)
 			    
 		       def promotionOutcome = resultsJson != null ? resultsJson.result.success : 'false'
-		       echo 'PROMOTION SUCCES: ' + "${promotionOutcome}"
+		       echo 'PACKAGE PROMOTION SUCCES: ' + "${promotionOutcome}"
 		    }
 	    }
 	}
