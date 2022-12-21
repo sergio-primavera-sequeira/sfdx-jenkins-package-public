@@ -44,7 +44,6 @@ def promotePackageVersion(String subscriberPackageVersionId, String devHubUserna
 		echo 'errors :: ' + resultJson.result.errors
 		
 		return resultJson
-		
 	} else {
 		echo 'Skipped the Package Promotion Stage due to an SFDX error...'
 		return null
