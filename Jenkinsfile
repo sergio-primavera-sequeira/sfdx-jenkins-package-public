@@ -25,6 +25,27 @@ pipeline {
     }
     
     stages {
+	 
+    	stage('Validate Salesforce Deployment') {
+	    when {
+		branch 'master*'
+	    }
+	    steps {		    
+		    script {
+			def resultsJson = salesforceDeployComponent('./force-app/main/default/',
+								    true,
+				                                    SFDC_ORG_01_JWT_KEY_CRED_ID,
+								    SFDC_ORG_01_USER, 
+								    SFDC_ORG_01,
+								    SFDC_ORG_01_CONNECTED_APP_CONSUMER_KEY,
+								    false)
+			    
+		       //def testOutcome = resultsJson.result.summary.outcome
+		       //echo 'TESTS OUTCOME :: ' + "${testOutcome}"
+		    }
+	    }
+	}
+	    
 	 stage('Run Salesforce Local Tests') {
 	    when {
 		branch 'master*'
