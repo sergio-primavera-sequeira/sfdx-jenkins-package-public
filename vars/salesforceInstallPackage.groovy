@@ -77,7 +77,7 @@ def getPackageInstallationStatus(String packageInstallId, String username){
 		packageVersionInstallResultJson = json.convertStringIntoJSON(result)
 		currrentStatus = packageVersionInstallResultJson.result.Status
 		
-		echo '======== LATEST PACKAGE INSTALL STATUS ========'
+		echo '=== LATEST PACKAGE INSTALL STATUS ==='
 		
 		echo 'status :: ' + packageVersionInstallResultJson.status
 		echo 'type :: ' + packageVersionInstallResultJson.result.type
