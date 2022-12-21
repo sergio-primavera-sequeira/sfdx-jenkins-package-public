@@ -22,8 +22,6 @@ def call(String packageId, String jwtCredentialId, String devHubUsername, String
 			
 			echo "=== SFDX LATEST PACKAGE VERSION INFORMATION ==="
 			def latestPackageInformation =  getLastestPackageVersionInformation(subscriberPackageVersionId, devHubUsername, bypassError)
-			def installUrl = latestPackageInformation.InstallUrl
-			echo 'install URL :: ' + "${installUrl}"
 			
 			return latestPackageInformation  
 		}
