@@ -13,7 +13,7 @@ def call(String jwtCredentialId, String username, String instanceUrl, String con
 			authenticateToDevHub(username, instanceUrl, consumerKey, jwt_key_file)
 			
 			echo "=== SFDX RUN LOCAL TESTS ==="
-			def testResultsJson = initiatePackageInstallation(subscriberPackageVersionId, username)
+			def testResultsJson = runLocalTests()
 
 			return testResultsJson
 		}
