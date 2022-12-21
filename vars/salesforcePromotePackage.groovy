@@ -18,8 +18,6 @@ def call(String subscriberPackageVersionId, String jwtCredentialId, String devHu
 			
 			echo "=== SFDX PROMOTE PACKAGE VERSION ==="
 			promotePackageVersion(subscriberPackageVersionId, devHubUsername)
-			
-
 		}
 		
 	} catch(Exception e) {
