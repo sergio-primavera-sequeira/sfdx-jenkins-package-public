@@ -16,7 +16,7 @@ def call(String subscriberPackageVersionId, String jwtCredentialId, String usern
 			def packageInstallId = initiatePackageInstallation(subscriberPackageVersionId, username)
 			echo 'Package Install ID :: ' + "${packageInstallId}"
 			
-			echo "=== SFDX INSTALL PACKAGE STATUS==="
+			echo "=== SFDX INSTALL PACKAGE STATUS ==="
 			def packageInstallStatus = getPackageInstallationStatus(packageInstallId, username)
 			echo 'Package Install Status :: ' + "${packageInstallStatus}"
 			
