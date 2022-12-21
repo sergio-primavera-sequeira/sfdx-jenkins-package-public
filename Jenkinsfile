@@ -9,7 +9,7 @@ pipeline {
     }
 	
     libraries {
-	  lib('pipeline-library')
+	  lib('salesforce-utils')
     }
 	    
     environment {
