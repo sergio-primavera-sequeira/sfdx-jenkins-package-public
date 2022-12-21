@@ -7,8 +7,8 @@
         {
             "path": "force-app/main/default/",
             "package": "Jenkins",
-            "versionName": "ver 1.7.1",
-            "versionNumber": "1.7.1.NEXT",
+            "versionName": "ver 1.7.2",
+            "versionNumber": "1.7.2.NEXT",
             "default": false
         }
     ],
