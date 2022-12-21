@@ -31,12 +31,13 @@ pipeline {
 	    }
 	    steps {		    
 		    script {
-			def testsResults = salesforceRunLocalTests(SFDC_ORG_01_JWT_KEY_CRED_ID,
-							           SFDC_ORG_01_USER, 
-							           SFDC_ORG_01,
-							           SFDC_ORG_01_CONNECTED_APP_CONSUMER_KEY)
+			def resultsJson = salesforceRunLocalTests(SFDC_ORG_01_JWT_KEY_CRED_ID,
+							          SFDC_ORG_01_USER, 
+							          SFDC_ORG_01,
+							          SFDC_ORG_01_CONNECTED_APP_CONSUMER_KEY,
+								  false)
 			    
-		       def testOutcome = testsResults.result.summary.outcome
+		       def testOutcome = resultsJson.result.summary.outcome
 		       echo 'TESTS OUTCOME: ' + "${testOutcome}"
 		    }
 	    }
@@ -78,11 +79,15 @@ pipeline {
 	    }
 	    steps {		    
 		    script {
-			salesforcePromotePackage(PACKAGE_VERSION_ID, 
-					         SFDC_ORG_01_JWT_KEY_CRED_ID,
-					         SFDC_ORG_01_USER, 
-					         SFDC_ORG_01,
-					         SFDC_ORG_01_CONNECTED_APP_CONSUMER_KEY)
+			def resultsJson = salesforcePromotePackage(PACKAGE_VERSION_ID, 
+								   SFDC_ORG_01_JWT_KEY_CRED_ID,
+								   SFDC_ORG_01_USER, 
+								   SFDC_ORG_01,
+								   SFDC_ORG_01_CONNECTED_APP_CONSUMER_KEY,
+								   true)
+			    
+		       def promotionOutcome = resultsJson != null ? resultsJson.result.success : 'false'
+		       echo 'PROMOTION SUCCES: ' + "${promotionOutcome}"
 		    }
 	    }
 	}
