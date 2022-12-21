@@ -70,10 +70,10 @@ pipeline {
 		        def installUrl = resultsJson.InstallUrl
 		    	echo 'INSTALL URL :: ' + "${installUrl}"
 			    
-			 def buildDescription = packageName + ' v.' + packageVersion +  '\nINSTALL URL : ' + installUrl
+			def buildDescription = packageName + ' v.' + packageVersion +  '\nINSTALL URL : ' + installUrl
 			    
 		       //displays the package information directly on the build description
-			currentBuild.description = currentBuild.description != null ? (currentBuild.description + "\n" + buildDescription) : (buildDescription)
+		       currentBuild.description = currentBuild.description != null ? (currentBuild.description + "\n" + buildDescription) : (buildDescription)
 		    }
 	    }
 	}
