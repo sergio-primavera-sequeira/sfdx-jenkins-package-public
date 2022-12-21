@@ -21,9 +21,9 @@ def call(String packageId, String jwtCredentialId, String devHubUsername, String
 			echo 'Subscriber Package Version ID :: ' + "${subscriberPackageVersionId}"
 			
 			echo "=== SFDX LATEST PACKAGE VERSION INFORMATION ==="
-			def latestPackageInformation =  getLastestPackageVersionInformation(subscriberPackageVersionId, devHubUsername, bypassError)
+			def latestPackageInformationJson =  getLastestPackageVersionInformation(subscriberPackageVersionId, devHubUsername, bypassError)
 			
-			return latestPackageInformation  
+			return latestPackageInformationJson  
 		}
 		
 	} catch(Exception e) {
