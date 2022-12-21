@@ -50,7 +50,7 @@ def deployToSalesforce(String sourcePath, Boolean doValidationOnly, Boolean doRu
 		echo 'Number Tests Total :: ' + deployResultJson.result.numberTestsTotal
 		echo 'Start Date :: ' + deployResultJson.result.startDate
 		echo 'Completed Date :: ' + deployResultJson.result.completedDate
-		echo 'Rollback On Error :: ' + deployResultJson.result.rollbackOnError "rollbackOnError": true,	
+		echo 'Rollback On Error :: ' + deployResultJson.result.rollbackOnError	
 	
 		return deployResultJson		
 	} else {
