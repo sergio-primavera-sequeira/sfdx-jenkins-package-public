@@ -2,7 +2,7 @@
 import java.util.Date
 import java.text.SimpleDateFormat
 
-def call(String jwtCredentialId, String username, String instanceUrl, String consumerKey) {
+def call(String jwtCredentialId, String username, String instanceUrl, String consumerKey, Boolean bypassError) {
 		
 	sfdx.init()
 
@@ -13,7 +13,7 @@ def call(String jwtCredentialId, String username, String instanceUrl, String con
 			authenticateSalesforceOrg(username, instanceUrl, consumerKey, jwt_key_file)
 			
 			echo "=== SFDX RUN LOCAL TESTS ==="
-			def testResultsJson = runLocalTests()
+			def testResultsJson = runLocalTests(bypassError)
 
 			return testResultsJson
 		}
@@ -29,20 +29,25 @@ def authenticateSalesforceOrg(String username, String instanceUrl, String connec
 	echo "${result}"
 }
 
-def runLocalTests(){
-	def result = sfdx.cmd("sfdx force:apex:test:run --testlevel RunLocalTests --synchronous --resultformat json --detailedcoverage  --codecoverage")
-	result = result.readLines().drop(1).join(" ") //removes the first line of the output, for Windows only
-
-	def testResultJson = json.convertStringIntoJSON(result)
-
-	echo 'Outcome :: ' + testResultJson.result.summary.outcome
-	echo 'Tests Ran :: ' + testResultJson.result.summary.testsRan
-	echo 'Passing :: ' + testResultJson.result.summary.passing
-	echo 'Failing :: ' + testResultJson.result.summary.failing
-	echo 'Pass Rate :: ' + testResultJson.result.summary.passRate
-	echo 'Fail Rate :: ' + testResultJson.result.summary.failRate
-	echo 'Test Run Coverage :: ' + testResultJson.result.summary.testRunCoverage
-	echo 'Org Wide Coverage :: ' + testResultJson.result.summary.orgWideCoverage
+def runLocalTests(Boolean bypassError){
+	def result = sfdx.cmd("sfdx force:apex:test:run --testlevel RunLocalTests --synchronous --resultformat json --detailedcoverage  --codecoverage", bypassError)
 	
-	return testResultJson
+	if(result != null) {
+		result = result.readLines().drop(1).join(" ") //removes the first line of the output, for Windows only
+		def testResultJson = json.convertStringIntoJSON(result)
+
+		echo 'Outcome :: ' + testResultJson.result.summary.outcome
+		echo 'Tests Ran :: ' + testResultJson.result.summary.testsRan
+		echo 'Passing :: ' + testResultJson.result.summary.passing
+		echo 'Failing :: ' + testResultJson.result.summary.failing
+		echo 'Pass Rate :: ' + testResultJson.result.summary.passRate
+		echo 'Fail Rate :: ' + testResultJson.result.summary.failRate
+		echo 'Test Run Coverage :: ' + testResultJson.result.summary.testRunCoverage
+		echo 'Org Wide Coverage :: ' + testResultJson.result.summary.orgWideCoverage
+
+		return testResultJson		
+	} else {
+		echo 'Skipped the Package Promotion Stage due to an SFDX error...'
+		return null
+	}
 }
