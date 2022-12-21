@@ -81,7 +81,7 @@ def getLastestPackageVersionCreationStatus(String packageId, String devHubUserna
 			latestPackageCreation = packageCreationListResultJson.result.findAll{ r -> r.Package2Id.equalsIgnoreCase(packageId) }.last()
 			currrentStatus = latestPackageCreation.Status
 
-			echo '======== LASTEST PACKAGE CREATION STATUS ========'
+			echo '=== LASTEST PACKAGE CREATION STATUS ==='
 
 			echo 'Id :: ' + latestPackageCreation.Id
 			echo 'Status :: ' + latestPackageCreation.Status
