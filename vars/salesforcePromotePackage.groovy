@@ -6,7 +6,7 @@ import java.text.SimpleDateFormat
 * promotes a package from beta to a release ready
 * only one <major.minor.patch> version of a package can be promoted
 */
-def call(String packageVersionId, String jwtCredentialId, String devHubUsername, String devHubInstanceUrl, String devHubConsumerKey) {
+def call(String subscriberPackageVersionId, String jwtCredentialId, String devHubUsername, String devHubInstanceUrl, String devHubConsumerKey) {
 		
 	sfdx.init()
 	
@@ -17,7 +17,7 @@ def call(String packageVersionId, String jwtCredentialId, String devHubUsername,
 			authenticateToDevHub(devHubUsername, devHubInstanceUrl, devHubConsumerKey, jwt_key_file)
 			
 			echo "=== SFDX PROMOTE PACKAGE VERSION ==="
-			promotePackageVersion(packageVersionId, devHubUsername)
+			promotePackageVersion(subscriberPackageVersionId, devHubUsername)
 			
 
 		}
@@ -33,8 +33,8 @@ def authenticateToDevHub(String username, String instanceUrl, String connectedAp
 	echo "${result}"
 }
 
-def promotePackageVersion(String packageVersionId, String devHubUsername){
-	def result = sfdx.cmd("force:package:version:promote --package ${packageVersionId} --json --noprompt --targetdevhubusername ${devHubUsername}", true)
+def promotePackageVersion(String subscriberPackageVersionId, String devHubUsername){
+	def result = sfdx.cmd("force:package:version:promote --package ${subscriberPackageVersionId} --json --noprompt --targetdevhubusername ${devHubUsername}", true)
 
 	if(result != null) {
 		echo "${result}"
