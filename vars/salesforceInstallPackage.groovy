@@ -18,10 +18,11 @@ def call(String subscriberPackageVersionId, String jwtCredentialId, String usern
 			echo 'Package Install ID :: ' + "${packageInstallId}"
 			
 			echo "=== SFDX INSTALL PACKAGE STATUS ==="
-			def packageInstallStatus = getPackageInstallationStatus(packageInstallId, username, bypassError)
+			def packageVersionInstallResultJson = getPackageInstallationStatus(packageInstallId, username, bypassError)
+			def packageInstallStatus = packageVersionInstallResultJson.result.Status
 			echo 'Package Install Status :: ' + "${packageInstallStatus}"
 			
-			return packageInstallStatus
+			return packageVersionInstallResultJson
 		}
 
 	} catch(Exception e) {
@@ -80,40 +81,47 @@ def getPackageInstallationStatus(String packageInstallId, String username, Boole
 	while(true){
 
 		result = sfdx.cmd("sfdx force:package:install:report -i ${packageInstallId} --json --targetusername ${username}", bypassError)
-		result = result.readLines().drop(1).join(" ") //removes the first line of the output, for Windows only
 		
-		packageVersionInstallResultJson = json.convertStringIntoJSON(result)
-		currrentStatus = packageVersionInstallResultJson.result.Status
+		if(result != null) {
+			result = result.readLines().drop(1).join(" ") //removes the first line of the output, for Windows only
 		
-		echo '=== LATEST PACKAGE INSTALL STATUS ==='
-		
-		echo 'status :: ' + packageVersionInstallResultJson.status
-		echo 'type :: ' + packageVersionInstallResultJson.result.type
-		echo 'url :: ' + packageVersionInstallResultJson.result.url
-		echo 'Id :: ' + packageVersionInstallResultJson.result.Id
-		echo 'IsDeleted :: ' + packageVersionInstallResultJson.result.IsDeleted
-		echo 'CreatedDate :: ' + packageVersionInstallResultJson.result.CreatedDate
-		echo 'CreatedById :: ' + packageVersionInstallResultJson.result.CreatedById
-		echo 'LastModifiedDate :: ' + packageVersionInstallResultJson.result.LastModifiedDate
-		echo 'LastModifiedById :: ' + packageVersionInstallResultJson.result.LastModifiedById
-		echo 'SystemModstamp :: ' + packageVersionInstallResultJson.result.SystemModstamp
-		echo 'SubscriberPackageVersionKey :: ' + packageVersionInstallResultJson.result.SubscriberPackageVersionKey
-		echo 'NameConflictResolution :: ' + packageVersionInstallResultJson.result.NameConflictResolution
-		echo 'PackageInstallSource :: ' + packageVersionInstallResultJson.result.PackageInstallSource
-		echo 'ProfileMappings :: ' + packageVersionInstallResultJson.result.ProfileMappings
-		echo 'Password :: ' + packageVersionInstallResultJson.result.Password
-		echo 'EnableRss :: ' + packageVersionInstallResultJson.result.EnableRss
-		echo 'UpgradeType :: ' + packageVersionInstallResultJson.result.UpgradeType
-		echo 'ApexCompileType :: ' + packageVersionInstallResultJson.result.ApexCompileType
-		echo 'Status :: ' + packageVersionInstallResultJson.result.Status
-		echo 'Errors :: ' + packageVersionInstallResultJson.result.Errors
+			packageVersionInstallResultJson = json.convertStringIntoJSON(result)
+			currrentStatus = packageVersionInstallResultJson.result.Status
 
-		if(currrentStatus.equalsIgnoreCase('Success') || currrentStatus.equalsIgnoreCase('Error')) {
-			break
+			echo '=== LATEST PACKAGE INSTALL STATUS ==='
+
+			echo 'status :: ' + packageVersionInstallResultJson.status
+			echo 'type :: ' + packageVersionInstallResultJson.result.type
+			echo 'url :: ' + packageVersionInstallResultJson.result.url
+			echo 'Id :: ' + packageVersionInstallResultJson.result.Id
+			echo 'IsDeleted :: ' + packageVersionInstallResultJson.result.IsDeleted
+			echo 'CreatedDate :: ' + packageVersionInstallResultJson.result.CreatedDate
+			echo 'CreatedById :: ' + packageVersionInstallResultJson.result.CreatedById
+			echo 'LastModifiedDate :: ' + packageVersionInstallResultJson.result.LastModifiedDate
+			echo 'LastModifiedById :: ' + packageVersionInstallResultJson.result.LastModifiedById
+			echo 'SystemModstamp :: ' + packageVersionInstallResultJson.result.SystemModstamp
+			echo 'SubscriberPackageVersionKey :: ' + packageVersionInstallResultJson.result.SubscriberPackageVersionKey
+			echo 'NameConflictResolution :: ' + packageVersionInstallResultJson.result.NameConflictResolution
+			echo 'PackageInstallSource :: ' + packageVersionInstallResultJson.result.PackageInstallSource
+			echo 'ProfileMappings :: ' + packageVersionInstallResultJson.result.ProfileMappings
+			echo 'Password :: ' + packageVersionInstallResultJson.result.Password
+			echo 'EnableRss :: ' + packageVersionInstallResultJson.result.EnableRss
+			echo 'UpgradeType :: ' + packageVersionInstallResultJson.result.UpgradeType
+			echo 'ApexCompileType :: ' + packageVersionInstallResultJson.result.ApexCompileType
+			echo 'Status :: ' + packageVersionInstallResultJson.result.Status
+			echo 'Errors :: ' + packageVersionInstallResultJson.result.Errors
+
+			if(currrentStatus.equalsIgnoreCase('Success') || currrentStatus.equalsIgnoreCase('Error')) {
+				break
+			}
+
+			sleep(time:10,unit:"SECONDS")
+			
+		} else {
+			echo 'Skipped the Package Promotion Stage due to an SFDX error...'
+			return null
 		}
-
-		sleep(time:10,unit:"SECONDS")
 	}
 	
-	return packageVersionInstallResultJson.result.Status
+	return packageVersionInstallResultJson
 }
