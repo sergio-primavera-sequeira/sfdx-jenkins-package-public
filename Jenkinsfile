@@ -3,25 +3,13 @@ pipeline {
     agent {
        	label 'salesforce'
     }
-   	
-    options {
-        disableConcurrentBuilds()
-    }
 	
-    libraries {
-	  lib('salesforce-utils')
-    }
-	    
     environment {
     	//SFDC ORG
     	SFDC_ORG_01_JWT_KEY_CRED_ID="sf-jwt-key"
         SFDC_ORG_01_USER="integration.jenkins@sfjenkins.poc.org01.ca"
         SFDC_ORG_01="https://login.salesforce.com" 
 	SFDC_ORG_01_CONNECTED_APP_CONSUMER_KEY="3MVG9ux34Ig8G5epoz.M1VfJxB82Qyj0J57NXfZmSeZWN5XytkVPTKSj7C9J.QYiwbdkPpmv9X0Efg0CKRXIX"
-	    
-	//PACKAGE: prerequisite -> sfdx force:package:create --path force-app/main/default/ --name "Jenkins" --description "Jenkins Package Example" --packagetype Unlocked
-	PACKAGE_ID='0HoDn000000sXzVKAU'
-    	PACKAGE_VERSION_ID = ''
     }
     
     stages {
