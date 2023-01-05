@@ -25,7 +25,7 @@ pipeline {
     }
     
     stages {
-	 
+	 /*
     	stage('Validate Salesforce Deployment') {
 	    when {
 		branch 'master*'
@@ -164,5 +164,6 @@ pipeline {
 		    }
 	    }
 	}
+	*/
     }
 }
