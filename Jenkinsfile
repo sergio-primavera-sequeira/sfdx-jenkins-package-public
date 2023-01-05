@@ -167,3 +167,26 @@ pipeline {
 	*/
     }
 }
+
+def cmd(String command, Boolean bypassError = false) {
+
+        def path = "\"${env.SFDX_HOME}\"" //adds '"' to the SFDX_HOME path in case there are spaces inside the path
+
+        try {
+                if (isUnix()) {
+                        return sh(returnStdout: true, script: "${path}/sfdx ${command}")
+                } else {
+                        return bat(returnStdout: true, script: "${path}/${command}").trim()
+                }
+        } catch (Exception ex) {
+                echo '==== SFDX ERROR ===='
+                echo ex.toString()
+                echo '===================='
+
+                if (!bypassError) {
+                        throw ex
+                }
+
+                return null
+        }
+}
