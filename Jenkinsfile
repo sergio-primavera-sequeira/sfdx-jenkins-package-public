@@ -174,7 +174,7 @@ def cmd(String command, Boolean bypassError = false) {
 
         try {
                 if (isUnix()) {
-                        return sh(returnStdout: true, script: "${path}/sfdx ${command}")
+                        return sh(returnStdout: true, script: "${path}/${command}")
                 } else {
                         return bat(returnStdout: true, script: "${path}/${command}").trim()
                 }
