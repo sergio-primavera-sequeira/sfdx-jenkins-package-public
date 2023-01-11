@@ -26,8 +26,10 @@ pipeline {
 							      SFDC_ORG_01_CONNECTED_APP_CONSUMER_KEY,
 							      true)
 
-                    def testOutcome = resultsJson.result.summary.outcome
-                    echo 'TESTS OUTCOME :: ' + "${testOutcome}"
+		    if(resultsJson != null) {
+		    	def testOutcome = resultsJson.result.summary.outcome
+                    	echo 'TESTS OUTCOME :: ' + "${testOutcome}"
+		    }
                 }
             }
         }
