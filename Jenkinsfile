@@ -55,7 +55,7 @@ def salesforceRunLocalTests(String jwtCredentialId, String username, String inst
 }
 
 def runLocalTests(Boolean bypassError) {
-	def result = cmd("sfdx force:apex:test:run --testlevel RunLocalTests --resultformat json --detailedcoverage  --codecoverage", bypassError)
+	def result = cmd("sfdx force:apex:test:run --testlevel RunLocalTests --resultformat json --detailedcoverage  --codecoverage --synchronous", bypassError)
 
 	if (result != null) {
 
