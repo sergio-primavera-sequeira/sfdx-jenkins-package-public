@@ -13,6 +13,25 @@ pipeline {
     }
     
     stages {
+	    
+	 stage('Run Salesforce Local Tests') {
+            when {
+                branch 'master*'
+            }
+            steps {
+                script {
+                    def resultsJson = salesforceRunLocalTests(SFDC_ORG_01_JWT_KEY_CRED_ID,
+							      SFDC_ORG_01_USER,
+							      SFDC_ORG_01,
+							      SFDC_ORG_01_CONNECTED_APP_CONSUMER_KEY,
+							      true)
+
+                    def testOutcome = resultsJson.result.summary.outcome
+                    echo 'TESTS OUTCOME :: ' + "${testOutcome}"
+                }
+            }
+        }
+	    
 	 stage('Connect to Salesforce') {
 	    steps {		    
 		    script {
@@ -31,6 +50,51 @@ pipeline {
 	    }
 	}
     }
+}
+
+def salesforceRunLocalTests(String jwtCredentialId, String username, String instanceUrl, String consumerKey, Boolean bypassError) {
+	try {
+		withCredentials([file(credentialsId: jwtCredentialId, variable: 'jwt_key_file')]) {
+			
+			echo "=== SFDX AUTHENTICATION ==="
+			authenticateSalesforceOrg(username, instanceUrl, consumerKey, jwt_key_file)
+
+			echo "=== SFDX RUN LOCAL TESTS ==="
+			def testResultsJson = runLocalTests(bypassError)
+
+			return testResultsJson
+		}
+	} catch (Exception e) {
+		currentBuild.result = 'FAILED'
+		throw e
+	}
+}
+
+def runLocalTests(Boolean bypassError) {
+	def result = cmd("sfdx force:apex:test:run --testlevel RunLocalTests --synchronous --resultformat json --detailedcoverage  --codecoverage", bypassError)
+
+	if (result != null) {
+
+		if (!isUnix()) {
+			result = result.readLines().drop(1).join(" ") //removes the first line of the output, for Windows only
+		}
+
+		def testResultJson = convertStringIntoJSON(result)
+
+		echo 'Outcome :: ' + testResultJson.result.summary.outcome
+		echo 'Tests Ran :: ' + testResultJson.result.summary.testsRan
+		echo 'Passing :: ' + testResultJson.result.summary.passing
+		echo 'Failing :: ' + testResultJson.result.summary.failing
+		echo 'Pass Rate :: ' + testResultJson.result.summary.passRate
+		echo 'Fail Rate :: ' + testResultJson.result.summary.failRate
+		echo 'Test Run Coverage :: ' + testResultJson.result.summary.testRunCoverage
+		echo 'Org Wide Coverage :: ' + testResultJson.result.summary.orgWideCoverage
+
+		return testResultJson
+	} else {
+		echo 'Skipped the Run Local Tests due to an SFDX error...'
+		return null
+	}
 }
 
 def authenticateSalesforceOrg(String username, String instanceUrl, String connectedAppConsumerkey, Object jwtKeyfile) {
