@@ -31,24 +31,6 @@ pipeline {
                 }
             }
         }
-	    
-	 stage('Connect to Salesforce') {
-	    steps {		    
-		    script {
-			try {
-				withCredentials([file(credentialsId: SFDC_ORG_01_JWT_KEY_CRED_ID, variable: 'jwt_key_file')]) {
-
-					echo "=== SFDX AUTHENTICATION ==="
-					authenticateSalesforceOrg(SFDC_ORG_01_USER, SFDC_ORG_01, SFDC_ORG_01_CONNECTED_APP_CONSUMER_KEY, jwt_key_file)
-				}
-
-			} catch (Exception e) {
-				currentBuild.result = 'FAILED'
-				throw e
-			}
-		    }
-	    }
-	}
     }
 }
 
