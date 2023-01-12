@@ -15,7 +15,7 @@ pipeline {
         SFDC_ORG_01_USER="integration.jenkins@sfjenkins.poc.org01.ca"
         SFDC_ORG_01="https://login.salesforce.com" 
 	SFDC_ORG_01_CONNECTED_APP_CONSUMER_KEY="3MVG9ux34Ig8G5epoz.M1VfJxB82Qyj0J57NXfZmSeZWN5XytkVPTKSj7C9J.QYiwbdkPpmv9X0Efg0CKRXIX"
-        EXCEPTION_STR = 'SPS EXCEPTION STR'
+        ERROR_INFO = 'SPS EXCEPTION STR'
 	PACKAGE_NAME = 'qwe'
 	PACKAGE_VERSION = '1.2.3'
         PACKAGE_INSTALL_URL = 'wwww.'
@@ -48,10 +48,12 @@ pipeline {
 		success {
 			script {
 				def subject = 'SUCCESS: JENKINS Build Successful'
-				def body = """<h1 style="background-color:red;font-size:42px;color:white;padding:10px;">Build Failed</h1>
-								  <p>ERROR: Job '${env.JOB_NAME} [${env.BRANCH_NAME} - ${env.BUILD_NUMBER}]':</p>
-								  <p>Check console output at &QUOT;<a href='${env.BUILD_URL}'>${env.JOB_NAME} [${env.BRANCH_NAME} - ${env.BUILD_NUMBER}]</a>&QUOT;</p>
-								  <p>Error -- ${env.EXCEPTION_STR}</p>"""
+				def body = """<h1 style="background-color:green;font-size:42px;color:white;padding:10px;">Build Successful</h1>
+				              <p>Job '${env.JOB_NAME} [${env.BRANCH_NAME} - ${env.BUILD_NUMBER}]':</p>
+					      <p>Check console output at &QUOT;<a href='${env.BUILD_URL}'>${env.JOB_NAME} [${env.BRANCH_NAME} - ${env.BUILD_NUMBER}]</a>&QUOT;</p>
+					      <p>Package: ${env.PACKAGE_NAME}</p>
+					      <p>Version: v.${env.PACKAGE_VERSION}</p>
+					      <p>Install URL: ${env.PACKAGE_INSTALL_URL}</p>"""
 				
 				echo "${body}"
 
@@ -63,9 +65,9 @@ pipeline {
 			script {
 				def subject = "ERROR: JENKINS Build Failed"
 				def body = """<h1 style="background-color:red;font-size:42px;color:white;padding:10px;">Build Failed</h1>
-								  <p>ERROR: Job '${env.JOB_NAME} [${env.BRANCH_NAME} - ${env.BUILD_NUMBER}]':</p>
-								  <p>Check console output at &QUOT;<a href='${env.BUILD_URL}'>${env.JOB_NAME} [${env.BRANCH_NAME} - ${env.BUILD_NUMBER}]</a>&QUOT;</p>
-								  <p>Error -- ${env.EXCEPTION_STR}</p>"""
+					      <p>ERROR: Job '${env.JOB_NAME} [${env.BRANCH_NAME} - ${env.BUILD_NUMBER}]':</p>
+					      <p>Check console output at &QUOT;<a href='${env.BUILD_URL}'>${env.JOB_NAME} [${env.BRANCH_NAME} - ${env.BUILD_NUMBER}]</a>&QUOT;</p>
+					      <p>Error -- ${env.ERROR_INFO}</p>"""
 
 			        notifyByEmail(subject, body)
 			}
@@ -87,6 +89,7 @@ def salesforceRunLocalTests(String jwtCredentialId, String username, String inst
 		}
 	} catch (Exception e) {
 		currentBuild.result = 'FAILED'
+		ERROR_INFO = e.toString()
 		throw e
 	}
 }
