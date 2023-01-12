@@ -136,12 +136,15 @@ def cmd(String command, Boolean bypassError = false) {
         }
 }
 
-def notifyError(Exception e){ 
+def notifySuccessOnBuild(){ 
+}
+
+def notifyErrorOnBuild(Exception e){ 
 	def subject = "ERROR: JENKINS Build Failed"
 	def body = """<h1 style="background-color:red;font-size:42px;color:white;padding:10px;">Build Failed</h1>
 		      <p>Job '${env.JOB_NAME} [${env.BRANCH_NAME} - ${env.BUILD_NUMBER}]':</p>
 		      <p>Check console output at &QUOT;<a href='${env.BUILD_URL}'>${env.JOB_NAME} [${env.BRANCH_NAME} - ${env.BUILD_NUMBER}]</a>&QUOT;</p>
-		      <p>Error: e</p>"""
+		      <p>Error: ${e}</p>"""
 
 	echo "${body}"
 
