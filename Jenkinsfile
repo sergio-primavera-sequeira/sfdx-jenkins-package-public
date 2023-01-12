@@ -15,7 +15,7 @@ pipeline {
 	PACKAGE_NAME = 'qwe'
 	PACKAGE_VERSION = '1.2.3'
         PACKAGE_INSTALL_URL = 'wwww.'
-	EMAIL_RECIPIENTS = 'sprimaverasequeira@deloitte.ca,chuyu@deloitte.ca'
+	EMAIL_RECIPIENTS = 'sprimaverasequeira@deloitte.ca;chuyu@deloitte.ca'
     }
     
     stages {
