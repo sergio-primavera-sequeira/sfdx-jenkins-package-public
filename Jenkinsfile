@@ -148,7 +148,7 @@ def notifyErrorOnBuild(Exception e){
 
 	echo "${body}"
 
-	notifyByEmail(subject, body, ${env.EMAIL_RECIPIENTS})
+	notifyByEmail(subject, body, env.EMAIL_RECIPIENTS)
 }
 
 def notifyByEmail(String subject, String body, String recipients){ 
