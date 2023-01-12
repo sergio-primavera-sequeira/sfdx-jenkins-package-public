@@ -10,6 +10,11 @@ pipeline {
         SFDC_ORG_01_USER="integration.jenkins@sfjenkins.poc.org01.ca"
         SFDC_ORG_01="https://login.salesforce.com" 
 	SFDC_ORG_01_CONNECTED_APP_CONSUMER_KEY="3MVG9ux34Ig8G5epoz.M1VfJxB82Qyj0J57NXfZmSeZWN5XytkVPTKSj7C9J.QYiwbdkPpmv9X0Efg0CKRXIX"
+	    
+	PACKAGE_NAME = ''
+	PACKAGE_VERSION = ''
+	PACKAGE_INSTALL_URL = ''
+	EXCEPTION
     }
     
     stages {
@@ -34,6 +39,29 @@ pipeline {
             }
         }
     }
+
+	post {
+		success {
+		    def subject = 'SUCCESS: JENKINS Build Successful'
+		    def body = """<h1 style="background-color:red;font-size:42px;color:white;padding:10px;">Build Failed</h1>
+						  <p>ERROR: Job '${env.JOB_NAME} [${env.BRANCH_NAME} - ${env.BUILD_NUMBER}]':</p>
+						  <p>Check console output at &QUOT;<a href='${env.BUILD_URL}'>${env.JOB_NAME} [${env.BRANCH_NAME} - ${env.BUILD_NUMBER}]</a>&QUOT;</p>
+						  <p>Error -- ${EXCEPTION}</p>"""
+
+		    notifyByEmail(subject, body)
+		}
+
+		unsuccessful {
+		    def subject = "ERROR: JENKINS Build Failed"
+		    def body = """<h1 style="background-color:red;font-size:42px;color:white;padding:10px;">Build Failed</h1>
+						  <p>ERROR: Job '${env.JOB_NAME} [${env.BRANCH_NAME} - ${env.BUILD_NUMBER}]':</p>
+						  <p>Check console output at &QUOT;<a href='${env.BUILD_URL}'>${env.JOB_NAME} [${env.BRANCH_NAME} - ${env.BUILD_NUMBER}]</a>&QUOT;</p>
+						  <p>Error -- ${EXCEPTION}</p>"""
+
+			notifyByEmail(subject, body)
+
+		}
+	}
 }
 
 def salesforceRunLocalTests(String jwtCredentialId, String username, String instanceUrl, String consumerKey, Boolean bypassError) {
