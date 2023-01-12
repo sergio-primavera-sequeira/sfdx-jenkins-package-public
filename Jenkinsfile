@@ -15,6 +15,7 @@ pipeline {
 	PACKAGE_NAME = 'qwe'
 	PACKAGE_VERSION = '1.2.3'
         PACKAGE_INSTALL_URL = 'wwww.'
+	EMAIL_RECIPIENTS = 'sprimaverasequeira@deloitte.ca,chuyu@deloitte.ca'
     }
     
     stages {
@@ -154,7 +155,7 @@ def notifyByEmail(String subject, String body){
 		subject: "${subject}",
 		body: "${body}",
 		mimeType: "text/html",
-		to: 'sprimaverasequeira@deloitte.ca,chuyu@deloitte.ca',
+		to: ${env.EMAIL_RECIPIENTS},
 		recipientProviders: [developers()]
 	)
 	
