@@ -110,3 +110,19 @@ def cmd(String command, Boolean bypassError = false) {
                 return null
         }
 }
+
+def notifyByEmail(String subject, String body){ 
+	emailext (
+		subject: "${subject}",
+		body: "${body}",
+		mimeType: "text/html",
+		to: 'sprimaverasequeira@deloitte.ca,chuyu@deloitte.ca'
+		recipientProviders: [developers()]
+	)
+	
+	printToConsole("Email Sent")
+}
+
+def printToConsole(String message){ 
+	println "JENKINS => : ${message}"
+}
