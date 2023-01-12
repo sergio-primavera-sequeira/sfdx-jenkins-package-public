@@ -57,20 +57,6 @@ pipeline {
 				notifyByEmail(subject, body)
 			}
 		}
-
-		unsuccessful {
-			script {
-				def subject = "ERROR: JENKINS Build Failed"
-				def body = """<h1 style="background-color:red;font-size:42px;color:white;padding:10px;">Build Failed</h1>
-					      <p>ERROR: Job '${env.JOB_NAME} [${env.BRANCH_NAME} - ${env.BUILD_NUMBER}]':</p>
-					      <p>Check console output at &QUOT;<a href='${env.BUILD_URL}'>${env.JOB_NAME} [${env.BRANCH_NAME} - ${env.BUILD_NUMBER}]</a>&QUOT;</p>
-					      <p>Error -- ${env.ERROR_INFO}</p>"""
-
-				echo "${body}"
-				
-			        notifyByEmail(subject, body)
-			}
-		}
 	}
 }
 
@@ -88,8 +74,8 @@ def salesforceRunLocalTests(String jwtCredentialId, String username, String inst
 		}
 	} catch (Exception e) {
 		currentBuild.result = 'FAILED'
-		ERROR_INFO = e.toString()
-		//throw e
+		notifyError(e)
+		throw e
 	}
 }
 
@@ -148,6 +134,18 @@ def cmd(String command, Boolean bypassError = false) {
 
                 return null
         }
+}
+
+def notifyError(Exception e){ 
+	def subject = "ERROR: JENKINS Build Failed"
+	def body = """<h1 style="background-color:red;font-size:42px;color:white;padding:10px;">Build Failed</h1>
+		      <p>Job '${env.JOB_NAME} [${env.BRANCH_NAME} - ${env.BUILD_NUMBER}]':</p>
+		      <p>Check console output at &QUOT;<a href='${env.BUILD_URL}'>${env.JOB_NAME} [${env.BRANCH_NAME} - ${env.BUILD_NUMBER}]</a>&QUOT;</p>
+		      <p>Error: e</p>"""
+
+	echo "${body}"
+
+	notifyByEmail(subject, body)
 }
 
 def notifyByEmail(String subject, String body){ 
