@@ -44,17 +44,7 @@ pipeline {
 	post {
 		success {
 			script {
-				def subject = 'SUCCESS: JENKINS Build Successful'
-				def body = """<h1 style="background-color:green;font-size:42px;color:white;padding:10px;">Build Successful</h1>
-				              <p>Job '${env.JOB_NAME} [${env.BRANCH_NAME} - ${env.BUILD_NUMBER}]':</p>
-					      <p>Check console output at &QUOT;<a href='${env.BUILD_URL}'>${env.JOB_NAME} [${env.BRANCH_NAME} - ${env.BUILD_NUMBER}]</a>&QUOT;</p>
-					      <p>Package: ${env.PACKAGE_NAME}</p>
-					      <p>Version: v.${env.PACKAGE_VERSION}</p>
-					      <p>Install URL: ${env.PACKAGE_INSTALL_URL}</p>"""
-				
-				echo "${body}"
-
-				notifyByEmail(subject, body)
+				notifySuccessOnBuild(env.PACKAGE_NAME, env.PACKAGE_VERSION, env.PACKAGE_INSTALL_URL)
 			}
 		}
 	}
@@ -136,7 +126,18 @@ def cmd(String command, Boolean bypassError = false) {
         }
 }
 
-def notifySuccessOnBuild(){ 
+def notifySuccessOnBuild(String packageName, String packageVersion, String packageInstallUrl){
+	def subject = 'SUCCESS: JENKINS Build Successful'
+	def body = """<h1 style="background-color:green;font-size:42px;color:white;padding:10px;">Build Successful</h1>
+		      <p>Job '${env.JOB_NAME} [${env.BRANCH_NAME} - ${env.BUILD_NUMBER}]':</p>
+		      <p>Check console output at &QUOT;<a href='${env.BUILD_URL}'>${env.JOB_NAME} [${env.BRANCH_NAME} - ${env.BUILD_NUMBER}]</a>&QUOT;</p>
+		      <p>Package: ${packageNameE}</p>
+		      <p>Version: v.${packageVersion}</p>
+		      <p>Install URL: ${packageInstallUrl}</p>"""
+
+	echo "${body}"
+
+	notifyByEmail(subject, body, env.EMAIL_RECIPIENTS)
 }
 
 def notifyErrorOnBuild(Exception e){ 
