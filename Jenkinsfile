@@ -155,7 +155,7 @@ def notifyByEmail(String subject, String body){
 		subject: "${subject}",
 		body: "${body}",
 		mimeType: "text/html",
-		to: ${env.EMAIL_RECIPIENTS},
+		to: "${env.EMAIL_RECIPIENTS}",
 		recipientProviders: [developers()]
 	)
 	
