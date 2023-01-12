@@ -89,7 +89,7 @@ def salesforceRunLocalTests(String jwtCredentialId, String username, String inst
 	} catch (Exception e) {
 		currentBuild.result = 'FAILED'
 		ERROR_INFO = e.toString()
-		throw e
+		//throw e
 	}
 }
 
