@@ -1,7 +1,3 @@
-def PACKAGE_NAME = ''
-def PACKAGE_VERSION = ''
-def PACKAGE_INSTALL_URL = ''
-//def EXCEPTION_STR = ''
 
 pipeline {    
     
