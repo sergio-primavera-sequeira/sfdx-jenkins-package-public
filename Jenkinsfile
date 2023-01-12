@@ -14,7 +14,7 @@ pipeline {
 	PACKAGE_NAME = ''
 	PACKAGE_VERSION = ''
 	PACKAGE_INSTALL_URL = ''
-	EXCEPTION
+	EXCEPTION = null
     }
     
     stages {
