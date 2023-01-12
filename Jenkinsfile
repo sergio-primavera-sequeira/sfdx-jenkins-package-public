@@ -144,7 +144,7 @@ def notifyByEmail(String subject, String body){
 		subject: "${subject}",
 		body: "${body}",
 		mimeType: "text/html",
-		to: 'sprimaverasequeira@deloitte.ca,chuyu@deloitte.ca'
+		to: 'sprimaverasequeira@deloitte.ca,chuyu@deloitte.ca',
 		recipientProviders: [developers()]
 	)
 	
