@@ -42,24 +42,27 @@ pipeline {
 
 	post {
 		success {
-		    def subject = 'SUCCESS: JENKINS Build Successful'
-		    def body = """<h1 style="background-color:red;font-size:42px;color:white;padding:10px;">Build Failed</h1>
-						  <p>ERROR: Job '${env.JOB_NAME} [${env.BRANCH_NAME} - ${env.BUILD_NUMBER}]':</p>
-						  <p>Check console output at &QUOT;<a href='${env.BUILD_URL}'>${env.JOB_NAME} [${env.BRANCH_NAME} - ${env.BUILD_NUMBER}]</a>&QUOT;</p>
-						  <p>Error -- ${EXCEPTION}</p>"""
+			script {
+				def subject = 'SUCCESS: JENKINS Build Successful'
+				def body = """<h1 style="background-color:red;font-size:42px;color:white;padding:10px;">Build Failed</h1>
+								  <p>ERROR: Job '${env.JOB_NAME} [${env.BRANCH_NAME} - ${env.BUILD_NUMBER}]':</p>
+								  <p>Check console output at &QUOT;<a href='${env.BUILD_URL}'>${env.JOB_NAME} [${env.BRANCH_NAME} - ${env.BUILD_NUMBER}]</a>&QUOT;</p>
+								  <p>Error -- ${EXCEPTION}</p>"""
 
-		    notifyByEmail(subject, body)
+				notifyByEmail(subject, body)
+			}
 		}
 
 		unsuccessful {
-		    def subject = "ERROR: JENKINS Build Failed"
-		    def body = """<h1 style="background-color:red;font-size:42px;color:white;padding:10px;">Build Failed</h1>
-						  <p>ERROR: Job '${env.JOB_NAME} [${env.BRANCH_NAME} - ${env.BUILD_NUMBER}]':</p>
-						  <p>Check console output at &QUOT;<a href='${env.BUILD_URL}'>${env.JOB_NAME} [${env.BRANCH_NAME} - ${env.BUILD_NUMBER}]</a>&QUOT;</p>
-						  <p>Error -- ${EXCEPTION}</p>"""
+			script {
+				def subject = "ERROR: JENKINS Build Failed"
+				def body = """<h1 style="background-color:red;font-size:42px;color:white;padding:10px;">Build Failed</h1>
+								  <p>ERROR: Job '${env.JOB_NAME} [${env.BRANCH_NAME} - ${env.BUILD_NUMBER}]':</p>
+								  <p>Check console output at &QUOT;<a href='${env.BUILD_URL}'>${env.JOB_NAME} [${env.BRANCH_NAME} - ${env.BUILD_NUMBER}]</a>&QUOT;</p>
+								  <p>Error -- ${EXCEPTION}</p>"""
 
-			notifyByEmail(subject, body)
-
+			        notifyByEmail(subject, body)
+			}
 		}
 	}
 }
