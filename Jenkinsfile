@@ -25,10 +25,10 @@ pipeline {
             }
             steps {
                 script {
-                    def resultsJson = salesforceRunLocalTests(SFDC_ORG_01_JWT_KEY_CRED_ID,
-							      SFDC_ORG_01_USER,
-							      SFDC_ORG_01,
-							      SFDC_ORG_01_CONNECTED_APP_CONSUMER_KEY,
+                    def resultsJson = salesforceRunLocalTests(env.SFDC_ORG_01_JWT_KEY_CRED_ID,
+							      env.SFDC_ORG_01_USER,
+							      env.SFDC_ORG_01,
+							      env.SFDC_ORG_01_CONNECTED_APP_CONSUMER_KEY,
 							      true)
 
 		    if(resultsJson != null) {
