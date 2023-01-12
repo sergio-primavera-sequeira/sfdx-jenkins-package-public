@@ -65,6 +65,8 @@ pipeline {
 					      <p>Check console output at &QUOT;<a href='${env.BUILD_URL}'>${env.JOB_NAME} [${env.BRANCH_NAME} - ${env.BUILD_NUMBER}]</a>&QUOT;</p>
 					      <p>Error -- ${env.ERROR_INFO}</p>"""
 
+				echo "${body}"
+				
 			        notifyByEmail(subject, body)
 			}
 		}
