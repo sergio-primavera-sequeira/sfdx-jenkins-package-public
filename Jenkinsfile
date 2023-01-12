@@ -30,7 +30,7 @@ pipeline {
 							      SFDC_ORG_01_USER,
 							      SFDC_ORG_01,
 							      SFDC_ORG_01_CONNECTED_APP_CONSUMER_KEY,
-							      true)
+							      false)
 
 		    if(resultsJson != null) {
 		    	def testOutcome = resultsJson.result.summary.outcome
