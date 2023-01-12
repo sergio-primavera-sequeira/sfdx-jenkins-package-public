@@ -130,7 +130,7 @@ def notifySuccessOnBuild(String packageName, String packageVersion, String packa
 	def body = """<h1 style="background-color:green;font-size:42px;color:white;padding:10px;">Build Successful</h1>
 		      <p>Job '${env.JOB_NAME} [${env.BRANCH_NAME} - ${env.BUILD_NUMBER}]':</p>
 		      <p>Check console output at &QUOT;<a href='${env.BUILD_URL}'>${env.JOB_NAME} [${env.BRANCH_NAME} - ${env.BUILD_NUMBER}]</a>&QUOT;</p>
-		      <p>Package: ${packageNameE}</p>
+		      <p>Package: ${packageName}</p>
 		      <p>Version: v.${packageVersion}</p>
 		      <p>Install URL: ${packageInstallUrl}</p>"""
 
