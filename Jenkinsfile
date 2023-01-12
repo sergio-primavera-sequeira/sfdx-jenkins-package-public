@@ -151,7 +151,7 @@ def notifyErrorOnBuild(Exception e){
 	notifyByEmail(subject, body, env.EMAIL_RECIPIENTS)
 }
 
-def notifyByEmail(String subject, String body, String recipients){ 
+def notifyByEmail(String subject, String body, String recipients = ''){ 
 	emailext (
 		subject: "${subject}",
 		body: "${body}",
@@ -159,10 +159,4 @@ def notifyByEmail(String subject, String body, String recipients){
 		to: "${recipients}",
 		recipientProviders: [developers()]
 	)
-	
-	printToConsole("Email Sent")
-}
-
-def printToConsole(String message){ 
-	println "JENKINS => : ${message}"
 }
