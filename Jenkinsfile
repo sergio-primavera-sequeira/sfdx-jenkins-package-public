@@ -11,10 +11,9 @@ pipeline {
         SFDC_ORG_01_USER="integration.jenkins@sfjenkins.poc.org01.ca"
         SFDC_ORG_01="https://login.salesforce.com" 
 	SFDC_ORG_01_CONNECTED_APP_CONSUMER_KEY="3MVG9ux34Ig8G5epoz.M1VfJxB82Qyj0J57NXfZmSeZWN5XytkVPTKSj7C9J.QYiwbdkPpmv9X0Efg0CKRXIX"
-        ERROR_INFO = 'SPS EXCEPTION STR'
-	PACKAGE_NAME = 'qwe'
-	PACKAGE_VERSION = '1.2.3'
-        PACKAGE_INSTALL_URL = 'wwww.'
+	PACKAGE_NAME = 'citm'
+	PACKAGE_VERSION = '1.2.3.0'
+        PACKAGE_INSTALL_URL = 'wwww.installurl.ca'
 	EMAIL_RECIPIENTS = 'sprimaverasequeira@deloitte.ca;chuyu@deloitte.ca'
     }
     
