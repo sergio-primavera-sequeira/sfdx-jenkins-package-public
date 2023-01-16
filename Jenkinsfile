@@ -11,9 +11,9 @@ pipeline {
         SFDC_ORG_01_USER="integration.jenkins@sfjenkins.poc.org01.ca"
         SFDC_ORG_01="https://login.salesforce.com" 
 	SFDC_ORG_01_CONNECTED_APP_CONSUMER_KEY="3MVG9ux34Ig8G5epoz.M1VfJxB82Qyj0J57NXfZmSeZWN5XytkVPTKSj7C9J.QYiwbdkPpmv9X0Efg0CKRXIX"
-	PACKAGE_NAME = 'citm'
-	PACKAGE_VERSION = '1.2.3.0'
-        PACKAGE_INSTALL_URL = 'wwww.installurl.ca'
+	PACKAGE_NAME = ''
+	PACKAGE_VERSION = ''
+        PACKAGE_INSTALL_URL = ''
 	EMAIL_RECIPIENTS = 'sprimaverasequeira@deloitte.ca;chuyu@deloitte.ca'
 	SFDC_SPS_TEST = "${env.GLOBAL_SFDC_SPS_TEST}"
     }
@@ -27,6 +27,9 @@ pipeline {
             steps {
                 script {
 		    echo 'SFDC_SPS_TEST :: ' + "${env.SFDC_SPS_TEST}"
+			PACKAGE_NAME = 'citm'
+			PACKAGE_VERSION = '1.2.3.0'
+			PACKAGE_INSTALL_URL = 'wwww.installurl.ca'
                     def resultsJson = salesforceRunLocalTests(env.SFDC_ORG_01_JWT_KEY_CRED_ID,
 							      env.SFDC_ORG_01_USER,
 							      env.SFDC_ORG_01,
