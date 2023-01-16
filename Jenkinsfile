@@ -48,7 +48,7 @@ pipeline {
 	post {
 		success {
 			script {
-				notifySuccessOnBuild(env.PACKAGE_NAME, env.PACKAGE_VERSION, env.PACKAGE_INSTALL_URL)
+				notifySuccessOnBuild(PACKAGE_NAME, PACKAGE_VERSION, PACKAGE_INSTALL_URL)
 			}
 		}
 	}
