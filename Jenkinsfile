@@ -1,6 +1,8 @@
+/*
 def PACKAGE_NAME = ''
 def PACKAGE_VERSION = ''
 def PACKAGE_INSTALL_URL = ''
+*/
 
 pipeline {    
     
@@ -16,6 +18,10 @@ pipeline {
 	SFDC_ORG_01_CONNECTED_APP_CONSUMER_KEY="3MVG9ux34Ig8G5epoz.M1VfJxB82Qyj0J57NXfZmSeZWN5XytkVPTKSj7C9J.QYiwbdkPpmv9X0Efg0CKRXIX"
 	EMAIL_RECIPIENTS = 'sprimaverasequeira@deloitte.ca;chuyu@deloitte.ca'
 	SFDC_SPS_TEST = "${env.GLOBAL_SFDC_SPS_TEST}"
+	    
+	PACKAGE_NAME = ''
+	PACKAGE_VERSION = ''
+	PACKAGE_INSTALL_URL = ''
     }
     
     stages {
