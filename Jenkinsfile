@@ -25,7 +25,7 @@ pipeline {
             }
             steps {
                 script {
-		    echo 'SFDC_SPS_TEST :: ' + "${SFDC_SPS_TEST}"
+		    echo 'SFDC_SPS_TEST :: ' + "${env.SFDC_SPS_TEST}"
                     def resultsJson = salesforceRunLocalTests(env.SFDC_ORG_01_JWT_KEY_CRED_ID,
 							      env.SFDC_ORG_01_USER,
 							      env.SFDC_ORG_01,
