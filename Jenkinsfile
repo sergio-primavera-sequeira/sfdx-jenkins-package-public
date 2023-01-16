@@ -15,7 +15,6 @@ pipeline {
 	PACKAGE_VERSION = '1.2.3.0'
         PACKAGE_INSTALL_URL = 'wwww.installurl.ca'
 	EMAIL_RECIPIENTS = 'sprimaverasequeira@deloitte.ca;chuyu@deloitte.ca'
-	SFDC_SPS_TEST
     }
     
     stages {
