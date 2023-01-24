@@ -27,7 +27,7 @@ pipeline {
 	*/
     environment {
 		//SFDX TOOL
-		SDFX = tool name: 'sfdx', type: 'com.cloudbees.jenkins.plugins.customtools.CustomTool'
+		SFDX = tool name: 'sfdx', type: 'com.cloudbees.jenkins.plugins.customtools.CustomTool'
 		
 		//SFDC PACKAGE
 		PACKAGE_ID = '0HoDn000000sXzVKAU'
