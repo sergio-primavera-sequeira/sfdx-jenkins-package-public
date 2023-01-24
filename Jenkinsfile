@@ -140,7 +140,7 @@ pipeline {
 		
 		stage('Install Salesforce Package') {
             when {
-                branch 'master*'
+                branch 'master.skip*'
             }
             steps {
                 script {
@@ -186,7 +186,7 @@ def salesforceBuildPackage(String packageId, String jwtCredentialId, String devH
 			
 			echo "=== SFDX AUTHENTICATION ==="
 			authenticateSalesforceOrg(devHubUsername, devHubInstanceUrl, devHubConsumerKey, jwt_key_file)
-
+			
 			/*
 			echo "=== SFDX CREATE PACKAGE VERSION ==="
 			def packageCreateVersionJson = createPackageVersion(packageId, devHubUsername, bypassError)
@@ -197,23 +197,21 @@ def salesforceBuildPackage(String packageId, String jwtCredentialId, String devH
 			{
 				throw new Exception("SFDX error, could not generate a package version create Id.")
 			}
+			*/
+			
+			def packageVersionCreateId = '08cDn000000sYAsIAM'
 
 			echo "=== SFDX LATEST PACKAGE VERSION ==="
 			def lastestPackageVersionJson = getLastestPackageVersionCreationStatus(packageVersionCreateId, devHubUsername, bypassError)
 			def subscriberPackageVersionId = lastestPackageVersionJson.SubscriberPackageVersionId
 			echo 'Subscriber Package Version ID :: ' + "${subscriberPackageVersionId}"
-			*/
-			
-			/*
+
 			def subscriberPackageVersionId = 'null';
 
 			if(subscriberPackageVersionId == null) 
 			{
 				throw new Exception("SFDX error, could not generate a subscriber package version Id.")
 			}
-			*/
-			
-			def subscriberPackageVersionId = (Object)null;
 			
 			echo "=== SFDX LATEST PACKAGE VERSION INFORMATION ==="
 			def latestPackageInformationJson = getLastestPackageVersionInformation(subscriberPackageVersionId, devHubUsername, bypassError)
