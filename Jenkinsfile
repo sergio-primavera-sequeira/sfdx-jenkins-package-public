@@ -193,7 +193,7 @@ def salesforceBuildPackage(String packageId, String jwtCredentialId, String devH
 			def packageVersionCreateId = packageCreateVersionJson.result.Id
 			echo 'Package Create Version ID :: ' + "${packageVersionCreateId}"
 
-			if(packageVersionCreateId == null) 
+			if(packageVersionCreateId == null || packageVersionCreateId == null) 
 			{
 				throw new Exception("SFDX error, could not generate a package version create Id.")
 			}
@@ -208,7 +208,7 @@ def salesforceBuildPackage(String packageId, String jwtCredentialId, String devH
 			echo 'Class :: ' + "${subscriberPackageVersionId.getClass()}"
 			echo 'Subscriber Package Version ID :: ' + "${subscriberPackageVersionId}"
 
-			if(subscriberPackageVersionId == null) 
+			if(subscriberPackageVersionId == null || subscriberPackageVersionId.equalsIgnoreCase("null")) 
 			{
 				throw new Exception("SFDX error, could not generate a subscriber package version Id.")
 			}
