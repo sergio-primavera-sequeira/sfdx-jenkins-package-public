@@ -204,12 +204,16 @@ def salesforceBuildPackage(String packageId, String jwtCredentialId, String devH
 			echo 'Subscriber Package Version ID :: ' + "${subscriberPackageVersionId}"
 			*/
 			
+			/*
 			def subscriberPackageVersionId = 'null';
 
 			if(subscriberPackageVersionId == null) 
 			{
 				throw new Exception("SFDX error, could not generate a subscriber package version Id.")
 			}
+			*/
+			
+			def subscriberPackageVersionId = null;
 			
 			echo "=== SFDX LATEST PACKAGE VERSION INFORMATION ==="
 			def latestPackageInformationJson = getLastestPackageVersionInformation(subscriberPackageVersionId, devHubUsername, bypassError)
