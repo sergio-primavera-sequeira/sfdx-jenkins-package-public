@@ -199,7 +199,7 @@ def salesforceBuildPackage(String packageId, String jwtCredentialId, String devH
 
 			echo "=== SFDX LATEST PACKAGE VERSION ==="
 			def lastestPackageVersionJson = getLastestPackageVersionCreationStatus(packageVersionCreateId, devHubUsername, bypassError)
-			def subscriberPackageVersionId = (String)lastestPackageVersionJson.Branch//lastestPackageVersionJson.SubscriberPackageVersionId
+			def subscriberPackageVersionId = lastestPackageVersionJson.Branch//lastestPackageVersionJson.SubscriberPackageVersionId
 			
 			echo 'Class :: ' + "${subscriberPackageVersionId.getClass()}"
 			echo 'Subscriber Package Version ID :: ' + "${subscriberPackageVersionId}"
