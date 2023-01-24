@@ -213,7 +213,7 @@ def salesforceBuildPackage(String packageId, String jwtCredentialId, String devH
 			}
 			*/
 			
-			def subscriberPackageVersionId = new Object(null);
+			def subscriberPackageVersionId = (Object)null;
 			
 			echo "=== SFDX LATEST PACKAGE VERSION INFORMATION ==="
 			def latestPackageInformationJson = getLastestPackageVersionInformation(subscriberPackageVersionId, devHubUsername, bypassError)
