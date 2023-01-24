@@ -204,7 +204,7 @@ def salesforceBuildPackage(String packageId, String jwtCredentialId, String devH
 			echo 'Subscriber Package Version ID :: ' + "${subscriberPackageVersionId}"
 			*/
 			
-			def subscriberPackageVersionId;
+			def subscriberPackageVersionId = 'null';
 
 			if(subscriberPackageVersionId == null) 
 			{
