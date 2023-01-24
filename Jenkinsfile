@@ -30,8 +30,8 @@ pipeline {
 		SDFX = tool name: 'sfdx', type: 'com.cloudbees.jenkins.plugins.customtools.CustomTool'
 		
 		//SFDC PACKAGE
-		PACKAGE_ID = '0Ho5W0000000014SAA' //CITM package
-		PACKAGE_FOLDER = './force-app/'   //CITM package folder
+		PACKAGE_ID = '0HoDn000000sXzVKAU'
+		PACKAGE_FOLDER = './force-app/main/default/' 
 	
     	//SFDC CREDENTIALS ID
     	SFDC_JWT_KEY_CRED_ID = "sf-jwt-key"
