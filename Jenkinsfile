@@ -187,6 +187,7 @@ def salesforceBuildPackage(String packageId, String jwtCredentialId, String devH
 			echo "=== SFDX AUTHENTICATION ==="
 			authenticateSalesforceOrg(devHubUsername, devHubInstanceUrl, devHubConsumerKey, jwt_key_file)
 
+			/*
 			echo "=== SFDX CREATE PACKAGE VERSION ==="
 			def packageCreateVersionJson = createPackageVersion(packageId, devHubUsername, bypassError)
 			def packageVersionCreateId = packageCreateVersionJson.result.Id
@@ -201,6 +202,9 @@ def salesforceBuildPackage(String packageId, String jwtCredentialId, String devH
 			def lastestPackageVersionJson = getLastestPackageVersionCreationStatus(packageVersionCreateId, devHubUsername, bypassError)
 			def subscriberPackageVersionId = lastestPackageVersionJson.SubscriberPackageVersionId
 			echo 'Subscriber Package Version ID :: ' + "${subscriberPackageVersionId}"
+			*/
+			
+			def subscriberPackageVersionId = null;
 
 			if(subscriberPackageVersionId == null) 
 			{
