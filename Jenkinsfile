@@ -53,7 +53,7 @@ pipeline {
     stages {
 		stage('Run Salesforce Local Tests') {
 			when {
-				branch 'master*'
+				branch 'master.skip*'
 			}
 			steps {
 				script {
@@ -75,7 +75,7 @@ pipeline {
 		
 		stage('Validate Salesforce Metadata') {
 			when {
-				branch 'master*'
+				branch 'master.skip*'
 			}
 			steps {
 				script {
@@ -204,7 +204,7 @@ def salesforceBuildPackage(String packageId, String jwtCredentialId, String devH
 			echo 'Subscriber Package Version ID :: ' + "${subscriberPackageVersionId}"
 			*/
 			
-			def subscriberPackageVersionId = null;
+			def subscriberPackageVersionId;
 
 			if(subscriberPackageVersionId == null) 
 			{
