@@ -193,7 +193,7 @@ def salesforceBuildPackage(String packageId, String jwtCredentialId, String devH
 			def packageVersionCreateId = packageCreateVersionJson.result.Id
 			echo 'Package Create Version ID :: ' + "${packageVersionCreateId}"
 
-			if(packageVersionCreateId == null || packageVersionCreateId == null) 
+			if(packageVersionCreateId == null || packageVersionCreateId.equalsIgnoreCase("null")) 
 			{
 				throw new Exception("SFDX error, could not generate a package version create Id.")
 			}
@@ -422,7 +422,7 @@ def salesforceInstallPackage(String subscriberPackageVersionId, String jwtCreden
 			def packageInstallId = packageVersionInstallInitResultJson.result.Id
 			echo 'Package Install ID :: ' + "${packageInstallId}"
 			
-			if(packageInstallId == null) 
+			if(packageInstallId == null || packageInstallId.equalsIgnoreCase("null")) 
 			{
 				throw new Exception("SFDX error, could not generate a package install Id.")
 			}
