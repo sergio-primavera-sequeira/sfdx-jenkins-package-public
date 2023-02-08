@@ -54,7 +54,7 @@ pipeline {
 	    
 	    	stage('Install SFDX-Git-Delta') {
 			when {
-				branch 'master.skip*'
+				branch 'master*'
 			}
 			steps {
 				script {
@@ -66,8 +66,11 @@ pipeline {
 					//def result03 = cmd("sfdx update", false)
 					//echo 'RESULTS :: ' + "${result03}"
 					
-					def result02 = cmd("sfdx plugins:install sfdx-git-delta", false) //plugin needs to be added in the unsignedPluginAllowList.json
-					echo 'RESULTS :: ' + "${result02}"
+					//def result02 = cmd("sfdx plugins:install sfdx-git-delta", false) //plugin needs to be added in the unsignedPluginAllowList.json
+					//echo 'RESULTS :: ' + "${result02}"
+					
+					def result02 = cmd("echo y | sfdx plugins:install sfdx-git-delta", false) //plugin needs to be added in the unsignedPluginAllowList.json
+					//echo 'RESULTS :: ' + "${result02}"
 				}
 			}
 		}
