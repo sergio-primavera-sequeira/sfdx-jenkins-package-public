@@ -54,7 +54,7 @@ pipeline {
 	    
 	    	stage('Install SFDX-Git-Delta') {
 			when {
-				branch 'master*'
+				branch 'master.skip*'
 			}
 			steps {
 				script {
@@ -84,7 +84,7 @@ pipeline {
 					def sgdFrom = '"origin/master"'
 					def sgdOutput = '.'
 					
-					def result = cmd("sfdx sgd:source:delta --to ${sgdTo} --from ${sgdFrom} --output ${sgdOutput}", false) //plugin needs to be added in the unsignedPluginAllowList.json
+					def result = cmd("sfdx sgd:source:delta --to \"${sgdTo}\" --from \"${sgdFrom}\" --output ${sgdOutput}", false) //plugin needs to be added in the unsignedPluginAllowList.json
 					echo 'RESULTS :: ' + "${result}"
 				}
 			}
