@@ -51,6 +51,21 @@ pipeline {
     }
     
     stages {
+	    
+	    	stage('Install SFDX-Git-Delta') {
+			when {
+				branch 'master*'
+			}
+			steps {
+				script {
+					echo "=== INSTALL SFDX-GIT-DELTA ==="
+				
+					def result = cmd("sfdx plugins:install sfdx-git-delta", false)
+					echo 'RESULTS :: ' + "${result}"
+				}
+			}
+		}
+	    
 		stage('Run Salesforce Local Tests') {
 			when {
 				branch 'master.skip*'
