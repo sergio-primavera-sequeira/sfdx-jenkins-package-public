@@ -69,7 +69,7 @@ pipeline {
 					//def result02 = cmd("sfdx plugins:install sfdx-git-delta", false) //plugin needs to be added in the unsignedPluginAllowList.json
 					//echo 'RESULTS :: ' + "${result02}"
 					
-					def result02 = cmd("echo y | sfdx plugins:install sfdx-git-delta", false) //plugin needs to be added in the unsignedPluginAllowList.json
+					def result02 = cmd("echo y | sfdx plugins:install sfdx-git-delta@5.10.2", false) //plugin needs to be added in the unsignedPluginAllowList.json
 					//echo 'RESULTS :: ' + "${result02}"
 				}
 			}
