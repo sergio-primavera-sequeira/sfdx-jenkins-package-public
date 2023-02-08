@@ -60,7 +60,7 @@ pipeline {
 				script {
 					echo "=== INSTALL SFDX-GIT-DELTA ==="
 				
-					def result = echo y | cmd("sfdx plugins:install sfdx-git-delta", false)
+					def result = echo 'y' | cmd("sfdx plugins:install sfdx-git-delta", false)
 					echo 'RESULTS :: ' + "${result}"
 				}
 			}
