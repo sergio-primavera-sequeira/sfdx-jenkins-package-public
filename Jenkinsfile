@@ -80,7 +80,7 @@ pipeline {
 				script {
 					echo "=== RUN SFDX-GIT-DELTA ==="
 					
-					def sgdTo = 'HEAD'
+					def sgdTo = 'master'
 					def sgdFrom = 'master'
 					def sgdOutput = '.'
 					
