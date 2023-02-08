@@ -63,8 +63,8 @@ pipeline {
 					def result01 = cmd("sfdx version", false)
 					echo 'RESULTS :: ' + "${result01}"
 					
-					def result03 = cmd("sfdx update", false)
-					echo 'RESULTS :: ' + "${result03}"
+					//def result03 = cmd("sfdx update", false)
+					//echo 'RESULTS :: ' + "${result03}"
 					
 					def result02 = cmd("sfdx plugins:install sfdx-git-delta", false)
 					echo 'RESULTS :: ' + "${result02}"
@@ -676,11 +676,12 @@ def notifyErrorOnBuild(Exception e){
 /* UTILITIES METHODS */
 
 def cmd(String command, Boolean bypassError = false) {
-	def path = "\"${env.SFDX}\"" //adds '"' to the SFDX_HOME path in case there are spaces inside the path
+	//def path = "\"${env.SFDX}\"" //adds '"' to the SFDX_HOME path in case there are spaces inside the path //ADDED THE SFDX ON THE PATH ENVIRONNEMENT VARIABLE
 	
 	try {
 		if (isUnix()) {
-			return sh(returnStdout: true, script: "${path}/${command}")
+			//return sh(returnStdout: true, script: "${path}/${command}")
+			return sh(returnStdout: true, script: "${command}")
 		} else {
 			//return bat(returnStdout: true, script: "${path}/${command}").trim()
 			return bat(returnStdout: true, script: "${command}").trim()
