@@ -676,7 +676,8 @@ def cmd(String command, Boolean bypassError = false) {
 		if (isUnix()) {
 			return sh(returnStdout: true, script: "${path}/${command}")
 		} else {
-			return bat(returnStdout: true, script: "${path}/${command}").trim()
+			//return bat(returnStdout: true, script: "${path}/${command}").trim()
+			return bat(returnStdout: true, script: "${command}").trim()
 		}
 	} catch (Exception ex) {
 		echo '==== SFDX ERROR ===='
