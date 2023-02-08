@@ -63,6 +63,9 @@ pipeline {
 					def result01 = cmd("sfdx -v", false)
 					echo 'RESULTS :: ' + "${result01}"
 					
+					def result03 = cmd("sfdx -update", false)
+					echo 'RESULTS :: ' + "${result03}"
+					
 					def result02 = cmd("sfdx plugins:install sfdx-git-delta", false)
 					echo 'RESULTS :: ' + "${result02}"
 				}
