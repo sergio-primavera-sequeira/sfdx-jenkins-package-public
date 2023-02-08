@@ -103,7 +103,7 @@ pipeline {
 		
 		stage('Build Salesforce Package') {
 			when {
-                branch 'master*'
+                branch 'master.skip*'
             }
             steps {
                 script {
@@ -140,7 +140,7 @@ pipeline {
 		
 		stage('Install Salesforce Package') {
             when {
-                branch 'master*'
+                branch 'master.skip*'
             }
             steps {
                 script {
