@@ -105,6 +105,8 @@ pipeline {
 					echo sgdFrom
 					echo "${sgdFrom}"
 					def sgdOutput = '.'
+					def cmd2 = "sfdx sgd:source:delta --to ${sgdTo} --from ${sgdFrom} --output ${sgdOutput}"
+					echo "${cmd2}"
 					
 					def result = cmd("sfdx sgd:source:delta --to ${sgdTo} --from ${sgdFrom} --output ${sgdOutput}", false) //plugin needs to be added in the unsignedPluginAllowList.json
 					echo 'RESULTS :: ' + "${result}"
