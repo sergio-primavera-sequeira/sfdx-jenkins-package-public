@@ -137,12 +137,12 @@ pipeline {
 				script {
 					echo "=== VALIDATE SALESFORCE METADATA ==="
 				
-					def resultsJson = salesforceDeployComponent(env.PACKAGE_FOLDER,
-										    null,
-										    null,
-										    null,
-										    true, //validation only
-										    false,
+					def resultsJson = salesforceDeployComponent(env.PACKAGE_FOLDER, //source path
+										    null,               //manifest path
+										    null,               //predestructive path
+										    null,               //postdestructive path
+										    true,               //validation only
+										    false,              //run local tests
 										    env.SFDC_JWT_KEY_CRED_ID,
 										    env.SFDC_SANDBOX_USER,
 										    env.SFDC_SANDBOX_INSTANCE_URL,
