@@ -54,7 +54,7 @@ pipeline {
 	    
 	    stage('Run Git Status') {
 			when {
-				branch 'master*'
+				branch 'master.skip*'
 			}
 			steps {
 				script {
@@ -107,6 +107,37 @@ pipeline {
 			}
 		}
 	    
+	    	stage('Validate Salesforce SFDX-Git-Delta Metadata') {
+			when {
+				branch 'master*'
+			}
+			steps {
+				script {
+					echo "=== VALIDATE SALESFORCE METADATA (SFDX-GIT-DELTA) ==="
+				
+					def resultsJson = salesforceDeployComponent(null,                                        //source path
+										    'package/package.xml',                       //manifest path
+										    null,                                        //predestructive path
+										    'destructiveChanges/destructiveChanges.xml', //postdestructive path
+										    true,                                        //validation only
+										    false,                                       //run local tests
+										    env.SFDC_JWT_KEY_CRED_ID,
+										    env.SFDC_SANDBOX_USER,
+										    env.SFDC_SANDBOX_INSTANCE_URL,
+										    env.SFDC_SANDBOX_CONNECTED_APP_CONSUMER_KEY,
+										    false)
+
+					if(resultsJson != null) {
+						def checkOnly = resultsJson.result.checkOnly
+						echo 'CHECK ONLY :: ' + "${checkOnly}"
+
+						def validationStatus = resultsJson.result.status
+						echo 'VALIDATION STATUS :: ' + "${validationStatus}"
+					}
+				}
+			}
+		}
+	    
 		stage('Run Salesforce Local Tests') {
 			when {
 				branch 'master.skip*'
@@ -137,9 +168,12 @@ pipeline {
 				script {
 					echo "=== VALIDATE SALESFORCE METADATA ==="
 				
-					def resultsJson = salesforceDeployComponent(env.PACKAGE_FOLDER,
-										    true, //validation only
-										    false,
+					def resultsJson = salesforceDeployComponent(env.PACKAGE_FOLDER, //source path
+										    null,               //manifest path
+										    null,               //predestructive path
+										    null,               //postdestructive path
+										    true,               //validation only
+										    false,              //run local tests
 										    env.SFDC_JWT_KEY_CRED_ID,
 										    env.SFDC_SANDBOX_USER,
 										    env.SFDC_SANDBOX_INSTANCE_URL,
@@ -649,10 +683,14 @@ def salesforceDeployComponent(String sourcePath, String manifestPath, String pre
 }
 
 def deployToSalesforce(String sourcePath, String manifestPath, String preDestructiveChangePath, String postDestructiveChangePath, Boolean doValidationOnly, Boolean doRunLocalTests, Boolean bypassError) {
-	def testlevel = doRunLocalTests ? '--testlevel RunLocalTests' : ''
-	def checkOnly = doValidationOnly ? '--checkonly' : ''
+	def sourcePathParam = sourcePath != null ? '--sourcepath ' + sourcePath : ''
+	def manifestParam = manifestPath != null ? '--manifest ' + manifestPath : ''
+	def preDestructiveChangePathParam = preDestructiveChangePath != null ? '--predestructivechanges ' + preDestructiveChangePath : ''
+	def postDestructiveChangePathParam = postDestructiveChangePath != null ? '--postdestructivechanges ' + postDestructiveChangePath : ''
+	def testlevelParam = doRunLocalTests ? '--testlevel RunLocalTests' : ''
+	def checkOnlyParam = doValidationOnly ? '--checkonly' : ''
 
-	def result = cmd("sfdx force:source:deploy --sourcepath ${sourcePath} ${checkOnly} ${testlevel} --verbose --json", bypassError)
+	def result = cmd("sfdx force:source:deploy ${sourcePathParam} ${manifestParam} ${preDestructiveChangePathParam} ${postDestructiveChangePathParam} ${checkOnlyParam} ${testlevelParam} --verbose --json", bypassError)
 
 	if (result != null) {
 		if (!isUnix()) {
@@ -672,6 +710,11 @@ def deployToSalesforce(String sourcePath, String manifestPath, String preDestruc
 		echo 'Start Date :: ' + deployResultJson.result.startDate
 		echo 'Completed Date :: ' + deployResultJson.result.completedDate
 		echo 'Rollback On Error :: ' + deployResultJson.result.rollbackOnError
+		
+		echo '===================='
+		echo 'FULL DEPLOYMENT/VALIVATION RESULTS'
+		echo "${result}"
+		echo '===================='
 
 		return deployResultJson
 	} else {
