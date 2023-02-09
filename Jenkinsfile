@@ -138,6 +138,9 @@ pipeline {
 					echo "=== VALIDATE SALESFORCE METADATA ==="
 				
 					def resultsJson = salesforceDeployComponent(env.PACKAGE_FOLDER,
+										    null,
+										    null,
+										    null,
 										    true, //validation only
 										    false,
 										    env.SFDC_JWT_KEY_CRED_ID,
