@@ -1,6 +1,6 @@
 public with sharing class MyClass {
 	public MyClass() {
-		Integer a = 12345;
+		Integer a = 123459876;
 
 	}
 
