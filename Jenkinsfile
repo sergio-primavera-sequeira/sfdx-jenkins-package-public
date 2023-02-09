@@ -131,7 +131,7 @@ pipeline {
 		
 		stage('Validate Salesforce Metadata') {
 			when {
-				branch 'master.skip*'
+				branch 'master*'
 			}
 			steps {
 				script {
