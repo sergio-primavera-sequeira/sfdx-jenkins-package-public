@@ -105,6 +105,8 @@ pipeline {
 						sgdFrom = sgdFrom.readLines().drop(1).join(" ") //removes the first line of the output, for Windows only
 					}
 					
+					def sgdOutput = '.'
+					
 					def result = cmd("sfdx sgd:source:delta --to ${sgdTo} --from ${sgdFrom} --output ${sgdOutput}", false) //plugin needs to be added in the unsignedPluginAllowList.json
 					echo 'RESULTS :: ' + "${result}"
 				}
