@@ -98,7 +98,7 @@ pipeline {
 					echo "=== RUN SFDX-GIT-DELTA ==="
 					
 					def sgdTo = 'origin/staging'
-					def sgdFrom = 'origin/master'
+					def sgdFrom = 'master'
 					def sgdOutput = '.'
 					
 					def result = cmd("sfdx sgd:source:delta --to \"${sgdTo}\" --from \"${sgdFrom}\" --output ${sgdOutput}", false) //plugin needs to be added in the unsignedPluginAllowList.json
