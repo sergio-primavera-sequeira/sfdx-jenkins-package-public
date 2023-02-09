@@ -99,14 +99,11 @@ pipeline {
 					
 					def sgdTo = 'origin/staging'
 					//def sgdFrom = 'master'
-					
-					def m = cmd("git merge-base origin/staging master", false)				
-					def sgdFrom = m
-					echo sgdFrom
-					echo "${sgdFrom}"
-					def sgdOutput = '.'
-					def cmd2 = "sfdx sgd:source:delta --to ${sgdTo} --from ${sgdFrom} --output ${sgdOutput}"
-					echo "${cmd2}"
+									
+					def sgdFrom = cmd("git merge-base origin/staging master", false)
+					if (!isUnix()) {
+						sgdFrom = sgdFrom.readLines().drop(1).join(" ") //removes the first line of the output, for Windows only
+					}
 					
 					def result = cmd("sfdx sgd:source:delta --to ${sgdTo} --from ${sgdFrom} --output ${sgdOutput}", false) //plugin needs to be added in the unsignedPluginAllowList.json
 					echo 'RESULTS :: ' + "${result}"
