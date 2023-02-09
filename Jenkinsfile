@@ -652,10 +652,14 @@ def salesforceDeployComponent(String sourcePath, String manifestPath, String pre
 }
 
 def deployToSalesforce(String sourcePath, String manifestPath, String preDestructiveChangePath, String postDestructiveChangePath, Boolean doValidationOnly, Boolean doRunLocalTests, Boolean bypassError) {
-	def testlevel = doRunLocalTests ? '--testlevel RunLocalTests' : ''
-	def checkOnly = doValidationOnly ? '--checkonly' : ''
+	def sourcePathParam = path != null ? '--sourcepath ' + path : ''
+	def manifestParam = manifestPath != null ? '--manifest ' + manifestPath : ''
+	def preDestructiveChangePathParam = preDestructiveChangePath != null ? '--predestructivechanges ' + preDestructiveChangePath : ''
+	def postDestructiveChangePathParam = postDestructiveChangePath != null ? '--postdestructivechanges ' + postDestructiveChangePath : ''
+	def testlevelParam = doRunLocalTests ? '--testlevel RunLocalTests' : ''
+	def checkOnlyParam = doValidationOnly ? '--checkonly' : ''
 
-	def result = cmd("sfdx force:source:deploy --sourcepath ${sourcePath} ${checkOnly} ${testlevel} --verbose --json", bypassError)
+	def result = cmd("sfdx force:source:deploy ${sourcePathParam} ${manifestParam} ${preDestructiveChangePathParam} ${postDestructiveChangePathParam} ${checkOnlyParam} ${testlevelParam} --verbose --json", bypassError)
 
 	if (result != null) {
 		if (!isUnix()) {
