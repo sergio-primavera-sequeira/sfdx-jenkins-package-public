@@ -99,8 +99,9 @@ pipeline {
 					
 					def sgdTo = 'origin/staging'
 					//def sgdFrom = 'master'
-									
-					def sgdFrom = cmd("git merge-base origin/staging master", false)
+					
+					def m = cmd("git merge-base origin/staging master", false)				
+					def sgdFrom = m
 					echo sgdFrom
 					echo "${sgdFrom}"
 					def sgdOutput = '.'
