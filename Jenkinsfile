@@ -679,6 +679,11 @@ def deployToSalesforce(String sourcePath, String manifestPath, String preDestruc
 		echo 'Start Date :: ' + deployResultJson.result.startDate
 		echo 'Completed Date :: ' + deployResultJson.result.completedDate
 		echo 'Rollback On Error :: ' + deployResultJson.result.rollbackOnError
+		
+		echo '===================='
+		echo '::   FULL JSON    ::'
+		echo "${deployResultJson}"
+		echo '===================='
 
 		return deployResultJson
 	} else {
