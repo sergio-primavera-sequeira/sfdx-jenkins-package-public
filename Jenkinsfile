@@ -652,7 +652,7 @@ def salesforceDeployComponent(String sourcePath, String manifestPath, String pre
 }
 
 def deployToSalesforce(String sourcePath, String manifestPath, String preDestructiveChangePath, String postDestructiveChangePath, Boolean doValidationOnly, Boolean doRunLocalTests, Boolean bypassError) {
-	def sourcePathParam = path != null ? '--sourcepath ' + path : ''
+	def sourcePathParam = sourcePath != null ? '--sourcepath ' + sourcePath : ''
 	def manifestParam = manifestPath != null ? '--manifest ' + manifestPath : ''
 	def preDestructiveChangePathParam = preDestructiveChangePath != null ? '--predestructivechanges ' + preDestructiveChangePath : ''
 	def postDestructiveChangePathParam = postDestructiveChangePath != null ? '--postdestructivechanges ' + postDestructiveChangePath : ''
