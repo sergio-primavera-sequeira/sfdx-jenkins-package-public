@@ -97,8 +97,8 @@ pipeline {
 				script {
 					echo "=== RUN SFDX-GIT-DELTA ==="
 					
-					def sgdTo = 'master'
-					def sgdFrom = 'staging'
+					def sgdTo = 'origin/staging'
+					def sgdFrom = 'master'
 					def sgdOutput = '.'
 					
 					def result = cmd("sfdx sgd:source:delta --to \"${sgdTo}\" --from \"${sgdFrom}\" --output ${sgdOutput}", false) //plugin needs to be added in the unsignedPluginAllowList.json
@@ -138,13 +138,13 @@ pipeline {
 					echo "=== VALIDATE SALESFORCE METADATA ==="
 				
 					def resultsJson = salesforceDeployComponent(env.PACKAGE_FOLDER,
-																true, //validation only
-																false,
-																env.SFDC_JWT_KEY_CRED_ID,
-																env.SFDC_SANDBOX_USER,
-																env.SFDC_SANDBOX_INSTANCE_URL,
-																env.SFDC_SANDBOX_CONNECTED_APP_CONSUMER_KEY,
-																false)
+										    true, //validation only
+										    false,
+										    env.SFDC_JWT_KEY_CRED_ID,
+										    env.SFDC_SANDBOX_USER,
+										    env.SFDC_SANDBOX_INSTANCE_URL,
+										    env.SFDC_SANDBOX_CONNECTED_APP_CONSUMER_KEY,
+										    false)
 
 					if(resultsJson != null) {
 						def checkOnly = resultsJson.result.checkOnly
@@ -630,7 +630,7 @@ def promotePackageVersion(String subscriberPackageVersionId, String devHubUserna
 
 /* SDFX: DEPLOY/VALIDATE METHODS */
 
-def salesforceDeployComponent(String sourcePath, Boolean doValidationOnly, Boolean doRunLocalTests, String jwtCredentialId, String username, String instanceUrl, String consumerKey, Boolean bypassError){
+def salesforceDeployComponent(String sourcePath, String manifestPath, String preDestructiveChangePath, String postDestructiveChangePath, Boolean doValidationOnly, Boolean doRunLocalTests, String jwtCredentialId, String username, String instanceUrl, String consumerKey, Boolean bypassError){
 	try {
 		withCredentials([file(credentialsId: jwtCredentialId, variable: 'jwt_key_file')]) {
 
@@ -638,7 +638,7 @@ def salesforceDeployComponent(String sourcePath, Boolean doValidationOnly, Boole
 			authenticateSalesforceOrg(username, instanceUrl, consumerKey, jwt_key_file)
 
 			echo "=== SFDX DEPLOY TO SALESFORCE ==="
-			def deployResultsJson = deployToSalesforce(sourcePath, doValidationOnly, doRunLocalTests, bypassError)
+			def deployResultsJson = deployToSalesforce(sourcePath, manifestPath, preDestructiveChangePath, postDestructiveChangePath, doValidationOnly, doRunLocalTests, bypassError)
 
 			return deployResultsJson
 		}
@@ -648,7 +648,7 @@ def salesforceDeployComponent(String sourcePath, Boolean doValidationOnly, Boole
 	}
 }
 
-def deployToSalesforce(String sourcePath, Boolean doValidationOnly, Boolean doRunLocalTests, Boolean bypassError) {
+def deployToSalesforce(String sourcePath, String manifestPath, String preDestructiveChangePath, String postDestructiveChangePath, Boolean doValidationOnly, Boolean doRunLocalTests, Boolean bypassError) {
 	def testlevel = doRunLocalTests ? '--testlevel RunLocalTests' : ''
 	def checkOnly = doValidationOnly ? '--checkonly' : ''
 
