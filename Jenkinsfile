@@ -54,7 +54,7 @@ pipeline {
 	    
 	    stage('Run Git Status') {
 			when {
-				branch 'master*'
+				branch 'master.skip*'
 			}
 			steps {
 				script {
@@ -107,6 +107,37 @@ pipeline {
 			}
 		}
 	    
+	    	stage('Validate Salesforce SFDX-Git-Delta Metadata') {
+			when {
+				branch 'master*'
+			}
+			steps {
+				script {
+					echo "=== VALIDATE SALESFORCE METADATA (SFDX-GIT-DELTA) ==="
+				
+					def resultsJson = salesforceDeployComponent(null,                                        //source path
+										    'package/package.xml',                       //manifest path
+										    null,                                        //predestructive path
+										    'destructiveChanges/destructiveChanges.xml', //postdestructive path
+										    true,                                        //validation only
+										    false,                                       //run local tests
+										    env.SFDC_JWT_KEY_CRED_ID,
+										    env.SFDC_SANDBOX_USER,
+										    env.SFDC_SANDBOX_INSTANCE_URL,
+										    env.SFDC_SANDBOX_CONNECTED_APP_CONSUMER_KEY,
+										    false)
+
+					if(resultsJson != null) {
+						def checkOnly = resultsJson.result.checkOnly
+						echo 'CHECK ONLY :: ' + "${checkOnly}"
+
+						def validationStatus = resultsJson.result.status
+						echo 'VALIDATION STATUS :: ' + "${validationStatus}"
+					}
+				}
+			}
+		}
+	    
 		stage('Run Salesforce Local Tests') {
 			when {
 				branch 'master.skip*'
@@ -131,7 +162,7 @@ pipeline {
 		
 		stage('Validate Salesforce Metadata') {
 			when {
-				branch 'master*'
+				branch 'master.skip*'
 			}
 			steps {
 				script {
