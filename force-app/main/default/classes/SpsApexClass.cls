@@ -1,6 +1,6 @@
 public with sharing class SpsApexClass {
     public SpsApexClass() {
-        Integer b = 123;
+        Integer b = 12345;
 
     }
 }
