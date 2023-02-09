@@ -99,11 +99,8 @@ pipeline {
 					
 					def sgdTo = 'origin/staging'
 					//def sgdFrom = 'master'
-					
-					def m = cmd("git merge-base origin/staging master", false) 
-					echo m;
-					
-					def sgdFrom = '$(git merge-base origin/staging master)'
+									
+					def sgdFrom = cmd("git merge-base origin/staging master", false)
 					def sgdOutput = '.'
 					
 					def result = cmd("sfdx sgd:source:delta --to \"${sgdTo}\" --from \"${sgdFrom}\" --output ${sgdOutput}", false) //plugin needs to be added in the unsignedPluginAllowList.json
