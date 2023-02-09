@@ -91,17 +91,17 @@ pipeline {
 	    	    
 	    	stage('Run SFDX-Git-Delta') {
 			when {
-				branch 'master.skip*'
+				branch 'master*'
 			}
 			steps {
 				script {
 					echo "=== RUN SFDX-GIT-DELTA ==="
 					
-					def sgdTo = 'master'
+					def sgdTo = 'HEAD'
 					def sgdFrom = 'master~1'
 					def sgdOutput = '.'
 					
-					def result = cmd("sfdx sgd:source:delta --from \"${sgdFrom}\" --output ${sgdOutput}", false) //plugin needs to be added in the unsignedPluginAllowList.json
+					def result = cmd("sfdx sgd:source:delta --to \"${sgdTo}\" --from \"${sgdFrom}\" --output ${sgdOutput}", false) //plugin needs to be added in the unsignedPluginAllowList.json
 					echo 'RESULTS :: ' + "${result}"
 				}
 			}
