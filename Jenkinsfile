@@ -681,7 +681,7 @@ def deployToSalesforce(String sourcePath, String manifestPath, String preDestruc
 		echo 'Rollback On Error :: ' + deployResultJson.result.rollbackOnError
 		
 		echo '===================='
-		echo '::   FULL RESULTS    ::'
+		echo 'FULL DEPLOYMENT/VALIVATION RESULTS'
 		echo "${result}"
 		echo '===================='
 
