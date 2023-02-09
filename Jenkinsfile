@@ -52,9 +52,23 @@ pipeline {
     
     stages {
 	    
-	    	stage('Install SFDX-Git-Delta') {
+	    stage('Run Git Status') {
 			when {
 				branch 'master*'
+			}
+			steps {
+				script {
+					echo "=== RUN GIT STATUS ==="
+					
+					def result = cmd("git status", false)
+					echo 'RESULTS :: ' + "${result}"
+				}
+			}
+		}
+	    
+	    	stage('Install SFDX-Git-Delta') {
+			when {
+				branch 'master.skip*'
 			}
 			steps {
 				script {
@@ -74,10 +88,10 @@ pipeline {
 				}
 			}
 		}
-	    
+	    	    
 	    	stage('Run SFDX-Git-Delta') {
 			when {
-				branch 'master*'
+				branch 'master.skip*'
 			}
 			steps {
 				script {
