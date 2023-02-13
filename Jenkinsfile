@@ -98,10 +98,16 @@ pipeline {
 					echo "=== RUN SFDX-GIT-DELTA ==="
 					
 					def sgdTo = 'origin/staging'
-					def sgdFrom = 'master'
+					//def sgdFrom = 'master'
+									
+					def sgdFrom = cmd("git merge-base origin/staging master", false)
+					if (!isUnix()) {
+						sgdFrom = sgdFrom.readLines().drop(1).join(" ") //removes the first line of the output, for Windows only
+					}
+					
 					def sgdOutput = '.'
 					
-					def result = cmd("sfdx sgd:source:delta --to \"${sgdTo}\" --from \"${sgdFrom}\" --output ${sgdOutput}", false) //plugin needs to be added in the unsignedPluginAllowList.json
+					def result = cmd("sfdx sgd:source:delta --to ${sgdTo} --from ${sgdFrom} --output ${sgdOutput}", false) //plugin needs to be added in the unsignedPluginAllowList.json
 					echo 'RESULTS :: ' + "${result}"
 				}
 			}
@@ -117,8 +123,8 @@ pipeline {
 				
 					def resultsJson = salesforceDeployComponent(null,                                        //source path
 										    'package/package.xml',                       //manifest path
-										    null,                                        //predestructive path
-										    'destructiveChanges/destructiveChanges.xml', //postdestructive path
+										    'destructiveChanges/destructiveChanges.xml', //predestructive path
+										    null,                                        //postdestructive path
 										    true,                                        //validation only
 										    false,                                       //run local tests
 										    env.SFDC_JWT_KEY_CRED_ID,
