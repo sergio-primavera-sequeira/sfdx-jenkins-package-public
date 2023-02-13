@@ -123,7 +123,7 @@ pipeline {
 				
 					def resultsJson = salesforceDeployComponent(null,                                        //source path
 										    'package/package.xml',                       //manifest path
-										    'destructiveChanges/destructiveChanges.xml,  //predestructive path
+										    'destructiveChanges/destructiveChanges.xml', //predestructive path
 										    null,                                        //postdestructive path
 										    true,                                        //validation only
 										    false,                                       //run local tests
