@@ -121,10 +121,10 @@ pipeline {
 				script {
 					echo "=== VALIDATE SALESFORCE METADATA (SFDX-GIT-DELTA) ==="
 				
-					def resultsJson = salesforceDeployComponent(env.PACKAGE_FOLDER,//null,                   //source path
-										    null, //'package/package.xml',               //manifest path
-										    null,                                        //predestructive path
-										    'destructiveChanges/destructiveChanges.xml', //postdestructive path
+					def resultsJson = salesforceDeployComponent(null,                                        //source path
+										    'package/package.xml',                       //manifest path
+										    'destructiveChanges/destructiveChanges.xml,  //predestructive path
+										    null,                                        //postdestructive path
 										    true,                                        //validation only
 										    false,                                       //run local tests
 										    env.SFDC_JWT_KEY_CRED_ID,
